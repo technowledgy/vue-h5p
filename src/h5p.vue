@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import superagent from 'superagent'
 // import H5P from 'H5P'
 
 export default {
@@ -25,12 +24,13 @@ export default {
   },
   methods: {
     async getJSON (url) {
-      const resp = await superagent.get(url)
-      return resp.body
+      /* TODO: check how to handle 404 */
+      const resp = await fetch(url, { credentials: 'include' })
+      return resp.json()
     },
     async initH5P () {
-      this.h5p = await this.getJSON(`${this.src}'h5p.json'`)
-
+      this.h5p = await this.getJSON(`${this.src}h5p.json`)
+      console.log(this.h5p)
       /* const content = await this.getJSON(`${this.src}/content/content.json`)
       H5PIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion()
 
