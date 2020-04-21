@@ -1,0 +1,58 @@
+{
+  "name": "vue-h5p",
+  "version": "0.1.0",
+  "description": "Vue.js Component for displaying h5p content, based on h5p-standalone",
+  "author": {
+    "name": "julian walther",
+    "email": "julian.walther@technowledgy.de"
+  },
+  "bugs": {
+    "url": "https://github.com/technowledgy/vue-postgrest/issues"
+  },
+  "scripts": {
+    "example": "vue-cli-service serve example/main.js",
+    "build": "vue-cli-service build --target lib --name vue-h5p src/index.js",
+    "test": "vue-cli-service test:unit",
+    "test:watch": "vue-cli-service test:unit --watchAll",
+    "lint": "vue-cli-service lint",
+    "pre-version": "yarn test && yarn lint && yarn build"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.3.0",
+    "@vue/cli-plugin-eslint": "^4.3.0",
+    "@vue/cli-plugin-unit-jest": "^4.3.0",
+    "@vue/cli-service": "^4.3.0",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "@vue/test-utils": "1.0.0-beta.31",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "homepage": "https://github.com/technowledgy/vue-h5p#readme",
+  "keywords": [
+    "plugin",
+    "vue",
+    "h5p"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/technowledgy/vue-h5p.git"
+  },
+  "main": "dist/vue-h5p.umd.js",
+  "module": "dist/vue-h5p.common.js",
+  "unpkg": "dist/vue-h5p.umd.min.js"
+}
