@@ -19,3 +19,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Local h5p content for development
+/local-content
