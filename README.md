@@ -31,6 +31,8 @@ Component "vue-h5p" is registered globally on your Vue instance. You can also im
 
 ## Development
 
+Put your extracted h5p content into example/api/content.
+
 Serve the example using
 
 `yarn example`

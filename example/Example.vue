@@ -1,5 +1,5 @@
 <template>
-  <vue-h5p src="api/content/id"/>
+  <vue-h5p src="./api/content"/>
 </template>
 
 <script>
