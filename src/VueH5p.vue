@@ -4,6 +4,7 @@
 
 <script>
 import superagent from 'superagent'
+import H5P from 'H5P'
 
 export default {
   name: 'Postgrest',
