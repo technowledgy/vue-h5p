@@ -1,5 +1,5 @@
 <template>
-  <vue-h5p src="./api/content"/>
+  <vue-h5p src="/h5p/"/>
 </template>
 
 <script>
@@ -10,7 +10,7 @@ export default {
   components: {
     VueH5p
   },
-  mounted () {
+  async mounted () {
     console.log('Vue-h5p example loaded!')
   }
 }

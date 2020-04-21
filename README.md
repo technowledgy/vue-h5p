@@ -31,7 +31,7 @@ Component "vue-h5p" is registered globally on your Vue instance. You can also im
 
 ## Development
 
-Put your extracted h5p content into example/api/content.
+Put your extracted h5p content into public/h5p, files are served by vue-dev-server.
 
 Serve the example using
 

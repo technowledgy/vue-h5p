@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "core-js": "^3.6.4",
+    "superagent": "^5.2.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {

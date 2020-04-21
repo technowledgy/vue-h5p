@@ -21,4 +21,4 @@ yarn-error.log*
 *.sw?
 
 # Local h5p content for development
-/example/api/content
+/public/h5p
