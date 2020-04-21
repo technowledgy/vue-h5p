@@ -21,25 +21,25 @@
     "dist/*"
   ],
   "dependencies": {
-    "core-js": "^3.6.4",
-    "superagent": "^5.2.2",
-    "vue": "^2.6.11"
+    "superagent": "^5.2.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.3.0",
-    "@vue/cli-plugin-eslint": "^4.3.0",
-    "@vue/cli-plugin-unit-jest": "^4.3.0",
-    "@vue/cli-service": "^4.3.0",
+    "@vue/cli-plugin-babel": "^4.3.1",
+    "@vue/cli-plugin-eslint": "^4.3.1",
+    "@vue/cli-plugin-unit-jest": "^4.3.1",
+    "@vue/cli-service": "^4.3.1",
     "@vue/eslint-config-standard": "^5.1.2",
-    "@vue/test-utils": "1.0.0-beta.31",
+    "@vue/test-utils": "1.0.0-beta.33",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
+    "core-js": "^3.6.5",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.10",
+    "vue": "^2.6.10",
     "webpack-node-externals": "^1.7.2"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",

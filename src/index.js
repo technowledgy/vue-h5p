@@ -1,10 +1,10 @@
-import VueH5p from './VueH5p.vue'
+import h5p from './h5p.vue'
 
 // Declare install function executed by Vue.use()
 export function install (Vue) {
   if (install.installed) return
   install.installed = true
-  Vue.component('VueH5p', VueH5p)
+  Vue.component('h5p', h5p)
 }
 
 // Create module definition for Vue.use()
@@ -24,4 +24,4 @@ if (GlobalVue) {
 }
 
 // To allow use as module (npm/webpack/etc.) export component
-export default VueH5p
+export default h5p
