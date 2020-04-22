@@ -7,7 +7,7 @@
 <script>
 import h5pIntegration from './integration'
 import H5P from 'H5P'
-// TODO: how to get rid of these (need to be included for frame js)
+// TODO: how to get rid of these (need to be included for frame.bundle)?
 import 'H5PEventDispatcher'
 import 'H5PxAPI'
 import 'H5PxAPIEvent'
