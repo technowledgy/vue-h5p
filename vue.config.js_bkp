@@ -3,6 +3,17 @@ const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
+  // remove default vue-cli entry point
+  chainWebpack (config) {
+    config.entryPoints.delete('app')
+
+    config.entry('h5p')
+      .add('./src/index.js')
+      .end()
+    .entry('frame')
+      .add('./vendor/standalone/src/js/frame.js')
+      .end()
+  },
   configureWebpack (config) {
     return {
       externals: process.env.VUE_CLI_BUILD_TARGET === 'lib' ? [nodeExternals()] : [],
@@ -30,8 +41,7 @@ module.exports = {
       plugins: [
         new CopyPlugin([
           { from: 'vendor/h5p/styles', to: 'frame/styles' },
-          { from: 'vendor/h5p/fonts', to: 'frame/fonts' },
-          { from: 'vendor/standalone/dist/frame.bundle.js', to: 'frame/frame.bundle.js'}
+          { from: 'vendor/h5p/fonts', to: 'frame/fonts' }
           /* { from: 'vendor/h5p/images/', to: 'frame/images' } */
         ])
       ]

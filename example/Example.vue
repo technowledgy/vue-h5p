@@ -1,5 +1,5 @@
 <template>
-  <h5p src="/h5p/"/>
+  <h5p src="/h5p/" frame="frame"/>
 </template>
 
 <script>

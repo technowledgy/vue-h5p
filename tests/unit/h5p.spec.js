@@ -7,7 +7,7 @@ fetchMock.mockResponse(JSON.stringify({ asd: '12345' }))
 
 describe('Component', () => {
   it('correctly handles the src prop', async () => {
-    const src = 'http://localhost:8080/h5p/'
+    const src = 'http://localhost:8080/h5p'
     const wrapper = await shallowMount(h5p, {
       propsData: {
         src
@@ -17,7 +17,7 @@ describe('Component', () => {
 
     const wrapper2 = await shallowMount(h5p, {
       propsData: {
-        src: 'http://localhost:8080/h5p'
+        src: 'http://localhost:8080/h5p/'
       }
     })
     expect(wrapper2.vm.path).toBe(src)

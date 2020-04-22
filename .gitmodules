@@ -1,3 +1,6 @@
 [submodule "vendor/h5p"]
 	path = vendor/h5p
 	url = https://github.com/h5p/h5p-php-library
+[submodule "vendor/standalone"]
+	path = vendor/standalone
+	url = https://github.com/tunapanda/h5p-standalone
