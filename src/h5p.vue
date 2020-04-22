@@ -22,15 +22,23 @@ export default {
       h5p: undefined
     }
   },
+  computed: {
+    path () {
+      return this.src.slice(this.src.length -1) === '/' ? this.src : this.src + '/'
+    }
+  },
   methods: {
     async getJSON (url) {
       /* TODO: check how to handle 404 */
-      const resp = await fetch(url, { credentials: 'include' })
-      return resp.json()
+      try {
+        const resp = await fetch(url, { credentials: 'include' })
+        return resp.json()
+      } catch (e) {
+        console.error(e)
+      }
     },
     async initH5P () {
-      this.h5p = await this.getJSON(`${this.src}h5p.json`)
-      console.log(this.h5p)
+      this.h5p = await this.getJSON(`${this.path}h5p.json`)
       /* const content = await this.getJSON(`${this.src}/content/content.json`)
       H5PIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion()
 
