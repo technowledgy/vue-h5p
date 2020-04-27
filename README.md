@@ -11,23 +11,25 @@ or
 
 `yarn add vue-h5p`
 
-in main.js:
-```
-import VueH5p from 'vue-h5p'
+in your component:
 
-Vue.use(VueH5p)
+```
+<template>
+  <h5p src="path/to/h5p-content" frame="path/to/frame"
+</template>
+
+<script>
+import h5p from 'vue-h5p'
+
+export default {
+  components: {
+    h5p
+  }
+}
+</script>
 ```
 
-### With script tag
-Include `<script src="https://unpkg.com/vue-h5p"></script>`
 
-## Usage
-Component "vue-h5p" is registered globally on your Vue instance. You can also import the component directly using your module loader, e.g. for use in SFCs.
-
-### Quick example
-```
-<vue-h5p src="api/content/h5p"/>
-```
 
 ## Development
 
