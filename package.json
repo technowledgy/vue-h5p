@@ -11,7 +11,7 @@
   },
   "scripts": {
     "example": "vue-cli-service serve example/main.js",
-    "build": "vue-cli-service build --target lib --name vue-h5p src/index.js",
+    "build": "vue-cli-service build --target lib --name vue-h5p src/index.js && vue-cli-service build --no-clean --target lib --formats umd-min --name frame --dest dist/frame vendor/standalone/src/js/frame.js",
     "test": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watchAll",
     "lint": "vue-cli-service lint",

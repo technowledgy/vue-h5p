@@ -4,6 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   configureWebpack (config) {
+    const isFrameBuild = path.basename(config.output.path) === 'frame'
     return {
       externals: process.env.VUE_CLI_BUILD_TARGET === 'lib' ? [nodeExternals()] : [],
       resolve: {
@@ -28,12 +29,11 @@ module.exports = {
         ]
       },
       plugins: [
-        new CopyPlugin([
+        new CopyPlugin(!isFrameBuild ? [
           { from: 'vendor/h5p/styles', to: 'frame/styles' },
-          { from: 'vendor/h5p/fonts', to: 'frame/fonts' },
-          { from: 'vendor/standalone/dist/frame.bundle.js', to: 'frame/frame.bundle.js'}
+          { from: 'vendor/h5p/fonts', to: 'frame/fonts' }
           /* { from: 'vendor/h5p/images/', to: 'frame/images' } */
-        ])
+        ] : [])
       ]
     }
   }

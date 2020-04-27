@@ -54,7 +54,8 @@ export default {
       return this.frame.slice(this.frame.length - 1) === '/' ? this.frame.substring(0, this.frame.length - 1) : this.frame
     },
     frameJs () {
-      return [this.frame, 'frame.bundle.js'].join('/')
+      console.log(this.frame)
+      return [this.frame, 'frame.umd.min.js'].join('/')
     },
     frameCss () {
       return [this.frame, 'styles', 'h5p.css'].join('/')
