@@ -1,6 +1,13 @@
 <template>
   <div class="h5p-iframe-wrapper">
-    <iframe :id="'h5p-iframe-' + id" class="h5p-iframe" :data-content-id="id" src="about:blank" frameBorder="0"/>
+    <slot-frame :id="'h5p-iframe-' + id" class="h5p-iframe" :data-content-id="id" src="about:blank" frameBorder="0">
+      <template #head>
+        <link href=""/>
+        <component :is="'script'" src=""/> <!-- maybe add async as attr here is needed -->
+      </template>
+      <div class="h5p-content" :data-content-id="id"/>
+    </slot-frame>
+    <!-- <iframe :id="'h5p-iframe-' + id" class="h5p-iframe" :data-content-id="id" src="about:blank" frameBorder="0"/> -->
   </div>
 </template>
 
@@ -16,6 +23,7 @@ import 'H5PConfirmationDialog'
 import 'H5PRequestQueue'
 import 'H5PActionBar'
 import Toposort from 'toposort-class'
+import SlotFrame from './SlotFrame'
 
 H5P.preventInit = true
 
@@ -34,6 +42,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  components: {
+    SlotFrame
   },
   data () {
     /* TODO: check if we need this */
@@ -54,7 +65,6 @@ export default {
       return this.frame.slice(this.frame.length - 1) === '/' ? this.frame.substring(0, this.frame.length - 1) : this.frame
     },
     frameJs () {
-      console.log(this.frame)
       return [this.frame, 'frame.umd.min.js'].join('/')
     },
     frameCss () {
@@ -98,8 +108,11 @@ export default {
         scripts: scripts,
         displayOptions: this.displayOptions
       }
+
+      console.log(h5pIntegration)
+
       // console.log(H5P)
-      H5P.init()
+      // H5P.init()
     },
     async checkIfPathIncludesVersion () {
       const dependency = this.h5p.preloadedDependencies[0]

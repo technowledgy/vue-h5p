@@ -24,7 +24,7 @@ module.exports = {
         rules: [
           {
             test: path.resolve(__dirname, 'vendor/h5p/js', 'h5p'),
-            use: ['exports-loader?H5P', 'imports-loader?jQuery=h5pjquery', 'imports-loader?H5PIntegration=>window.H5PIntegration'],
+            use: ['exports-loader?H5P', 'imports-loader?jQuery=h5pjquery', 'imports-loader?H5PIntegration=>window.H5PIntegration']
           }
         ]
       },
@@ -32,6 +32,7 @@ module.exports = {
         new CopyPlugin(!isFrameBuild ? [
           { from: 'vendor/h5p/styles', to: 'frame/styles' },
           { from: 'vendor/h5p/fonts', to: 'frame/fonts' }
+          /* { from: 'vendor/standalone/dist/frame.bundle.js', to: 'frame/frame.umd.min.js'} */
           /* { from: 'vendor/h5p/images/', to: 'frame/images' } */
         ] : [])
       ]
