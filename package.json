@@ -2,10 +2,6 @@
   "name": "vue-h5p",
   "version": "0.1.0",
   "description": "Vue.js Component for displaying h5p content, based on h5p-standalone",
-  "author": {
-    "name": "julian walther",
-    "email": "julian.walther@technowledgy.de"
-  },
   "bugs": {
     "url": "https://github.com/technowledgy/vue-postgrest/issues"
   },
