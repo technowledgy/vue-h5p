@@ -7,6 +7,11 @@ module.exports = {
       options.limit = true
       return options
     })
+    const svgRule = config.module.rule('svg')
+    svgRule.uses.clear()
+    svgRule.use('url-loader').loader('url-loader').tap(() => {
+      return { limit: true }
+    })
     config.module.rule('images').use('url-loader').tap(options => {
       options.limit = true
       return options
