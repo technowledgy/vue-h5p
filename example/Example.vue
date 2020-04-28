@@ -15,3 +15,9 @@ export default {
   }
 }
 </script>
+
+<style>
+body {
+  height: 98vh;
+}
+</style>

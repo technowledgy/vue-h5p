@@ -1,7 +1,5 @@
 <template>
-  <div class="h5p-iframe-wrapper">
-    <iframe v-if="!loading" frameBorder="0" :srcdoc="srcdoc"/>
-  </div>
+  <iframe v-if="!loading" :srcdoc="srcdoc"/>
 </template>
 
 <script>
@@ -212,4 +210,10 @@ export default {
 </script>
 
 <style scoped>
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
 </style>
