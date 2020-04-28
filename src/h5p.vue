@@ -19,6 +19,18 @@ export default {
     },
     displayOptions: {
       type: Object,
+      default: () => {
+        return {
+          frame: true,
+          export: true,
+          embed: true,
+          copyright: true,
+          icon: true
+        }
+      }
+    },
+    l10n: {
+      type: Object,
       default: () => { return {} }
     }
   },
