@@ -7,9 +7,9 @@
 <script>
 import h5pIntegration from './integration'
 // eslint-disable-next-line
-import frameScript from '!!file-loader!../frame/frame.js'
+import frameScript from '!raw-loader!../frame/frame'
 // eslint-disable-next-line
-import frameStyle from '!!file-loader!../vendor/h5p/styles/h5p.css'
+import frameStyle from '!to-string-loader!css-loader!../vendor/h5p/styles/h5p.css'
 import Toposort from 'toposort-class'
 
 export default {
@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     getHeadTags (contentId) {
+      const endScript = '</' + 'script>'
       const createStyleTags = function (styles) {
         let tags = ''
         for (let i = 0; i < styles.length; i++) {
@@ -52,17 +53,17 @@ export default {
       const createScriptTags = function (scripts) {
         let tags = ''
         for (let i = 0; i < scripts.length; i++) {
-          tags += '<script src="' + scripts[i] + '"></scr' + 'ipt>'
+          tags += '<script src="' + scripts[i] + '">' + endScript
         }
         return tags
       }
 
       return '<base target="_parent">' +
-         createStyleTags(this.h5pIntegration.core.styles) +
+         `<style>${frameStyle}</style>` +
          createStyleTags(this.h5pIntegration.contents['cid-' + this.id].styles) +
-         createScriptTags(this.h5pIntegration.core.scripts) +
+         `<script>${frameScript}${endScript}` +
          createScriptTags(this.h5pIntegration.contents['cid-' + this.id].scripts) +
-         '<script>H5PIntegration = window.parent.H5PIntegration;</scr' + 'ipt>'
+         '<script>H5PIntegration = window.parent.H5PIntegration;' + endScript
     },
     async getJSON (url) {
       /* TODO: check how to handle 404 */
