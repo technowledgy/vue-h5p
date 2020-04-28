@@ -1,31 +1,16 @@
 <template>
   <div class="h5p-iframe-wrapper">
-    <slot-frame :id="'h5p-iframe-' + id" class="h5p-iframe" :data-content-id="id" src="about:blank" frameBorder="0">
-      <template #head>
-        <link href=""/>
-        <component :is="'script'" src=""/> <!-- maybe add async as attr here is needed -->
-      </template>
-      <div class="h5p-content" :data-content-id="id"/>
-    </slot-frame>
-    <!-- <iframe :id="'h5p-iframe-' + id" class="h5p-iframe" :data-content-id="id" src="about:blank" frameBorder="0"/> -->
+    <iframe v-if="!loading" frameBorder="0" :srcdoc="srcdoc"/>
   </div>
 </template>
 
 <script>
 import h5pIntegration from './integration'
-import H5P from 'H5P'
-// TODO: how to get rid of these (need to be included for frame.bundle)?
-import 'H5PEventDispatcher'
-import 'H5PxAPI'
-import 'H5PxAPIEvent'
-import 'H5PContentType'
-import 'H5PConfirmationDialog'
-import 'H5PRequestQueue'
-import 'H5PActionBar'
+// eslint-disable-next-line
+import frameScript from '!!file-loader!../frame/frame.js'
+// eslint-disable-next-line
+import frameStyle from '!!file-loader!../vendor/h5p/styles/h5p.css'
 import Toposort from 'toposort-class'
-import SlotFrame from './SlotFrame'
-
-H5P.preventInit = true
 
 export default {
   name: 'h5p',
@@ -37,41 +22,48 @@ export default {
     displayOptions: {
       type: Object,
       default: () => { return {} }
-    },
-    frame: {
-      type: String,
-      required: true
     }
-  },
-  components: {
-    SlotFrame
   },
   data () {
     /* TODO: check if we need this */
     return {
       id: Math.random().toString(36).substr(2, 9),
-      h5p: undefined,
-      mainLibrary: undefined
+      mainLibrary: undefined,
+      loading: true,
+      h5pIntegration: h5pIntegration,
+      srcdoc: ''
     }
   },
   computed: {
     path () {
       return this.src.slice(this.src.length - 1) === '/' ? this.src.substring(0, this.src.length - 1) : this.src
-    },
-    h5pIntegration () {
-      return h5pIntegration
-    },
-    framePath () {
-      return this.frame.slice(this.frame.length - 1) === '/' ? this.frame.substring(0, this.frame.length - 1) : this.frame
-    },
-    frameJs () {
-      return [this.frame, 'frame.umd.min.js'].join('/')
-    },
-    frameCss () {
-      return [this.frame, 'styles', 'h5p.css'].join('/')
     }
   },
   methods: {
+    getHeadTags (contentId) {
+      const createStyleTags = function (styles) {
+        let tags = ''
+        for (let i = 0; i < styles.length; i++) {
+          tags += '<link rel="stylesheet" href="' + styles[i] + '">'
+        }
+        return tags
+      }
+
+      const createScriptTags = function (scripts) {
+        let tags = ''
+        for (let i = 0; i < scripts.length; i++) {
+          tags += '<script src="' + scripts[i] + '"></scr' + 'ipt>'
+        }
+        return tags
+      }
+
+      return '<base target="_parent">' +
+         createStyleTags(this.h5pIntegration.core.styles) +
+         createStyleTags(this.h5pIntegration.contents['cid-' + this.id].styles) +
+         createScriptTags(this.h5pIntegration.core.scripts) +
+         createScriptTags(this.h5pIntegration.contents['cid-' + this.id].scripts) +
+         '<script>H5PIntegration = window.parent.H5PIntegration;</scr' + 'ipt>'
+    },
     async getJSON (url) {
       /* TODO: check how to handle 404 */
       try {
@@ -97,8 +89,8 @@ export default {
       this.h5pIntegration.url = this.path
       this.h5pIntegration.contents = this.h5pIntegration.contents || {}
       this.h5pIntegration.core = {
-        styles: [this.frameCss],
-        scripts: [this.frameJs]
+        styles: [frameStyle],
+        scripts: [frameScript]
       }
 
       this.h5pIntegration.contents[`cid-${this.id}`] = {
@@ -109,10 +101,8 @@ export default {
         displayOptions: this.displayOptions
       }
 
-      console.log(h5pIntegration)
-
-      // console.log(H5P)
-      // H5P.init()
+      this.srcdoc = '<!doctype html><html class="h5p-iframe"><head>' + this.getHeadTags(this.id) + '</head><body><div class="h5p-content" data-content-id="' + this.id + '"/></body></html>'
+      this.loading = false
     },
     async checkIfPathIncludesVersion () {
       const dependency = this.h5p.preloadedDependencies[0]
@@ -221,14 +211,4 @@ export default {
 </script>
 
 <style scoped>
-.h5p-iframe-wrapper {
-  background-color: #DDD;
-}
-
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
 </style>

@@ -15,7 +15,7 @@ in your component:
 
 ```
 <template>
-  <h5p src="path/to/h5p-content" frame="path/to/frame"
+  <h5p src="path/to/h5p-content">
 </template>
 
 <script>

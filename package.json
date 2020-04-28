@@ -6,8 +6,9 @@
     "url": "https://github.com/technowledgy/vue-postgrest/issues"
   },
   "scripts": {
-    "example": "vue-cli-service serve example/main.js",
-    "build": "vue-cli-service build --target lib --name vue-h5p src/index.js && vue-cli-service build --no-clean --target lib --formats umd-min --name frame --dest dist/frame vendor/standalone/src/js/frame.js",
+    "example": "yarn build:frame && vue-cli-service serve example/main.js",
+    "build": "yarn build:frame && vue-cli-service build --target lib --name vue-h5p src/index.js",
+    "build:frame": "webpack --config webpack.frame.js",
     "test": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watchAll",
     "lint": "vue-cli-service lint",
@@ -35,10 +36,12 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
     "exports-loader": "^0.7.0",
+    "file-loader": "^6.0.0",
     "imports-loader": "^0.8.0",
     "jest-fetch-mock": "^3.0.3",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
+    "webpack-cli": "^3.3.11",
     "webpack-node-externals": "^1.7.2"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",
