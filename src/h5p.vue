@@ -1,5 +1,5 @@
 <template>
-  <iframe v-if="!loading" :srcdoc="srcdoc"/>
+  <iframe v-if="!loading" ref="iframe" :srcdoc="srcdoc" @load="onIframeLoaded"/>
 </template>
 
 <script>
@@ -27,8 +27,9 @@ export default {
     return {
       id: Math.random().toString(36).substr(2, 9),
       mainLibrary: undefined,
-      loading: true,
       h5pIntegration: h5pIntegration,
+      started: false,
+      loading: true,
       srcdoc: ''
     }
   },
@@ -38,6 +39,11 @@ export default {
     }
   },
   methods: {
+    onIframeLoaded () {
+      this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
+        this.$emit(ev.type.toLowerCase(), ev.data)
+      })
+    },
     getHeadTags (contentId) {
       const endScript = '</' + 'script>'
       const createStyleTags = function (styles) {
@@ -101,6 +107,7 @@ export default {
       }
 
       this.srcdoc = '<!doctype html><html class="h5p-iframe"><head>' + this.getHeadTags(this.id) + '</head><body><div class="h5p-content" data-content-id="' + this.id + '"/></body></html>'
+
       this.loading = false
     },
     async checkIfPathIncludesVersion () {

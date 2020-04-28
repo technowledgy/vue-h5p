@@ -1,5 +1,5 @@
 <template>
-  <h5p src="/h5p/"/>
+  <h5p src="/h5p/" @xapi="log"/>
 </template>
 
 <script>
@@ -12,6 +12,11 @@ export default {
   },
   async mounted () {
     console.log('Vue-h5p example loaded!')
+  },
+  methods: {
+    log (ev) {
+      console.log('catched: ', ev)
+    }
   }
 }
 </script>
