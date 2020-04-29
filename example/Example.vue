@@ -1,5 +1,9 @@
 <template>
-  <h5p src="/h5p/" @xapi="log"/>
+  <div class="wrapper">
+    <input type="radio" v-model="locale" value="en">EN
+    <input type="radio" v-model="locale" value="de">DE
+    <h5p src="/h5p/" @xapi="log" :l10n="translations[locale]" :key="locale"/>
+  </div>
 </template>
 
 <script>
@@ -9,6 +13,18 @@ export default {
   name: 'Example',
   components: {
     h5p
+  },
+  data () {
+    return {
+      locale: 'en',
+      translations: {
+        en: {},
+        de: {
+          reuse: 'Wiederverwenden',
+          reuseContent: 'Content Wiederverwenden'
+        }
+      }
+    }
   },
   async mounted () {
     console.log('Vue-h5p example loaded!')
@@ -22,7 +38,7 @@ export default {
 </script>
 
 <style>
-body {
+.wrapper {
   height: 98vh;
 }
 </style>

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import h5pIntegration from './integration'
+import l10n from './l10n'
 // eslint-disable-next-line
 import frameScript from '!raw-loader!../frame/frame'
 // eslint-disable-next-line
@@ -39,7 +39,7 @@ export default {
     return {
       id: Math.random().toString(36).substr(2, 9),
       mainLibrary: undefined,
-      h5pIntegration: h5pIntegration,
+      h5pIntegration: { l10n: { H5P: {} } },
       started: false,
       loading: true,
       srcdoc: ''
@@ -73,13 +73,12 @@ export default {
         }
         return tags
       }
-
       return '<base target="_parent">' +
          `<style>${frameStyle}</style>` +
          createStyleTags(this.h5pIntegration.contents['cid-' + this.id].styles) +
+         `<script>H5PIntegration = ${JSON.stringify(this.h5pIntegration)};${endScript}` +
          `<script>${frameScript}${endScript}` +
-         createScriptTags(this.h5pIntegration.contents['cid-' + this.id].scripts) +
-         '<script>H5PIntegration = window.parent.H5PIntegration;' + endScript
+         createScriptTags(this.h5pIntegration.contents['cid-' + this.id].scripts)
     },
     async getJSON (url) {
       /* TODO: check how to handle 404 */
@@ -117,6 +116,8 @@ export default {
         scripts: scripts,
         displayOptions: this.displayOptions
       }
+
+      Object.assign(this.h5pIntegration.l10n.H5P, l10n.H5P, this.l10n)
 
       this.srcdoc = '<!doctype html><html class="h5p-iframe"><head>' + this.getHeadTags(this.id) + '</head><body><div class="h5p-content" data-content-id="' + this.id + '"/></body></html>'
 
