@@ -47,6 +47,12 @@ export default {
   computed: {
     path () {
       return this.src.slice(this.src.length - 1) === '/' ? this.src.substring(0, this.src.length - 1) : this.src
+    },
+    contentStyles () {
+      return this.h5pIntegration.contents['cid-' + this.id].styles
+    },
+    contentScripts () {
+      return this.h5pIntegration.contents['cid-' + this.id].scripts
     }
   },
   methods: {
@@ -56,28 +62,29 @@ export default {
       })
     },
     getHeadTags (contentId) {
+      // workaround for vue-loader parsing this as the end of our SFC's script block
       const endScript = '</' + 'script>'
-      const createStyleTags = function (styles) {
-        let tags = ''
-        for (let i = 0; i < styles.length; i++) {
-          tags += '<link rel="stylesheet" href="' + styles[i] + '">'
-        }
-        return tags
-      }
 
-      const createScriptTags = function (scripts) {
-        let tags = ''
-        for (let i = 0; i < scripts.length; i++) {
-          tags += '<script src="' + scripts[i] + '">' + endScript
-        }
-        return tags
-      }
-      return '<base target="_parent">' +
-         `<style>${frameStyle}</style>` +
-         createStyleTags(this.h5pIntegration.contents['cid-' + this.id].styles) +
-         `<script>H5PIntegration = ${JSON.stringify(this.h5pIntegration)};${endScript}` +
-         `<script>${frameScript}${endScript}` +
-         createScriptTags(this.h5pIntegration.contents['cid-' + this.id].scripts)
+      const styleTags = [
+        `<style>${frameStyle}</style>`,
+        ...this.contentStyles.map(style => {
+          return `<link rel="stylesheet" href="${style}">`
+        })
+      ]
+
+      const scriptTags = [
+        `<script>H5PIntegration = ${JSON.stringify(this.h5pIntegration)};${endScript}`,
+        `<script>${frameScript}${endScript}`,
+        ...this.contentScripts.map(script => {
+          return `<script src="${script}">${endScript}`
+        })
+      ]
+
+      return [
+        '<base target="_parent">',
+        ...styleTags,
+        ...scriptTags
+      ].join('')
     },
     async getJSON (url) {
       /* TODO: check how to handle 404 */
