@@ -125,12 +125,14 @@ export default {
         this.$emit(ev.type.toLowerCase(), ev.data)
       })
     },
-    async getJSON (url) {
+    async getJSON (url, method = 'get') {
       /* TODO: check how to handle 404 */
       try {
-        const resp = await fetch(url, { credentials: 'include' })
-        const json = await resp.json()
-        return json
+        const resp = await fetch(url, { credentials: 'include', method })
+        if (method === 'get') {
+          const json = await resp.json()
+          return json
+        }
       } catch (e) {
         // eslint-disable-next-line
         console.error(e)
@@ -144,7 +146,7 @@ export default {
       let pathIncludesVersion
 
       try {
-        await this.getJSON(`${this.path}/${machinePath}/library.json`)
+        await this.getJSON(`${this.path}/${machinePath}/library.json`, 'head')
         pathIncludesVersion = true
       } catch (e) {
         pathIncludesVersion = false
