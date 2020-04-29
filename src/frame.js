@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-// eslint-disable-next-line import/no-webpack-loader-syntax
 import H5P from 'H5P'
 import 'H5PEventDispatcher'
 import 'H5PxAPI'
