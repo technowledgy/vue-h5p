@@ -1,8 +1,8 @@
 <template>
-  <div v-if="loading" class="loading-wrapper">
+  <div v-if="loading">
     <slot/>
   </div>
-  <iframe v-else ref="iframe" :srcdoc="srcdoc" @load="addEventHandlers"/>
+  <iframe v-else ref="iframe" style="width: 100%; height: 100%; border: none;" :srcdoc="srcdoc" @load="addEventHandlers"/>
 </template>
 
 <script>
@@ -241,12 +241,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-</style>
