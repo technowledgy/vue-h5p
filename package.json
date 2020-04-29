@@ -6,8 +6,8 @@
     "url": "https://github.com/technowledgy/vue-postgrest/issues"
   },
   "scripts": {
-    "example": "yarn build:frame --mode=development  && vue-cli-service serve example/main.js",
-    "build": "yarn build:frame --mode=production && vue-cli-service build --target lib --name vue-h5p src/index.js",
+    "example": "yarn build:frame && vue-cli-service serve example/main.js",
+    "build": "yarn build:frame && vue-cli-service build --target lib --name vue-h5p src/index.js",
     "build:frame": "webpack --config webpack.frame.js",
     "test": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watchAll",
