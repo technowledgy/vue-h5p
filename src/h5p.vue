@@ -1,5 +1,5 @@
 <template>
-  <iframe v-if="!loading" ref="iframe" :srcdoc="srcdoc" @load="onIframeLoaded"/>
+  <iframe v-if="!loading" ref="iframe" :srcdoc="srcdoc" @load="addEventHandlers"/>
 </template>
 
 <script>
@@ -35,7 +35,6 @@ export default {
     }
   },
   data () {
-    /* TODO: check if we need this */
     return {
       id: Math.random().toString(36).substr(2, 9),
       mainLibrary: undefined,
@@ -51,7 +50,7 @@ export default {
     }
   },
   methods: {
-    onIframeLoaded () {
+    addEventHandlers () {
       this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
         this.$emit(ev.type.toLowerCase(), ev.data)
       })

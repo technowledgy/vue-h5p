@@ -1,5 +1,5 @@
 # vue-h5p
-A vue h5p component based on [tunapanda/h5p-standalone](https://github.com/tunapanda/h5p-standalone).
+A vue h5p component for displaying H5P content standalone, based on [tunapanda/h5p-standalone](https://github.com/tunapanda/h5p-standalone).
 
 ## Installation
 
@@ -48,10 +48,12 @@ The component accepts the following props:
 |-----|----------|------|---------|------------|
 |src  |yes       |String|-        |Path to the h5p content|
 |l10n |no        |Object|{}       |UI translations|
+|displayOptions |no |Object|-       |Set display Options for the content|
 
-See https://h5p.org/creating-your-own-h5p-plugin for translation strings.
+See https://h5p.org/creating-your-own-h5p-plugin for translation strings & display options.
 
 NOTE: UI translations are not reactive. You have to manually trigger a rerender for translation changes to take effect (e.g. by binding :key to your locale).
+
 
 ### Events
 
