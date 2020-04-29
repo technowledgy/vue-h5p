@@ -1,6 +1,5 @@
 const path = require('path')
-const webpack = require('webpack')
- 
+
 module.exports = {
   entry: {
     frame: './src/frame.js'
@@ -27,7 +26,7 @@ module.exports = {
     rules: [
       {
         test: path.resolve(__dirname, 'vendor/h5p/js', 'h5p'),
-        use: ['exports-loader?H5P', 'imports-loader?jQuery=h5pjquery'],
+        use: ['exports-loader?H5P', 'imports-loader?jQuery=h5pjquery']
       }
     ]
   }
