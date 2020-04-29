@@ -53,15 +53,8 @@ export default {
     },
     contentScripts () {
       return this.h5pIntegration.contents['cid-' + this.id].scripts
-    }
-  },
-  methods: {
-    addEventHandlers () {
-      this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
-        this.$emit(ev.type.toLowerCase(), ev.data)
-      })
     },
-    getHeadTags (contentId) {
+    head () {
       // workaround for vue-loader parsing this as the end of our SFC's script block
       const endScript = '</' + 'script>'
 
@@ -81,10 +74,19 @@ export default {
       ]
 
       return [
+        '<head>',
         '<base target="_parent">',
         ...styleTags,
-        ...scriptTags
-      ].join('')
+        ...scriptTags,
+        '</head>'
+      ]
+    }
+  },
+  methods: {
+    addEventHandlers () {
+      this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
+        this.$emit(ev.type.toLowerCase(), ev.data)
+      })
     },
     async getJSON (url) {
       /* TODO: check how to handle 404 */
@@ -97,9 +99,8 @@ export default {
         console.error(e)
       }
     },
-    async initH5P () {
+    async init () {
       this.h5p = await this.getJSON(`${this.path}/h5p.json`)
-      const content = await this.getJSON(`${this.path}/content/content.json`)
       this.h5pIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion()
 
       this.mainLibrary = await this.findMainLibrary()
@@ -110,14 +111,10 @@ export default {
 
       this.h5pIntegration.url = this.path
       this.h5pIntegration.contents = this.h5pIntegration.contents || {}
-      this.h5pIntegration.core = {
-        styles: [frameStyle],
-        scripts: [frameScript]
-      }
 
       this.h5pIntegration.contents[`cid-${this.id}`] = {
         library: `${this.mainLibrary.machineName} ${this.mainLibrary.majorVersion}.${this.mainLibrary.minorVersion}`,
-        jsonContent: JSON.stringify(content),
+        jsonContent: JSON.stringify(await this.getJSON(`${this.path}/content/content.json`)),
         styles: styles,
         scripts: scripts,
         displayOptions: this.displayOptions
@@ -125,7 +122,11 @@ export default {
 
       Object.assign(this.h5pIntegration.l10n.H5P, l10n.H5P, this.l10n)
 
-      this.srcdoc = '<!doctype html><html class="h5p-iframe"><head>' + this.getHeadTags(this.id) + '</head><body><div class="h5p-content" data-content-id="' + this.id + '"/></body></html>'
+      this.srcdoc = [
+        '<!doctype html><html class="h5p-iframe">',
+        ...this.head,
+        `<body><div class="h5p-content" data-content-id="${this.id}"/></body></html>`
+      ].join('')
 
       this.loading = false
     },
@@ -230,7 +231,7 @@ export default {
     }
   },
   async mounted () {
-    this.initH5P()
+    this.init()
   }
 }
 </script>
