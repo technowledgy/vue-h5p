@@ -88,6 +88,37 @@ export default {
       ]
     }
   },
+  async mounted () {
+    this.h5p = await this.getJSON(`${this.path}/h5p.json`)
+    this.h5pIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion()
+
+    this.mainLibrary = await this.findMainLibrary()
+
+    const dependencies = await this.findAllDependencies()
+
+    const { styles, scripts } = this.sortDependencies(dependencies)
+
+    this.h5pIntegration.url = this.path
+    this.h5pIntegration.contents = this.h5pIntegration.contents || {}
+
+    this.h5pIntegration.contents[`cid-${this.contentId}`] = {
+      library: `${this.mainLibrary.machineName} ${this.mainLibrary.majorVersion}.${this.mainLibrary.minorVersion}`,
+      jsonContent: JSON.stringify(await this.getJSON(`${this.path}/content/content.json`)),
+      styles: styles,
+      scripts: scripts,
+      displayOptions: this.displayOptions
+    }
+
+    Object.assign(this.h5pIntegration.l10n.H5P, l10n.H5P, this.l10n)
+
+    this.srcdoc = [
+      '<!doctype html><html class="h5p-iframe">',
+      ...this.head,
+      `<body><div class="h5p-content" data-content-id="${this.contentId}"/></body></html>`
+    ].join('')
+
+    this.loading = false
+  },
   methods: {
     addEventHandlers () {
       this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
@@ -103,38 +134,8 @@ export default {
       } catch (e) {
         // eslint-disable-next-line
         console.error(e)
+        throw e
       }
-    },
-    async init () {
-      this.h5p = await this.getJSON(`${this.path}/h5p.json`)
-      this.h5pIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion()
-
-      this.mainLibrary = await this.findMainLibrary()
-
-      const dependencies = await this.findAllDependencies()
-
-      const { styles, scripts } = this.sortDependencies(dependencies)
-
-      this.h5pIntegration.url = this.path
-      this.h5pIntegration.contents = this.h5pIntegration.contents || {}
-
-      this.h5pIntegration.contents[`cid-${this.contentId}`] = {
-        library: `${this.mainLibrary.machineName} ${this.mainLibrary.majorVersion}.${this.mainLibrary.minorVersion}`,
-        jsonContent: JSON.stringify(await this.getJSON(`${this.path}/content/content.json`)),
-        styles: styles,
-        scripts: scripts,
-        displayOptions: this.displayOptions
-      }
-
-      Object.assign(this.h5pIntegration.l10n.H5P, l10n.H5P, this.l10n)
-
-      this.srcdoc = [
-        '<!doctype html><html class="h5p-iframe">',
-        ...this.head,
-        `<body><div class="h5p-content" data-content-id="${this.contentId}"/></body></html>`
-      ].join('')
-
-      this.loading = false
     },
     async checkIfPathIncludesVersion () {
       const dependency = this.h5p.preloadedDependencies[0]
@@ -235,9 +236,6 @@ export default {
       }
       return { styles, scripts }
     }
-  },
-  async mounted () {
-    this.init()
   }
 }
 </script>
