@@ -17,6 +17,9 @@ in your component:
 <template>
   <h5p src="path/to/h5p-content" :l10n="translations" @xapi="handleXAPIEvent">
     Loading...
+    <template v-slot:resourceNotAvailable>
+      Resource not available. :(
+    </template>
   </h5p>
 </template>
 
@@ -62,9 +65,11 @@ NOTE: UI translations are not reactive. You have to manually trigger a rerender 
 
 All events emitted by H5P are emitted by vue-h5p, event names are the H5P [event type](https://h5p.org/events), payload is the event data.
 
-### Slot
+### Slots
 
 You can use the default slot to render a placeholder while the content is loading.
+
+The named slot "404" is rendered if a request to get the h5p JSON files fails, the slot-scope provides failed request as "response" object.
 
 ## Development
 

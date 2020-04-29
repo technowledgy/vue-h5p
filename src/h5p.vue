@@ -2,6 +2,9 @@
   <div v-if="loading">
     <slot/>
   </div>
+  <div v-else-if="getJSONErrorResponse">
+    <slot name="404" :response="getJSONErrorResponse"/>
+  </div>
   <iframe v-else ref="iframe" style="width: 100%; height: 100%; border: none;" :srcdoc="srcdoc" @load="addEventHandlers"/>
 </template>
 
@@ -47,6 +50,7 @@ export default {
       h5pIntegration: { l10n: { H5P: {} } },
       started: false,
       loading: true,
+      getJSONErrorResponse: undefined,
       srcdoc: ''
     }
   },
@@ -89,12 +93,22 @@ export default {
     }
   },
   async mounted () {
-    this.h5p = await this.getJSON(`${this.path}/h5p.json`)
-    this.h5pIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion()
-
-    this.mainLibrary = await this.findMainLibrary()
-
-    const dependencies = await this.findAllDependencies()
+    let content
+    let dependencies
+    try {
+      this.h5p = await this.getJSON(`${this.path}/h5p.json`)
+      content = await this.getJSON(`${this.path}/content/content.json`)
+      this.h5pIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion()
+      this.mainLibrary = await this.findMainLibrary()
+      dependencies = await this.findAllDependencies()
+    } catch (e) {
+      if (e.message === '404') {
+        this.loading = false
+        return
+      } else {
+        throw e
+      }
+    }
 
     const { styles, scripts } = this.sortDependencies(dependencies)
 
@@ -103,7 +117,7 @@ export default {
 
     this.h5pIntegration.contents[`cid-${this.contentId}`] = {
       library: `${this.mainLibrary.machineName} ${this.mainLibrary.majorVersion}.${this.mainLibrary.minorVersion}`,
-      jsonContent: JSON.stringify(await this.getJSON(`${this.path}/content/content.json`)),
+      jsonContent: JSON.stringify(content),
       styles: styles,
       scripts: scripts,
       displayOptions: this.displayOptions
@@ -125,19 +139,14 @@ export default {
         this.$emit(ev.type.toLowerCase(), ev.data)
       })
     },
-    async getJSON (url, method = 'get') {
-      /* TODO: check how to handle 404 */
-      try {
-        const resp = await fetch(url, { credentials: 'include', method })
-        if (method === 'get') {
-          const json = await resp.json()
-          return json
-        }
-      } catch (e) {
-        // eslint-disable-next-line
-        console.error(e)
-        throw e
+    async getJSON (url) {
+      const resp = await fetch(url, { credentials: 'include' })
+      if (resp.status === 404) {
+        this.getJSONErrorResponse = resp
+        throw new Error(404)
       }
+      const json = await resp.json()
+      return json
     },
     async checkIfPathIncludesVersion () {
       const dependency = this.h5p.preloadedDependencies[0]
@@ -146,7 +155,7 @@ export default {
       let pathIncludesVersion
 
       try {
-        await this.getJSON(`${this.path}/${machinePath}/library.json`, 'head')
+        await fetch(`${this.path}/${machinePath}/library.json`, { credentials: 'include', method: 'head' })
         pathIncludesVersion = true
       } catch (e) {
         pathIncludesVersion = false
