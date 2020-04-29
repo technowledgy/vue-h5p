@@ -49,6 +49,7 @@ The component accepts the following props:
 |src  |yes       |String|-        |Path to the h5p content|
 |l10n |no        |Object|{}       |UI translations|
 |displayOptions |no |Object|-       |Set display Options for the content|
+|contentId   |no       |String, Number|1   |Content id|
 
 See https://h5p.org/creating-your-own-h5p-plugin for translation strings & display options.
 

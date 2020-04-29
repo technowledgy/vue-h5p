@@ -32,11 +32,14 @@ export default {
     l10n: {
       type: Object,
       default: () => { return {} }
+    },
+    contentId: {
+      type: [String, Number],
+      default: 1
     }
   },
   data () {
     return {
-      id: Math.random().toString(36).substr(2, 9),
       mainLibrary: undefined,
       h5pIntegration: { l10n: { H5P: {} } },
       started: false,
@@ -49,10 +52,10 @@ export default {
       return this.src.slice(this.src.length - 1) === '/' ? this.src.substring(0, this.src.length - 1) : this.src
     },
     contentStyles () {
-      return this.h5pIntegration.contents['cid-' + this.id].styles
+      return this.h5pIntegration.contents['cid-' + this.contentId].styles
     },
     contentScripts () {
-      return this.h5pIntegration.contents['cid-' + this.id].scripts
+      return this.h5pIntegration.contents['cid-' + this.contentId].scripts
     },
     head () {
       // workaround for vue-loader parsing this as the end of our SFC's script block
@@ -112,7 +115,7 @@ export default {
       this.h5pIntegration.url = this.path
       this.h5pIntegration.contents = this.h5pIntegration.contents || {}
 
-      this.h5pIntegration.contents[`cid-${this.id}`] = {
+      this.h5pIntegration.contents[`cid-${this.contentId}`] = {
         library: `${this.mainLibrary.machineName} ${this.mainLibrary.majorVersion}.${this.mainLibrary.minorVersion}`,
         jsonContent: JSON.stringify(await this.getJSON(`${this.path}/content/content.json`)),
         styles: styles,
@@ -125,7 +128,7 @@ export default {
       this.srcdoc = [
         '<!doctype html><html class="h5p-iframe">',
         ...this.head,
-        `<body><div class="h5p-content" data-content-id="${this.id}"/></body></html>`
+        `<body><div class="h5p-content" data-content-id="${this.contentId}"/></body></html>`
       ].join('')
 
       this.loading = false
