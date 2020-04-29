@@ -16,6 +16,8 @@ in your component:
 ```
 <template>
   <h5p src="path/to/h5p-content" :l10n="translations" @xapi="handleXAPIEvent">
+    Loading...
+  </h5p>
 </template>
 
 <script>
@@ -59,6 +61,10 @@ NOTE: UI translations are not reactive. You have to manually trigger a rerender 
 ### Events
 
 All events emitted by H5P are emitted by vue-h5p, event names are the H5P [event type](https://h5p.org/events), payload is the event data.
+
+### Slot
+
+You can use the default slot to render a placeholder while the content is loading. Slot content can be styled via the 'loading-wrapper' class.
 
 ## Development
 

@@ -2,7 +2,9 @@
   <div class="wrapper">
     <input type="radio" v-model="locale" value="en">EN
     <input type="radio" v-model="locale" value="de">DE
-    <h5p src="/h5p/" @xapi="log" :l10n="translations[locale]" :key="locale"/>
+    <h5p src="/h5p/" @xapi="log" :l10n="translations[locale]" :key="locale">
+      Loading...
+    </h5p>
   </div>
 </template>
 

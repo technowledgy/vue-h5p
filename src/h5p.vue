@@ -1,5 +1,8 @@
 <template>
-  <iframe v-if="!loading" ref="iframe" :srcdoc="srcdoc" @load="addEventHandlers"/>
+  <div v-if="loading" class="loading-wrapper">
+    <slot/>
+  </div>
+  <iframe v-else ref="iframe" :srcdoc="srcdoc" @load="addEventHandlers"/>
 </template>
 
 <script>
