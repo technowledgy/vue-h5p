@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component iframe has correct attribute srcdoc 1`] = `
+<!doctype html>
+<html class="h5p-iframe">
+
+  <head>
+    <base target="_parent">
+    <style>
+      MOCKED_FRAME_CSS
+    </style>
+    <link rel="stylesheet" href="http://test.example/h5p/H5P.Image-1.1/image.css">
+    <link rel="stylesheet" href="http://test.example/h5p/H5P.Image-1.1/image.css">
+    <script>
+      H5PIntegration = {
+        "l10n": {
+          "H5P": {
+            "advancedHelp": "Include this script on your website if you want dynamic sizing of the embedded content:",
+            "author": "Author",
+            "by": "by",
+            "cancelLabel": "Cancel",
+            "changes": "Changelog",
+            "close": "Close",
+            "confirmDialogBody": "Please confirm that you wish to proceed. This action is not reversible.",
+            "confirmDialogHeader": "Confirm action",
+            "confirmLabel": "Confirm",
+            "connectionLost": "Connection lost. Results will be stored and sent when you regain connection.",
+            "connectionReestablished": "Connection reestablished.",
+            "contentChanged": "This content has changed since you last used it.",
+            "contentCopied": "Content is copied to the clipboard",
+            "contentType": "Content Type",
+            "copyrightInformation": "Rights of use",
+            "copyrights": "Rights of use",
+            "copyrightsDescription": "View copyright information for this content.",
+            "disableFullscreen": "Disable fullscreen",
+            "download": "Download",
+            "downloadDescription": "Download this content as a H5P file.",
+            "embed": "Embed",
+            "embedDescription": "View the embed code for this content.",
+            "fullscreen": "Fullscreen",
+            "h5pDescription": "Visit H5P.org to check out more cool content.",
+            "hideAdvanced": "Hide advanced",
+            "license": "License",
+            "licenseC": "Copyright",
+            "licenseCC010": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+            "licenseCC10": "1.0 Generic",
+            "licenseCC20": "2.0 Generic",
+            "licenseCC25": "2.5 Generic",
+            "licenseCC30": "3.0 Unported",
+            "licenseCC40": "4.0 International",
+            "licenseCCBY": "Attribution",
+            "licenseCCBYNC": "Attribution-NonCommercial",
+            "licenseCCBYNCND": "Attribution-NonCommercial-NoDerivs",
+            "licenseCCBYNCSA": "Attribution-NonCommercial-ShareAlike",
+            "licenseCCBYND": "Attribution-NoDerivs",
+            "licenseCCBYSA": "Attribution-ShareAlike",
+            "licenseExtras": "License Extras",
+            "licenseGPL": "General Public License",
+            "licensePD": "Public Domain",
+            "licensePDM": "Public Domain Mark",
+            "licenseU": "Undisclosed",
+            "licenseV1": "Version 1",
+            "licenseV2": "Version 2",
+            "licenseV3": "Version 3",
+            "noCopyrights": "No copyright information available for this content.",
+            "offlineDialogBody": "We were unable to send information about your completion of this task. Please check your internet connection.",
+            "offlineDialogHeader": "Your connection to the server was lost",
+            "offlineDialogRetryButtonLabel": "Retry now",
+            "offlineDialogRetryMessage": "Retrying in :num....",
+            "offlineSuccessfulSubmit": "Successfully submitted results.",
+            "resubmitScores": "Attempting to submit stored results.",
+            "reuse": "Reuse",
+            "reuseContent": "Reuse Content",
+            "reuseDescription": "Reuse this content.",
+            "showAdvanced": "Show advanced",
+            "showLess": "Show less",
+            "showMore": "Show more",
+            "size": "Size",
+            "source": "Source",
+            "startingOver": "You'll be starting over.",
+            "subLevel": "Sublevel",
+            "thumbnail": "Thumbnail",
+            "title": "Title",
+            "year": "Year"
+          }
+        },
+        "pathIncludesVersion": true,
+        "url": "http://test.example/h5p",
+        "contents": {
+          "cid-default": {
+            "library": "H5P.Image 1.1",
+            "jsonContent": "{\\"presentation\\":{\\"slides\\":[]}}",
+            "styles": ["http://test.example/h5p/H5P.Image-1.1/image.css", "http://test.example/h5p/H5P.Image-1.1/image.css"],
+            "scripts": ["http://test.example/h5p/H5P.Image-1.1/image.js", "http://test.example/h5p/H5P.Image-1.1/image.js"],
+            "displayOptions": {}
+          }
+        }
+      };
+    </script>
+    <script>
+      MOCKED_FRAME_JS
+    </script>
+    <script src="http://test.example/h5p/H5P.Image-1.1/image.js"></script>
+    <script src="http://test.example/h5p/H5P.Image-1.1/image.js"></script>
+  </head>
+
+  <body>
+    <div class="h5p-content" data-content-id="default" />
+  </body>
+
+</html>
+`;
