@@ -38,6 +38,7 @@
     "exports-loader": "^0.7.0",
     "extract-loader": "^5.0.1",
     "file-loader": "^6.0.0",
+    "flush-promises": "^1.0.2",
     "imports-loader": "^0.8.0",
     "jest-fetch-mock": "^3.0.3",
     "raw-loader": "^4.0.1",

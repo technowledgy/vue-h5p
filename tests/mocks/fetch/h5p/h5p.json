@@ -1,0 +1,14 @@
+{
+  "title": "Course Presentation",
+  "language": "und",
+  "mainLibrary": "H5P.Image",
+  "embedTypes": ["div"],
+  "license": "U",
+  "defaultLanguage": "en",
+  "preloadedDependencies": [
+  {
+    "machineName": "H5P.Image",
+    "majorVersion": "1",
+    "minorVersion": "1"
+  }]
+}

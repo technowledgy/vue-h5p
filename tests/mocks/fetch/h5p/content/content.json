@@ -1,0 +1,50 @@
+{
+  "presentation":
+  {
+    "slides": [
+    {
+      "elements": [
+      {
+        "x": 79.617834394904,
+        "y": 69.182389937107,
+        "width": 18.683651804671,
+        "height": 19.077568134172,
+        "action":
+        {
+          "library": "H5P.Image 1.1",
+          "params":
+          {
+            "contentName": "Image",
+            "file":
+            {
+              "path": "images\/file-550ff73380390.jpg",
+              "mime": "image\/jpeg",
+              "width": 1600,
+              "height": 800,
+              "copyright":
+              {
+                "license": "U"
+              }
+            },
+            "alt": "Photo of red currants",
+            "title": "Red currants"
+          },
+          "subContentId": "266a00e6-a02d-4ac1-920a-d1acf2e4a423",
+          "metadata":
+          {
+            "license": "U",
+            "contentType": "Image",
+            "title": "Untitled Image"
+          }
+        },
+        "alwaysDisplayComments": false,
+        "backgroundOpacity": 0,
+        "displayAsButton": false,
+        "invisible": false,
+        "solution": "",
+        "buttonSize": "big",
+        "goToSlideType": "specified"
+      }]
+    }]
+  }
+}
