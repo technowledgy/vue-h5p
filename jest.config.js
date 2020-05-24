@@ -8,5 +8,7 @@ module.exports = {
     'lcov',
     'text-summary'
   ],
-  setupFiles: ['<rootDir>/tests/fetch.setup.js']
+  setupFilesAfterEnv: [
+    '<rootDir>/tests/setup.js'
+  ]
 }

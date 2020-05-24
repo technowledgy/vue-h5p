@@ -1,18 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
-import h5p from '@/h5p'
 import flushPromises from 'flush-promises'
-
-jest.mock('!to-string-loader!css-loader!../vendor/h5p/styles/h5p.css', () => {
-  return 'MOCKED_FRAME_CSS'
-}, {
-  virtual: true
-})
-
-jest.mock('!raw-loader!../frame/frame', () => {
-  return 'MOCKED_FRAME_JS'
-}, {
-  virtual: true
-})
+import h5p from '@/h5p'
+import { FetchError } from '@/errors'
 
 function createComponent (props, cbDefault, cbError) {
   const renderDefault = jest.fn(cbDefault)
@@ -71,7 +60,7 @@ describe('Component', () => {
     await flushPromises()
     expect(wrapper.vm.loading).toBe(false)
     expect(renderError).toHaveBeenCalledWith(expect.objectContaining({
-      response: expect.any(Object)
+      error: expect.any(FetchError)
     }))
   })
 

@@ -2,19 +2,26 @@
   <div v-if="loading">
     <slot/>
   </div>
-  <div v-else-if="getJSONErrorResponse">
-    <slot name="error" :response="getJSONErrorResponse"/>
+  <div v-else-if="error">
+    <slot name="error" :error="error"/>
   </div>
-  <iframe v-else ref="iframe" style="width: 100%; height: 100%; border: none;" :srcdoc="srcdoc" @load="addEventHandlers"/>
+  <iframe
+    v-else
+    ref="iframe"
+    style="width: 100%; height: 100%; border: none;"
+    :srcdoc="srcdoc"
+    @load="addEventHandlers"
+  />
 </template>
 
 <script>
-import l10n from './l10n'
+import Toposort from 'toposort-class'
+import { FetchError } from '@/errors'
+import l10n from '@/l10n'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import frameScript from '!raw-loader!../frame/frame'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import frameStyle from '!to-string-loader!css-loader!../vendor/h5p/styles/h5p.css'
-import Toposort from 'toposort-class'
 
 export default {
   name: 'h5p',
@@ -34,189 +41,129 @@ export default {
   },
   data () {
     return {
-      mainLibrary: undefined,
       loading: true,
-      getJSONErrorResponse: undefined,
+      error: undefined,
       srcdoc: ''
     }
   },
   computed: {
     path () {
-      return this.src.slice(this.src.length - 1) === '/' ? this.src.substring(0, this.src.length - 1) : this.src
+      return this.src.endsWith('/') ? this.src : this.src + '/'
     }
   },
   async mounted () {
+    let h5p
     let content
-    let dependencies
-    const h5pIntegration = { l10n: { H5P: {} } }
-
+    let libraries
     try {
-      const h5p = await this.getJSON(`${this.path}/h5p.json`)
-      content = await this.getJSON(`${this.path}/content/content.json`)
-      h5pIntegration.pathIncludesVersion = this.pathIncludesVersion = await this.checkIfPathIncludesVersion(h5p)
-      this.mainLibrary = await this.findMainLibrary(h5p)
-      dependencies = await this.findAllDependencies(h5p)
+      h5p = await this.getJSON('h5p.json')
+      content = await this.getJSON('content', 'content.json')
+      libraries = await this.loadDependencies(h5p.preloadedDependencies)
     } catch (e) {
-      if (e.message === '404') {
-        this.loading = false
-      } else {
-        throw e
-      }
+      this.error = e
+      this.loading = false
+      return
     }
 
-    const { styles, scripts } = this.sortDependencies(dependencies)
-
-    h5pIntegration.url = this.path
-    h5pIntegration.contents = h5pIntegration.contents || {}
-
-    h5pIntegration.contents['cid-default'] = {
-      library: `${this.mainLibrary.machineName} ${this.mainLibrary.majorVersion}.${this.mainLibrary.minorVersion}`,
-      jsonContent: JSON.stringify(content),
-      styles: styles,
-      scripts: scripts,
-      displayOptions: this.displayOptions
+    const { machineName, majorVersion, minorVersion } = h5p.preloadedDependencies.find(dep => dep.machineName === h5p.mainLibrary)
+    const h5pIntegration = {
+      l10n: {
+        H5P: Object.assign({}, l10n.H5P, this.l10n)
+      },
+      url: this.path,
+      contents: {
+        'cid-default': {
+          library: `${machineName} ${majorVersion}.${minorVersion}`,
+          jsonContent: JSON.stringify(content),
+          displayOptions: this.displayOptions
+        }
+      },
+      _libraryPaths: Object.fromEntries(
+        Object.entries(libraries).map(
+          ([id, lib]) => [id, lib.path]
+        )
+      )
     }
 
-    Object.assign(h5pIntegration.l10n.H5P, l10n.H5P, this.l10n)
+    const { styles, scripts } = this.sortDependencies(libraries)
 
-    this.srcdoc = [
-      '<!doctype html><html class="h5p-iframe">',
-      ...this.getHead(h5pIntegration),
-      '<body><div class="h5p-content" data-content-id="default"/></body></html>'
-    ].join('')
+    // workaround for vue-loader parsing this as the end of our SFC's script block
+    const endScript = '</' + 'script>'
+    const contentStyles = styles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n')
+    const contentScripts = scripts.map(script => `<script src="${script}">${endScript}`).join('\n')
+    this.srcdoc = `<!doctype html>
+<html class="h5p-iframe">
+  <head>
+    <base target="_parent">
+    <style>${frameStyle}</style>
+    ${contentStyles}
+    <script>H5PIntegration = ${JSON.stringify(h5pIntegration)};${endScript}
+    <script>${frameScript}${endScript}
+    ${contentScripts}
+  </head>
+  <body>
+    <div class="h5p-content" data-content-id="default"/>
+  </body>
+</html>`
 
     this.loading = false
   },
   methods: {
-    getHead (h5pIntegration) {
-      // workaround for vue-loader parsing this as the end of our SFC's script block
-      const endScript = '</' + 'script>'
-
-      const contentStyles = h5pIntegration.contents['cid-default'].styles
-      const contentScripts = h5pIntegration.contents['cid-default'].scripts
-
-      const styleTags = [
-        `<style>${frameStyle}</style>`,
-        ...contentStyles.map(style => {
-          return `<link rel="stylesheet" href="${style}">`
-        })
-      ]
-
-      const scriptTags = [
-        `<script>H5PIntegration = ${JSON.stringify(h5pIntegration)};${endScript}`,
-        `<script>${frameScript}${endScript}`,
-        ...contentScripts.map(script => {
-          return `<script src="${script}">${endScript}`
-        })
-      ]
-
-      return [
-        '<head>',
-        '<base target="_parent">',
-        ...styleTags,
-        ...scriptTags,
-        '</head>'
-      ]
-    },
     addEventHandlers () {
+      console.log('test')
       this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
         this.$emit(ev.type.toLowerCase(), ev.data)
       })
     },
-    async getJSON (url) {
-      const resp = await fetch(url, { credentials: 'include' })
+    async getJSON (...url) {
+      const resp = await fetch(this.path + url.join('/'), { credentials: 'include' })
       if (!resp.ok) {
-        this.getJSONErrorResponse = resp
-        throw new Error(resp.status)
+        let body = {}
+        try {
+          body = await resp.json()
+        } catch {}
+        throw new FetchError(resp, body)
       }
-      const json = await resp.json()
-      return json
+      return resp.json()
     },
-    async checkIfPathIncludesVersion (h5p) {
-      const dependency = h5p.preloadedDependencies[0]
-      const machinePath = dependency.machineName + '-' + dependency.majorVersion + '.' + dependency.minorVersion
-
-      let pathIncludesVersion
-
-      try {
-        await fetch(`${this.path}/${machinePath}/library.json`, { credentials: 'include', method: 'head' })
-        pathIncludesVersion = true
-      } catch (e) {
-        pathIncludesVersion = false
-      }
-      return pathIncludesVersion
-    },
-    findMainLibrary (h5p) {
-      const mainLibraryInfo = h5p.preloadedDependencies.find(dep => dep.machineName === h5p.mainLibrary)
-
-      this.mainLibraryPath = h5p.mainLibrary + (this.pathIncludesVersion ? '-' + mainLibraryInfo.majorVersion + '.' + mainLibraryInfo.minorVersion : '')
-      return this.getJSON(`${this.path}/${this.mainLibraryPath}/library.json`)
-    },
-    findAllDependencies (h5p) {
-      const directDependencyNames = h5p.preloadedDependencies.map(dependency => this.libraryPath(dependency))
-
-      return this.loadDependencies(directDependencyNames, [])
-    },
-    libraryPath (library) {
-      return library.machineName + (this.pathIncludesVersion ? '-' + library.majorVersion + '.' + library.minorVersion : '')
-    },
-    async loadDependencies (toFind, alreadyFound) {
-      const dependencies = alreadyFound
-      const findNext = []
-      const newDependencies = await Promise.all(toFind.map((libraryName) => this.findLibraryDependencies(libraryName)))
-      // loop over newly found libraries
-      newDependencies.forEach((library) => {
-        // push into found list
-        dependencies.push(library)
-        // check if any dependencies haven't been found yet
-        library.dependencies.forEach((dependency) => {
-          if (!dependencies.find((foundLibrary) => foundLibrary.libraryPath === dependency) && !newDependencies.find((foundLibrary) => foundLibrary.libraryPath === dependency)) {
-            findNext.push(dependency)
+    async loadDependencies (deps, libraryMap = {}) {
+      await Promise.all(deps.map(async ({ machineName, majorVersion, minorVersion }) => {
+        const id = `${machineName}-${majorVersion}.${minorVersion}`
+        if (libraryMap[id]) return
+        try {
+          libraryMap[id] = {
+            library: await this.getJSON(id, 'library.json'),
+            path: id
           }
-        })
-      })
-
-      if (findNext.length > 0) {
-        return this.loadDependencies(findNext, dependencies)
-      }
-      return dependencies
+        } catch {
+          libraryMap[id] = {
+            library: await this.getJSON(machineName, 'library.json'),
+            path: machineName
+          }
+        }
+        const libDeps = libraryMap[id].library.preloadedDependencies
+        if (libDeps) {
+          this.loadDependencies(libDeps, libraryMap)
+          libraryMap[id].dependencies = libDeps.map(({ machineName, majorVersion, minorVersion }) => `${machineName}-${majorVersion}.${minorVersion}`)
+        }
+      }))
+      return libraryMap
     },
-    async findLibraryDependencies (libraryName) {
-      const library = await this.getJSON(`${this.path}/${libraryName}/library.json`)
-      const libraryPath = this.libraryPath(library)
+    sortDependencies (libraries) {
+      const sorter = new Toposort()
+      Object.entries(libraries)
+        .forEach(([id, { dependencies = [] }]) => sorter.add(id, dependencies))
+      const sorted = sorter.sort().reverse()
 
-      let dependencies = []
-      if (library.preloadedDependencies) {
-        dependencies = library.preloadedDependencies.map(dependency => this.libraryPath(dependency))
-      }
+      const styles = sorted.map(id => libraries[id])
+        .map(({ path, library }) => library.preloadedCss?.map(file => `${this.path}${path}/${file.path}`))
+        .flat(1)
+        .filter(Boolean)
 
-      return { libraryPath, dependencies, preloadedCss: library.preloadedCss, preloadedJs: library.preloadedJs }
-    },
-    sortDependencies (dependencies) {
-      const dependencySorter = new Toposort()
-      for (const dependency of dependencies) {
-        dependencySorter.add(dependency.libraryPath, dependency.dependencies)
-      }
-      const sortedDependencies = dependencySorter.sort().reverse()
-
-      const CSSDependencies = {}
-      const JSDependencies = {}
-
-      dependencies.forEach(dependency => {
-        CSSDependencies[dependency.libraryPath] = (dependency.preloadedCss || []).map(style => `${this.path}/${dependency.libraryPath}/${style.path}`)
-
-        JSDependencies[dependency.libraryPath] = (dependency.preloadedJs || []).map(script => `${this.path}/${dependency.libraryPath}/${script.path}`)
-      })
-
-      const styles = [
-        sortedDependencies.map(name => CSSDependencies[name]),
-        (this.mainLibrary.preloadedCss || []).map(style => `${this.path}/${this.mainLibraryPath}/${style.path}`)
-      ].flat(2).filter(Boolean)
-
-      const scripts = [
-        sortedDependencies.map(name => JSDependencies[name]),
-        (this.mainLibrary.preloadedJs || []).map(script => `${this.path}/${this.mainLibraryPath}/${script.path}`)
-      ].flat(2).filter(Boolean)
+      const scripts = sorted.map(id => libraries[id])
+        .map(({ path, library }) => library.preloadedJs?.map(file => `${this.path}${path}/${file.path}`))
+        .flat(1)
+        .filter(Boolean)
 
       return { styles, scripts }
     }

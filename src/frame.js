@@ -9,10 +9,7 @@ import 'H5PRequestQueue'
 import 'H5PActionBar'
 
 H5P.getLibraryPath = function (library) {
-  if (H5PIntegration.pathIncludesVersion) {
-    return this.librariesPath + '/' + library
-  }
-  return this.librariesPath + '/' + library.split('-')[0]
+  return H5PIntegration._libraryPaths[library]
 }
 
 H5P.getPath = function (path, contentId) {
