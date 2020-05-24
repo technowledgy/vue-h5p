@@ -1,9 +1,0 @@
-{
-  "mainLibrary": "H5P.Image",
-  "preloadedDependencies": [
-  {
-    "machineName": "H5P.Image",
-    "majorVersion": "1",
-    "minorVersion": "1"
-  }]
-}

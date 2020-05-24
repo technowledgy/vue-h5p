@@ -5,7 +5,7 @@ fetchMock.doMock(req => {
   try {
     return Promise.resolve({
       status: 200,
-      body: JSON.stringify(require(`./mocks/fetch/${new URL(req.url).pathname}`))
+      body: JSON.stringify(require(`./mocks/${req.url}`))
     })
   } catch {
     return Promise.resolve({

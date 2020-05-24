@@ -59,7 +59,6 @@ export default {
     } catch (e) {
       if (e.message === '404') {
         this.loading = false
-        return
       } else {
         throw e
       }

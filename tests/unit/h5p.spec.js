@@ -47,7 +47,7 @@ describe('Component', () => {
 
   it('renders an iframe for existing h5p-content', async () => {
     ({ wrapper } = createComponent({
-      src: 'http://test.example/h5p'
+      src: '/hello-world'
     }))
     await flushPromises()
     expect(wrapper.element.constructor.name).toBe('HTMLIFrameElement')
@@ -55,7 +55,7 @@ describe('Component', () => {
 
   it('renders default slot content while loading', async () => {
     ({ renderDefault, wrapper } = createComponent({
-      src: 'http://test.example/h5p'
+      src: '/hello-world'
     }))
     expect(wrapper.vm.loading).toBe(true)
     expect(renderDefault).toHaveBeenCalled()
@@ -66,7 +66,7 @@ describe('Component', () => {
 
   it('renders error slot on fetch-errors and provides response object', async () => {
     ({ renderError, wrapper } = createComponent({
-      src: 'http://test.example/404'
+      src: '/404'
     }))
     await flushPromises()
     expect(wrapper.vm.loading).toBe(false)
@@ -77,7 +77,7 @@ describe('Component', () => {
 
   it('does not render error slot on succesful fetch', async () => {
     ({ renderError, wrapper } = createComponent({
-      src: 'http://test.example/h5p'
+      src: '/hello-world'
     }))
     await flushPromises()
     expect(wrapper.vm.loading).toBe(false)
@@ -86,34 +86,50 @@ describe('Component', () => {
 
   it('correctly handles the src prop', async () => {
     ({ wrapper } = createComponent({
-      src: 'http://test.example/h5p'
+      src: '/hello-world'
     }))
     await flushPromises()
-    expect(fetch).toHaveBeenCalledWith('http://test.example/h5p/h5p.json', expect.anything())
+    expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
     wrapper.destroy()
     fetch.mockClear();
 
     ({ wrapper } = createComponent({
-      src: 'http://test.example/h5p/'
+      src: '/hello-world/'
     }))
     await flushPromises()
-    expect(fetch).toHaveBeenCalledWith('http://test.example/h5p/h5p.json', expect.anything())
+    expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
   })
 
   it('requests the neccessary json files', async () => {
     ({ wrapper } = createComponent({
-      src: 'http://test.example/h5p'
+      src: '/hello-world'
     }))
     await flushPromises()
-    expect(fetch).toHaveBeenCalledWith('http://test.example/h5p/h5p.json', expect.anything())
-    expect(fetch).toHaveBeenCalledWith('http://test.example/h5p/content/content.json', expect.anything())
-    expect(fetch).toHaveBeenCalledWith('http://test.example/h5p/H5P.Image-1.1/library.json', expect.anything())
+    expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
+    expect(fetch).toHaveBeenCalledWith('/hello-world/content/content.json', expect.anything())
+    expect(fetch).toHaveBeenCalledWith('/hello-world/H5P.GreetingCard-1.0/library.json', expect.anything())
   })
 
   describe('iframe', () => {
     it('has correct attribute srcdoc', async () => {
       ({ wrapper } = createComponent({
-        src: 'http://test.example/h5p'
+        src: '/hello-world'
+      }))
+      await flushPromises()
+      expect(wrapper.element.srcdoc).toMatchSnapshot()
+    })
+
+    it('has sorted dependencies', async () => {
+      ({ wrapper } = createComponent({
+        src: '/course-presentation'
+      }))
+      await flushPromises()
+      expect(wrapper.element.srcdoc).toMatchSnapshot()
+    })
+
+    it('without version in library paths', async () => {
+      ({ wrapper } = createComponent({
+        src: '/hello-world-no-version'
       }))
       await flushPromises()
       expect(wrapper.element.srcdoc).toMatchSnapshot()
