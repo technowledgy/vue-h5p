@@ -55,7 +55,20 @@ The component accepts the following props:
 |l10n           |no        |Object         |{}       |UI translations|
 |displayOptions |no        |Object         |-        |Set display Options for the content|
 
-See https://h5p.org/creating-your-own-h5p-plugin for translation strings & display options.
+See https://h5p.org/creating-your-own-h5p-plugin for translation strings.
+
+Available display options are:
+
+``` js
+const displayOptions = {
+  frame: true,
+  copyright: true,
+  embed: true,
+  download: true,
+  icon: true,
+  export: true
+}
+```
 
 NOTE: UI translations are not reactive. You have to manually trigger a rerender for translation changes to take effect (e.g. by binding :key to your locale).
 
