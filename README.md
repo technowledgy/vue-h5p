@@ -1,3 +1,13 @@
+<div align="center">
+
+[![Travis (.org)](https://img.shields.io/travis/technowledgy/vue-h5p)](https://travis-ci.org/technowledgy/vue-h5p)
+[![Coveralls github](https://img.shields.io/coveralls/github/technowledgy/vue-h5p)](https://coveralls.io/github/technowledgy/vue-h5p)
+[![Depfu](https://img.shields.io/depfu/technowledgy/vue-h5p)](https://depfu.com/repos/github/technowledgy/vue-h5p)
+[![NPM](https://img.shields.io/npm/l/vue-h5p)](https://github.com/technowledgy/vue-h5p/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/vue-h5p)](https://www.npmjs.com/package/vue-h5p)
+
+</div>
+
 # vue-h5p
 A vue h5p component for displaying H5P content standalone, based on [tunapanda/h5p-standalone](https://github.com/tunapanda/h5p-standalone).
 
