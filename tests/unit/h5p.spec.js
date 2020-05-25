@@ -124,8 +124,21 @@ describe('Component', () => {
       expect(wrapper.element.srcdoc).toMatchSnapshot()
     })
 
-    describe('window has correct h5pIntegration object', () => {
-      // TODO: how to wait for iframe load event to get access to iframe documentWindow?
+    it('emits h5p events', () => {
+      // TODO: wait for JSDOM implementing srcdoc, so that the iframe actually works
+    })
+
+    it('passes localization strings', async () => {
+      ({ wrapper } = createComponent({
+        src: '/hello-world',
+        l10n: {
+          advancedHelp: 'TRANSLATED1',
+          author: 'TRANSLATED2',
+          by: 'TRANSLATED3'
+        }
+      }))
+      await flushPromises()
+      expect(wrapper.element.srcdoc).toMatchSnapshot()
     })
   })
 })
