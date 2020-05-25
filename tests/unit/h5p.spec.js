@@ -134,7 +134,7 @@ describe('Component', () => {
         l10n: {
           advancedHelp: 'TRANSLATED1',
           author: 'TRANSLATED2',
-          by: 'TRANSLATED3',
+          by: 'TRANSLATED3'
         }
       }))
       await flushPromises()
