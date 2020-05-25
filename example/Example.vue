@@ -26,7 +26,6 @@ export default {
         frame: true,
         copyright: true,
         embed: true,
-        download: true,
         icon: true,
         export: true
       },

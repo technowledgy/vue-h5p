@@ -72,12 +72,11 @@ Available display options are:
 
 ``` js
 const displayOptions = {
-  frame: true,
-  copyright: true,
-  embed: true,
-  download: true,
-  icon: true,
-  export: true
+  frame: true, // Show frame and buttons below H5P
+  export: true, // Display download button
+  embed: true, // Display embed button
+  copyright: true, // Display copyright button
+  icon: true // Display H5P icon
 }
 ```
 
