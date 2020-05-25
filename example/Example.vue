@@ -2,7 +2,7 @@
   <div class="wrapper">
     <input type="radio" v-model="locale" value="en">EN
     <input type="radio" v-model="locale" value="de">DE
-    <h5p src="/h5p/" @xapi="log" :l10n="translations[locale]" :key="locale">
+    <h5p src="/h5p/" @xapi="log" :l10n="translations[locale]" :display-options="displayOptions" :key="locale">
       Loading...
       <template v-slot:404="{ response }">
         {{ response.url + ' ' + response.statusText }}
@@ -22,6 +22,14 @@ export default {
   data () {
     return {
       locale: 'en',
+      displayOptions: {
+        frame: true,
+        copyright: true,
+        embed: true,
+        download: true,
+        icon: true,
+        export: true
+      },
       translations: {
         en: {},
         de: {
