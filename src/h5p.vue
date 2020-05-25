@@ -110,7 +110,6 @@ export default {
   },
   methods: {
     addEventHandlers () {
-      console.log('test')
       this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
         this.$emit(ev.type.toLowerCase(), ev.data)
       })
