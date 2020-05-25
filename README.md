@@ -9,7 +9,8 @@
 </div>
 
 # vue-h5p
-A vue h5p component for displaying H5P content standalone, based on [tunapanda/h5p-standalone](https://github.com/tunapanda/h5p-standalone).
+
+A vue h5p component for displaying H5P content standalone, inspired by [tunapanda/h5p-standalone](https://github.com/tunapanda/h5p-standalone).
 
 ## Installation
 
@@ -27,7 +28,7 @@ in your component:
 <template>
   <h5p src="path/to/h5p-content" :l10n="translations" @xapi="handleXAPIEvent">
     Loading...
-    <template v-slot:resourceNotAvailable>
+    <template #error>
       Resource not available. :(
     </template>
   </h5p>
@@ -78,7 +79,7 @@ All events emitted by H5P are emitted by vue-h5p, event names are the H5P [event
 
 You can use the default slot to render a placeholder while the content is loading.
 
-The named slot "error" is rendered if a request to get the h5p JSON files fails, the slot-scope provides failed request as "response" object.
+The named slot "error" is rendered if a request to get the h5p JSON files fails, the slot-scope provides failed request as "error" object.
 
 ## Development
 
