@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - node
+  - 'lts/*'
+after_script:
+  - cat ./coverage/lcov.info | coveralls
+
+jobs:
+  include:
+    - stage: lint
+      node_js:
+        - node
+      script:
+        - "yarn lint --no-fix"
+
+stages:
+  - lint
+  - test

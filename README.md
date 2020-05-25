@@ -1,5 +1,16 @@
+<div align="center">
+
+[![Travis (.org)](https://img.shields.io/travis/technowledgy/vue-h5p)](https://travis-ci.org/technowledgy/vue-h5p)
+[![Coveralls github](https://img.shields.io/coveralls/github/technowledgy/vue-h5p)](https://coveralls.io/github/technowledgy/vue-h5p)
+[![Depfu](https://img.shields.io/depfu/technowledgy/vue-h5p)](https://depfu.com/repos/github/technowledgy/vue-h5p)
+[![NPM](https://img.shields.io/npm/l/vue-h5p)](https://github.com/technowledgy/vue-h5p/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/vue-h5p)](https://www.npmjs.com/package/vue-h5p)
+
+</div>
+
 # vue-h5p
-A vue h5p component for displaying H5P content standalone, based on [tunapanda/h5p-standalone](https://github.com/tunapanda/h5p-standalone).
+
+A vue h5p component for displaying H5P content standalone, inspired by [tunapanda/h5p-standalone](https://github.com/tunapanda/h5p-standalone).
 
 ## Installation
 
@@ -17,7 +28,7 @@ in your component:
 <template>
   <h5p src="path/to/h5p-content" :l10n="translations" @xapi="handleXAPIEvent">
     Loading...
-    <template v-slot:resourceNotAvailable>
+    <template #error>
       Resource not available. :(
     </template>
   </h5p>
@@ -81,7 +92,7 @@ All events emitted by H5P are emitted by vue-h5p, event names are the H5P [event
 
 You can use the default slot to render a placeholder while the content is loading.
 
-The named slot "error" is rendered if a request to get the h5p JSON files fails, the slot-scope provides failed request as "response" object.
+The named slot "error" is rendered if a request to get the h5p JSON files fails, the slot-scope provides failed request as "error" object.
 
 ## Development
 
