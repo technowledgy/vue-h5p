@@ -128,14 +128,20 @@ describe('Component', () => {
       // TODO: wait for JSDOM implementing srcdoc, so that the iframe actually works
     })
 
-    it('passes localization strings', async () => {
+    it('passes props', async () => {
       ({ wrapper } = createComponent({
         src: '/hello-world',
         l10n: {
           advancedHelp: 'TRANSLATED1',
           author: 'TRANSLATED2',
           by: 'TRANSLATED3'
-        }
+        },
+        export: '/export/url',
+        embed: '<iframe></iframe>',
+        fullscreen: true,
+        copyright: true,
+        icon: true,
+        resize: 'resize code'
       }))
       await flushPromises()
       expect(wrapper.element.srcdoc).toMatchSnapshot()

@@ -30,9 +30,29 @@ export default {
       type: String,
       required: true
     },
-    displayOptions: {
-      type: Object,
-      default: () => ({})
+    embed: {
+      type: String,
+      default: ''
+    },
+    resize: {
+      type: String,
+      default: ''
+    },
+    export: {
+      type: String,
+      default: ''
+    },
+    copyright: {
+      type: Boolean,
+      default: false
+    },
+    icon: {
+      type: Boolean,
+      default: false
+    },
+    fullscreen: {
+      type: Boolean,
+      default: false
     },
     l10n: {
       type: Object,
@@ -73,9 +93,20 @@ export default {
       url: this.path,
       contents: {
         'cid-default': {
+          embedCode: this.embed,
+          resizeCode: this.resize,
+          exportUrl: this.export,
+          fullScreen: this.fullscreen,
           library: `${machineName} ${majorVersion}.${minorVersion}`,
           jsonContent: JSON.stringify(content),
-          displayOptions: this.displayOptions
+          url: this.path,
+          displayOptions: {
+            frame: Boolean(this.export || this.embed || this.copyright || this.icon),
+            export: Boolean(this.export),
+            embed: Boolean(this.embed),
+            copyright: this.copyright,
+            icon: this.icon
+          }
         }
       },
       _libraryPaths: Object.fromEntries(
