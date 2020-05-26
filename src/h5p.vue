@@ -128,7 +128,7 @@ export default {
     <base target="_parent">
     <style>${frameStyle}</style>
     ${contentStyles}
-    <script>H5PIntegration = ${JSON.stringify(h5pIntegration)};${endScript}
+    <script>H5PIntegration = ${JSON.stringify(h5pIntegration)};var H5P = H5P || {};H5P.externalEmbed = true;${endScript}
     <script>${frameScript}${endScript}
     ${contentScripts}
   </head>

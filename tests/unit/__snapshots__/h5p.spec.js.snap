@@ -106,6 +106,8 @@ exports[`Component iframe has correct attribute srcdoc 1`] = `
           "H5P.GreetingCard-1.0": "H5P.GreetingCard-1.0"
         }
       };
+      var H5P = H5P || {};
+      H5P.externalEmbed = true;
     </script>
     <script>
       /* MOCKED_FRAME_JS */
@@ -272,6 +274,8 @@ exports[`Component iframe has sorted dependencies 1`] = `
           "H5P.CoursePresentation-1.21": "H5P.CoursePresentation-1.21"
         }
       };
+      var H5P = H5P || {};
+      H5P.externalEmbed = true;
     </script>
     <script>
       /* MOCKED_FRAME_JS */
@@ -436,6 +440,8 @@ exports[`Component iframe passes props 1`] = `
           "H5P.GreetingCard-1.0": "H5P.GreetingCard-1.0"
         }
       };
+      var H5P = H5P || {};
+      H5P.externalEmbed = true;
     </script>
     <script>
       /* MOCKED_FRAME_JS */
@@ -556,6 +562,8 @@ exports[`Component iframe without version in library paths 1`] = `
           "H5P.GreetingCard-1.0": "H5P.GreetingCard"
         }
       };
+      var H5P = H5P || {};
+      H5P.externalEmbed = true;
     </script>
     <script>
       /* MOCKED_FRAME_JS */
