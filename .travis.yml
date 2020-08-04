@@ -12,7 +12,13 @@ jobs:
         - node
       script:
         - "yarn lint --no-fix"
+    - stage: build
+      node_js:
+        - node
+      script:
+        - "yarn build"
 
 stages:
   - lint
   - test
+  - build
