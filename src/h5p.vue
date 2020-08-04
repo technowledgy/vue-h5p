@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     path () {
-      return this.src.endsWith('/') ? this.src : this.src + '/'
+      return this.src.endsWith('/') ? this.src.slice(0, -1) : this.src
     }
   },
   async mounted () {
@@ -146,7 +146,7 @@ export default {
       })
     },
     async getJSON (...url) {
-      const resp = await fetch(this.path + url.join('/'), { credentials: 'include' })
+      const resp = await fetch(this.path + '/' + url.join('/'), { credentials: 'include' })
       if (!resp.ok) {
         let body = {}
         try {
@@ -186,12 +186,12 @@ export default {
       const sorted = sorter.sort().reverse()
 
       const styles = sorted.map(id => libraries[id])
-        .map(({ path, library }) => library.preloadedCss?.map(file => `${this.path}${path}/${file.path}`))
+        .map(({ path, library }) => library.preloadedCss?.map(file => `${this.path}/${path}/${file.path}`))
         .flat(1)
         .filter(Boolean)
 
       const scripts = sorted.map(id => libraries[id])
-        .map(({ path, library }) => library.preloadedJs?.map(file => `${this.path}${path}/${file.path}`))
+        .map(({ path, library }) => library.preloadedJs?.map(file => `${this.path}/${path}/${file.path}`))
         .flat(1)
         .filter(Boolean)
 
