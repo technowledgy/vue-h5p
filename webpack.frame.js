@@ -33,12 +33,7 @@ module.exports = {
             options: {
               exports: 'default H5P'
             }
-          }
-        ]
-      },
-      {
-        test: path.resolve(__dirname, 'vendor/h5p/js', 'h5p'),
-        use: [
+          },
           {
             loader: 'imports-loader',
             options: {
