@@ -27,7 +27,22 @@ module.exports = {
     rules: [
       {
         test: path.resolve(__dirname, 'vendor/h5p/js', 'h5p'),
-        use: ['exports-loader?H5P', 'imports-loader?jQuery=h5pjquery']
+        use: [
+          {
+            loader: 'exports-loader',
+            options: {
+              exports: 'default H5P'
+            }
+          },
+          {
+            loader: 'imports-loader',
+            options: {
+              imports: [
+                'default h5pjquery jQuery'
+              ]
+            }
+          }
+        ]
       }
     ]
   }
