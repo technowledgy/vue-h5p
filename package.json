@@ -47,7 +47,7 @@
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
     "webpack-cli": "^3.3.12",
-    "webpack-node-externals": "^2.5.0"
+    "webpack-node-externals": "^2.5.1"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",
   "keywords": [
