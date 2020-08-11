@@ -5103,9 +5103,12 @@ var render = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _vm.loading ? _c("div", [_vm._t("default")], 2) : _vm.error ? _c("div", [_vm._t("error", null, { "error": _vm.error })], 2) : _c("iframe", { ref: "iframe", staticStyle: { "width": "100%", "height": "100%", "border": "none" }, attrs: { "srcdoc": _vm.srcdoc }, on: { "load": _vm.addEventHandlers } });
+  return _c("div", { class: _vm.$style.fullSize }, [_vm.srcdoc ? _c("iframe", { ref: "iframe", class: _vm.$style.fullSize, attrs: { "srcdoc": _vm.srcdoc }, on: { "load": _vm.addEventHandlers } }) : _vm._e(), _vm.loading ? [_vm._t("default")] : _vm.error ? [_vm._t("error", null, { "error": _vm.error })] : _vm._e()], 2);
 };
 var staticRenderFns = [];
+var __style0 = {
+  "full-size": "_full-size_1ejf3_227"
+};
 function normalizeComponent(scriptExports, render2, staticRenderFns2, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
   var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
   if (render2) {
@@ -5281,13 +5284,13 @@ const __vue2_script = {
     <div class="h5p-content" data-content-id="default"/>
   </body>
 </html>`;
-    this.loading = false;
   },
   methods: {
     addEventHandlers() {
       this.$refs.iframe.contentWindow.H5P.externalDispatcher.on("*", (ev) => {
         this.$emit(ev.type.toLowerCase(), ev.data);
       });
+      this.loading = false;
     },
     async getJSON(...url) {
       const resp = await fetch(this.path + "/" + url.join("/"), { credentials: "include" });
@@ -5342,6 +5345,7 @@ const __vue2_script = {
   }
 };
 const __cssModules = {};
+__cssModules["$style"] = __style0;
 var __component__ = /* @__PURE__ */ normalizeComponent(__vue2_script, render, staticRenderFns, false, __vue2_injectStyles, null, null, null);
 function __vue2_injectStyles(context) {
   for (let o in __cssModules) {
