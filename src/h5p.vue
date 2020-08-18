@@ -18,9 +18,7 @@
 import Toposort from 'toposort-class'
 import { FetchError } from '@/errors'
 import l10n from '@/l10n'
-// eslint-disable-next-line import/no-webpack-loader-syntax
 import frameScript from '!raw-loader!../frame/frame'
-// eslint-disable-next-line import/no-webpack-loader-syntax
 import frameStyle from '!to-string-loader!css-loader!../vendor/h5p/styles/h5p.css'
 
 export default {
@@ -151,7 +149,7 @@ export default {
         let body = {}
         try {
           body = await resp.json()
-        } catch {}
+        } catch { /* eslint-disable-line no-empty */ }
         throw new FetchError(resp, body)
       }
       return resp.json()

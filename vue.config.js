@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     historyApiFallback: false
   },
-  chainWebpack: config => {
+  chainWebpack (config) {
     config.module.rule('fonts').use('url-loader').tap(options => {
       options.limit = true
       return options
@@ -19,7 +19,7 @@ module.exports = {
       return options
     })
   },
-  configureWebpack (config) {
+  configureWebpack () {
     return {
       output: {
         libraryExport: 'default'
