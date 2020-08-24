@@ -44,8 +44,8 @@
     "jest-fetch-mock": "^3.0.3",
     "raw-loader": "^4.0.1",
     "to-string-loader": "^1.1.6",
-    "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10",
+    "vue": "^2.6.12",
+    "vue-template-compiler": "^2.6.12",
     "webpack-cli": "^3.3.12",
     "webpack-node-externals": "^2.5.1"
   },
