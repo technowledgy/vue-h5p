@@ -46,7 +46,7 @@
     "to-string-loader": "^1.1.6",
     "vue": "^2.6.12",
     "vue-template-compiler": "^2.6.12",
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^4.0.0",
     "webpack-node-externals": "^2.5.2"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",
