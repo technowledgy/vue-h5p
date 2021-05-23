@@ -13,7 +13,7 @@ H5P.getLibraryPath = function (library) {
 }
 
 H5P.getPath = function (path, contentId) {
-  var hasProtocol = function (path) {
+  const hasProtocol = function (path) {
     return path.match(/^[a-z0-9]+:\/\//i)
   }
 
@@ -21,7 +21,7 @@ H5P.getPath = function (path, contentId) {
     return path
   }
 
-  var prefix
+  let prefix
   if (contentId !== undefined) {
     prefix = H5PIntegration.url + '/content'
   } else if (window.H5PEditor !== undefined) {

@@ -1,9 +1,12 @@
 <template>
   <div v-if="loading">
-    <slot/>
+    <slot />
   </div>
   <div v-else-if="error">
-    <slot name="error" :error="error"/>
+    <slot
+      name="error"
+      :error="error"
+    />
   </div>
   <iframe
     v-else
@@ -18,11 +21,13 @@
 import Toposort from 'toposort-class'
 import { FetchError } from '@/errors'
 import l10n from '@/l10n'
+/* eslint-disable import/no-webpack-loader-syntax */
 import frameScript from '!raw-loader!../frame/frame'
 import frameStyle from '!to-string-loader!css-loader!../vendor/h5p/styles/h5p.css'
+/* eslint-enable import/no-webpack-loader-syntax */
 
 export default {
-  name: 'h5p',
+  name: 'H5p',
   props: {
     src: {
       type: String,
