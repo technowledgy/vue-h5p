@@ -2,7 +2,7 @@ import h5p from './h5p.vue'
 
 // Declare install function executed by Vue.use()
 export function install (Vue) {
-  Vue.component('h5p', h5p)
+  Vue.component('H5p', h5p)
 }
 
 // Auto-install when vue is found (eg. in browser via <script> tag)

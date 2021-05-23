@@ -4,8 +4,8 @@ import { install } from '@/index'
 describe('Plugin installation', () => {
   it('registers a global component', () => {
     const localVue = createLocalVue()
-    expect(localVue.options.components.h5p).toBeUndefined()
+    expect(localVue.options.components.H5p).toBeUndefined()
     localVue.use(install)
-    expect(localVue.options.components.h5p).toBeTruthy()
+    expect(localVue.options.components.H5p).toBeTruthy()
   })
 })

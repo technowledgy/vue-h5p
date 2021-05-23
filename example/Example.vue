@@ -1,16 +1,25 @@
 <template>
   <div class="wrapper">
-    <input type="radio" v-model="locale" value="en">EN
-    <input type="radio" v-model="locale" value="de">DE
+    <input
+      v-model="locale"
+      type="radio"
+      value="en"
+    >EN
+    <input
+      v-model="locale"
+      type="radio"
+      value="de"
+    >DE
     <h5p
+      :key="locale"
       src="/h5p/"
-      @xapi="log"
       :l10n="translations[locale]"
       icon
       copyright
-      :key="locale">
+      @xapi="log"
+    >
       Loading...
-      <template v-slot:404="{ response }">
+      <template #404="{ response }">
         {{ response.url + ' ' + response.statusText }}
       </template>
     </h5p>
