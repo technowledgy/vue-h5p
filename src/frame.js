@@ -1,12 +1,14 @@
 /* eslint-disable no-undef */
-import H5P from 'H5P'
-import 'H5PEventDispatcher'
-import 'H5PxAPI'
-import 'H5PxAPIEvent'
-import 'H5PContentType'
-import 'H5PConfirmationDialog'
-import 'H5PRequestQueue'
-import 'H5PActionBar'
+import 'h5p/styles/h5p.css'
+import 'h5p/js/jquery'
+import 'h5p/js/h5p'
+import 'h5p/js/h5p-event-dispatcher'
+import 'h5p/js/h5p-x-api'
+import 'h5p/js/h5p-x-api-event'
+import 'h5p/js/h5p-content-type'
+import 'h5p/js/h5p-confirmation-dialog'
+import 'h5p/js/request-queue'
+import 'h5p/js/h5p-action-bar'
 
 H5P.getLibraryPath = function (library) {
   return H5PIntegration._libraryPaths[library]

@@ -21,10 +21,8 @@
 import Toposort from 'toposort-class'
 import { FetchError } from '@/errors'
 import l10n from '@/l10n'
-/* eslint-disable import/no-webpack-loader-syntax */
-import frameScript from '!raw-loader!../frame/frame'
-import frameStyle from '!to-string-loader!css-loader!../vendor/h5p/styles/h5p.css'
-/* eslint-enable import/no-webpack-loader-syntax */
+import frameScript from 'frame/script'
+import frameStyle from 'frame/style'
 
 export default {
   name: 'H5p',
