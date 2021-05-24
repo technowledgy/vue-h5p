@@ -16,6 +16,7 @@
       :l10n="translations[locale]"
       icon
       copyright
+      export="true"
       @xapi="log"
     >
       Loading...
@@ -37,13 +38,6 @@ export default {
   data () {
     return {
       locale: 'en',
-      displayOptions: {
-        frame: true,
-        copyright: true,
-        embed: true,
-        icon: true,
-        export: true
-      },
       translations: {
         en: {},
         de: {
@@ -53,12 +47,9 @@ export default {
       }
     }
   },
-  async mounted () {
-    console.log('Vue-h5p example loaded!')
-  },
   methods: {
     log (ev) {
-      console.log('catched: ', ev)
+      console.log('received xapi statement', ev)
     }
   }
 }
