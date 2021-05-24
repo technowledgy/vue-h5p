@@ -6,13 +6,12 @@
     "url": "https://github.com/technowledgy/vue-h5p/issues"
   },
   "scripts": {
-    "example": "yarn build:frame && vue-cli-service serve example/main.js",
-    "build": "yarn build:frame && vue-cli-service build --target lib --name vue-h5p src/index.js",
-    "build:frame": "webpack --config webpack.frame.js",
-    "test": "vue-cli-service test:unit",
-    "test:watch": "vue-cli-service test:unit --watchAll",
-    "lint": "vue-cli-service lint",
-    "pre-version": "yarn test && yarn lint && yarn build"
+    "build": "yarn build:frame && vite build",
+    "build:frame": "vite build --mode frame",
+    "lint": "eslint --max-warnings=0 --ext .js --ext .vue .",
+    "pre-version": "yarn test && yarn lint && yarn build",
+    "serve": "yarn build:frame && vite",
+    "test": "jest"
   },
   "files": [
     "dist/*"
@@ -22,13 +21,10 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.3",
-    "@vue/cli-plugin-babel": "^4.5.13",
-    "@vue/cli-plugin-eslint": "^4.5.13",
-    "@vue/cli-plugin-unit-jest": "^4.5.13",
-    "@vue/cli-service": "^4.5.13",
+    "@babel/preset-env": "^7.14.2",
     "@vue/eslint-config-standard": "^6.0.0",
     "@vue/test-utils": "1.2.0",
-    "core-js": "^3.12.1",
+    "core-js": "^3.13.0",
     "coveralls": "^3.1.0",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.23.3",
@@ -36,22 +32,24 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.9.0",
-    "exports-loader": "^1.1.1",
-    "extract-loader": "^5.1.0",
-    "file-loader": "^6.2.0",
     "flush-promises": "^1.0.2",
-    "imports-loader": "^1.2.0",
+    "jest": "^26.6.3",
     "jest-fetch-mock": "^3.0.3",
-    "raw-loader": "^4.0.2",
-    "to-string-loader": "^1.1.6",
+    "jest-serializer-vue": "^2.0.2",
+    "jest-watch-typeahead": "^0.6.3",
+    "regenerator-runtime": "^0.13.7",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-string": "^3.0.0",
+    "vite": "^2.3.4",
+    "vite-plugin-vue2": "^1.5.1",
     "vue": "^2.6.12",
-    "vue-template-compiler": "^2.6.12",
-    "webpack-cli": "^4.7.0",
-    "webpack-node-externals": "^3.0.0"
+    "vue-jest": "^4.0.1",
+    "vue-template-compiler": "^2.6.12"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",
   "keywords": [
-    "plugin",
+    "component",
     "vue",
     "h5p"
   ],
@@ -60,7 +58,13 @@
     "type": "git",
     "url": "https://github.com/technowledgy/vue-h5p.git"
   },
-  "main": "dist/vue-h5p.umd.js",
-  "module": "dist/vue-h5p.common.js",
-  "unpkg": "dist/vue-h5p.umd.min.js"
+  "type": "module",
+  "main": "dist/cjs/vue-h5p.js",
+  "exports": {
+    ".": {
+      "require": "dist/cjs/vue-h5p.js",
+      "default": "dist/es/vue-h5p.js"
+    }
+  },
+  "module": "dist/es/vue-h5p.js"
 }

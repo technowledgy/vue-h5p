@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
-import h5p from '@/h5p'
+import h5p from '@/h5p.vue'
 import { FetchError } from '@/errors'
 
 function createComponent (props, cbDefault, cbError) {

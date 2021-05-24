@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import h5p from '@/h5p'
+import H5p from '@/h5p.vue'
 
 export default {
   name: 'Example',
   components: {
-    h5p
+    H5p
   },
   data () {
     return {
