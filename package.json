@@ -10,6 +10,7 @@
     "build:frame": "vite build --mode frame",
     "lint": "eslint --max-warnings=0 --ext .js --ext .vue .",
     "pre-version": "yarn test && yarn lint && yarn build",
+    "release": "release-it",
     "serve": "yarn build:frame && vite",
     "test": "jest"
   },
@@ -38,6 +39,7 @@
     "jest-serializer-vue": "^2.0.2",
     "jest-watch-typeahead": "^0.6.3",
     "regenerator-runtime": "^0.13.7",
+    "release-it": "^14.7.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-string": "^3.0.0",
