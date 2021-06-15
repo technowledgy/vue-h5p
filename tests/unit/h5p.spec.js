@@ -39,10 +39,10 @@ describe('Component', () => {
       src: '/hello-world'
     }))
     await flushPromises()
-    expect(wrapper.element.constructor.name).toBe('HTMLIFrameElement')
+    expect(wrapper.find('iframe').element.constructor.name).toBe('HTMLIFrameElement')
   })
 
-  it('renders default slot content while loading', async () => {
+  it('renders default slot content while loading or when iframeLoading is true', async () => {
     ({ renderDefault, wrapper } = createComponent({
       src: '/hello-world'
     }))
@@ -50,6 +50,11 @@ describe('Component', () => {
     expect(renderDefault).toHaveBeenCalled()
     await flushPromises()
     expect(wrapper.vm.loading).toBe(false)
+    expect(renderDefault).toHaveBeenCalledTimes(1)
+    expect(wrapper.vm.iframeLoading).toBe(true)
+    expect(renderDefault).toHaveBeenCalled()
+    wrapper.vm.iframeLoading = false
+    expect(wrapper.vm.iframeLoading).toBe(false)
     expect(renderDefault).toHaveBeenCalledTimes(1)
   })
 
@@ -105,7 +110,7 @@ describe('Component', () => {
         src: '/hello-world'
       }))
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.find('iframe').element.srcdoc).toMatchSnapshot()
     })
 
     it('has sorted dependencies', async () => {
@@ -113,7 +118,7 @@ describe('Component', () => {
         src: '/course-presentation'
       }))
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.find('iframe').element.srcdoc).toMatchSnapshot()
     })
 
     it('without version in library paths', async () => {
@@ -121,7 +126,7 @@ describe('Component', () => {
         src: '/hello-world-no-version'
       }))
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.find('iframe').element.srcdoc).toMatchSnapshot()
     })
 
     it('emits h5p events', () => {
@@ -144,7 +149,7 @@ describe('Component', () => {
         resize: 'resize code'
       }))
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.find('iframe').element.srcdoc).toMatchSnapshot()
     })
   })
 })
