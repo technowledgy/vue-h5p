@@ -2,7 +2,6 @@ import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
 import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
-import { string } from 'rollup-plugin-string'
 import copy from 'rollup-plugin-copy'
 import del from 'rollup-plugin-delete'
 
@@ -14,10 +13,18 @@ const frameConfig = defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/frame.js'),
       formats: ['es'],
-      fileName: 'frame'
+      fileName: 'script'
     },
     outDir: resolve(__dirname, 'frame')
   },
+  plugins: [
+    copy({
+      targets: [
+        { src: 'frame/style.css', dest: 'frame', rename: 'style' }
+      ],
+      hook: 'writeBundle'
+    })
+  ],
   resolve: {
     alias: [
       {
@@ -48,7 +55,6 @@ const defaultConfig = defineConfig({
   },
   plugins: [
     createVuePlugin(),
-    string({ include: 'frame/*.js' }),
     copy({
       targets: [
         { src: 'package.json.cjs', dest: 'dist/cjs', rename: 'package.json' }
@@ -56,7 +62,7 @@ const defaultConfig = defineConfig({
       hook: 'writeBundle'
     }),
     del({
-      targets: ['dist/style.css', 'dist/h5p'],
+      targets: ['dist/h5p'],
       hook: 'writeBundle',
       verbose: true
     })
@@ -67,14 +73,6 @@ const defaultConfig = defineConfig({
       {
         find: /^@/,
         replacement: resolve(__dirname, 'src')
-      },
-      {
-        find: /^frame\/script$/,
-        replacement: resolve(__dirname, 'frame/frame.es.js')
-      },
-      {
-        find: /^frame\/style$/,
-        replacement: resolve(__dirname, 'frame/style.css')
       }
     ]
   },
