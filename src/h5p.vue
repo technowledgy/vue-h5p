@@ -55,6 +55,10 @@ export default {
       type: Boolean,
       default: false
     },
+    customCss: {
+      type: String,
+      default: ''
+    },
     l10n: {
       type: Object,
       default: () => ({})
@@ -127,7 +131,7 @@ export default {
 <html class="h5p-iframe">
   <head>
     <base target="_parent">
-    <style>${frameStyle}</style>
+    <style>${frameStyle} ${this.customCss}</style>
     ${contentStyles}
     <script>H5PIntegration = ${JSON.stringify(h5pIntegration)};var H5P = H5P || {};H5P.externalEmbed = true;${endScript}
     <script>${frameScript}${endScript}
