@@ -342,6 +342,7 @@ exports[`Component iframe passes props 1`] = `
     <base target="_parent">
     <style>
       /* MOCKED_FRAME_CSS */
+      /* MOCKED_CUSTOM_CSS */
     </style>
     <link rel="stylesheet" href="/hello-world/H5P.GreetingCard-1.0/greetingcard.css">
     <script>

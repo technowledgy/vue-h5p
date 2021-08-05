@@ -139,6 +139,7 @@ describe('Component', () => {
         export: '/export/url',
         embed: '<iframe></iframe>',
         fullscreen: true,
+        customCss: '/* MOCKED_CUSTOM_CSS */',
         copyright: true,
         icon: true,
         resize: 'resize code'
