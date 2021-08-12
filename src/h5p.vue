@@ -58,6 +58,10 @@ export default {
     l10n: {
       type: Object,
       default: () => ({})
+    },
+    integration: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
@@ -114,7 +118,8 @@ export default {
         Object.entries(libraries).map(
           ([id, lib]) => [id, lib.path]
         )
-      )
+      ),
+      ...this.integration
     }
 
     const { styles, scripts } = this.sortDependencies(libraries)

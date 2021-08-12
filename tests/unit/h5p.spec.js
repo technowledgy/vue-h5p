@@ -141,7 +141,10 @@ describe('Component', () => {
         fullscreen: true,
         copyright: true,
         icon: true,
-        resize: 'resize code'
+        resize: 'resize code',
+        integration: {
+          fullscreenDisabled: true
+        }
       }))
       await flushPromises()
       expect(wrapper.element.srcdoc).toMatchSnapshot()

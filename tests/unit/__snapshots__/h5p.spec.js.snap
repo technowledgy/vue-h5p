@@ -438,7 +438,8 @@ exports[`Component iframe passes props 1`] = `
         },
         "_libraryPaths": {
           "H5P.GreetingCard-1.0": "H5P.GreetingCard-1.0"
-        }
+        },
+        "fullscreenDisabled": true
       };
       var H5P = H5P || {};
       H5P.externalEmbed = true;
