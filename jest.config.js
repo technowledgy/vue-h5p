@@ -24,7 +24,7 @@ export default {
     '**/tests/unit/**/*.spec.js'
   ],
   transform: {
-    '^.+\\.vue$': 'vue-jest',
+    '^.+\\.vue$': '@vue/vue2-jest',
     '^.+\\.js$': 'babel-jest'
   },
   watchPlugins: [
