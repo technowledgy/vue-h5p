@@ -60,18 +60,19 @@ export default {
 
 The component accepts the following props:
 
-|Prop           | Required | Type          | Default | Description|
-|---------------|----------|---------------|---------|------------|
-|src            |yes       |String         |-        |Path to the h5p content|
-|l10n           |no        |Object         |{}       |UI translations|
-|embed          |no        |String         |''       |Set embedCode and enable embed button|
-|resize         |no        |String         |''       |Set resizeCode|
-|export         |no        |String         |''       |Set exportUrl and enable export button|
-|copyright      |no        |Boolean        |false    |Enable copyright button|
-|icon           |no        |Boolean        |false    |Enable H5P icon|
-|fullscreen     |no        |Boolean        |false    |Enable fullscreen button|
+| Prop       | Required | Type    | Default | Description                             |
+| ---------- | -------- | ------- | ------- | --------------------------------------- |
+| copyright  | no       | Boolean | false   | Enable copyright button                 |
+| css        | no       | String  | ''      | Inject css into a <style> in the iframe |
+| embed      | no       | String  | ''      | Set embedCode and enable embed button   |
+| export     | no       | String  | ''      | Set exportUrl and enable export button  |
+| fullscreen | no       | Boolean | false   | Enable fullscreen button                |
+| icon       | no       | Boolean | false   | Enable H5P icon                         |
+| l10n       | no       | Object  | {}      | UI translations                         |
+| resize     | no       | String  | ''      | Set resizeCode                          |
+| src        | yes      | String  | -       | Path to the h5p content                 |
 
-See https://h5p.org/creating-your-own-h5p-plugin for translation strings.
+See [Creating your own h5p plugin](https://h5p.org/creating-your-own-h5p-plugin) for translation strings.
 
 NOTE: UI translations are not reactive. You have to manually trigger a rerender for translation changes to take effect (e.g. by binding :key to your locale).
 
@@ -84,6 +85,21 @@ All events emitted by H5P are emitted by vue-h5p, event names are the H5P [event
 You can use the default slot to render a placeholder while the content is loading.
 
 The named slot "error" is rendered if a request to get the h5p JSON files fails, the slot-scope provides failed request as "error" object.
+
+### Custom CSS
+
+You can inject custom CSS into the H5P iframe by using the `css` prop.
+
+```html
+<h5p
+  src="path/to/h5p-content"
+  :css="`
+    .class-in-the-iframe {
+      background-color: #fff;
+    }
+  `"
+/>
+```
 
 ## Development
 

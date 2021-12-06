@@ -14,6 +14,7 @@
       :key="locale"
       src="/h5p/"
       :l10n="translations[locale]"
+      :styles="styles"
       icon
       copyright
       export="true"
@@ -44,7 +45,13 @@ export default {
           reuse: 'Wiederverwenden',
           reuseContent: 'Content Wiederverwenden'
         }
-      }
+      },
+      styles: `
+        .h5p-chart .h5p-chart-chart {
+          background-color: cadetblue;
+          padding: 15px;
+        }
+      `
     }
   },
   methods: {

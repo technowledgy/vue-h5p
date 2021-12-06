@@ -55,6 +55,10 @@ export default {
       type: Boolean,
       default: false
     },
+    css: {
+      type: String,
+      default: ''
+    },
     l10n: {
       type: Object,
       default: () => ({})
@@ -134,6 +138,7 @@ export default {
     <base target="_parent">
     <style>${frameStyle}</style>
     ${contentStyles}
+    <style>${this.css}</style>
     <script>H5PIntegration = ${JSON.stringify(h5pIntegration)};var H5P = H5P || {};H5P.externalEmbed = true;${endScript}
     <script>${frameScript}${endScript}
     ${contentScripts}
