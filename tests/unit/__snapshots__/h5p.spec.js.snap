@@ -10,6 +10,7 @@ exports[`Component iframe has correct attribute srcdoc 1`] = `
       /* MOCKED_FRAME_CSS */
     </style>
     <link rel="stylesheet" href="/hello-world/H5P.GreetingCard-1.0/greetingcard.css">
+    <style></style>
     <script>
       H5PIntegration = {
         "l10n": {
@@ -158,6 +159,7 @@ exports[`Component iframe has sorted dependencies 1`] = `
     <link rel="stylesheet" href="/course-presentation/H5P.DragText-1.8/dist/h5p-drag-text.css">
     <link rel="stylesheet" href="/course-presentation/H5P.MultiChoice-1.14/css/multichoice.css">
     <link rel="stylesheet" href="/course-presentation/H5P.CoursePresentation-1.21/dist/h5p-course-presentation.css">
+    <style></style>
     <script>
       H5PIntegration = {
         "l10n": {
@@ -344,6 +346,9 @@ exports[`Component iframe passes props 1`] = `
       /* MOCKED_FRAME_CSS */
     </style>
     <link rel="stylesheet" href="/hello-world/H5P.GreetingCard-1.0/greetingcard.css">
+    <style>
+      /* MOCKED_USER_STYLE_CSS */
+    </style>
     <script>
       H5PIntegration = {
         "l10n": {
@@ -467,6 +472,7 @@ exports[`Component iframe without version in library paths 1`] = `
       /* MOCKED_FRAME_CSS */
     </style>
     <link rel="stylesheet" href="/hello-world-no-version/H5P.GreetingCard/greetingcard.css">
+    <style></style>
     <script>
       H5PIntegration = {
         "l10n": {
