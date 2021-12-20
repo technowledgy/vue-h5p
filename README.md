@@ -69,11 +69,27 @@ The component accepts the following props:
 |export         |no        |String         |''       |Set exportUrl and enable export button|
 |copyright      |no        |Boolean        |false    |Enable copyright button|
 |icon           |no        |Boolean        |false    |Enable H5P icon|
+|styles         |no        |String         |''       |Inject styles into the iframe|
 |fullscreen     |no        |Boolean        |false    |Enable fullscreen button|
 
-See https://h5p.org/creating-your-own-h5p-plugin for translation strings.
+See <https://h5p.org/creating-your-own-h5p-plugin> for translation strings.
 
 NOTE: UI translations are not reactive. You have to manually trigger a rerender for translation changes to take effect (e.g. by binding :key to your locale).
+
+### Styles
+
+You can inject custom styles into the H5P iframe by using the `styles` prop.
+
+```html
+<h5p
+  src="path/to/h5p-content"
+  :styles="`
+    .class-in-the-iframe {
+      background-color: #fff;
+    }
+  `"
+/>
+```
 
 ### Events
 

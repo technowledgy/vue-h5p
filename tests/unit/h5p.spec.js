@@ -140,6 +140,7 @@ describe('Component', () => {
         embed: '<iframe></iframe>',
         fullscreen: true,
         copyright: true,
+        styles: `/* MOCKED_USER_STYLE_CSS */`,
         icon: true,
         resize: 'resize code',
         integration: {

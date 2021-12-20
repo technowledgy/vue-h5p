@@ -55,6 +55,10 @@ export default {
       type: Boolean,
       default: false
     },
+    styles: {
+      type: String,
+      default: ''
+    },
     l10n: {
       type: Object,
       default: () => ({})
@@ -125,6 +129,7 @@ export default {
     const { styles, scripts } = this.sortDependencies(libraries)
 
     // workaround for vue-loader parsing this as the end of our SFC's script block
+    const userStyles = (this.styles) ? `<style>${this.styles}</style>` : '';
     const endScript = '</' + 'script>'
     const contentStyles = styles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n')
     const contentScripts = scripts.map(script => `<script src="${script}">${endScript}`).join('\n')
@@ -134,6 +139,7 @@ export default {
     <base target="_parent">
     <style>${frameStyle}</style>
     ${contentStyles}
+    ${userStyles}
     <script>H5PIntegration = ${JSON.stringify(h5pIntegration)};var H5P = H5P || {};H5P.externalEmbed = true;${endScript}
     <script>${frameScript}${endScript}
     ${contentScripts}
