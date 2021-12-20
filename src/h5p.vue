@@ -129,7 +129,7 @@ export default {
     const { styles, scripts } = this.sortDependencies(libraries)
 
     // workaround for vue-loader parsing this as the end of our SFC's script block
-    const userStyles = (this.styles) ? `<style>${this.styles}</style>` : '';
+    const userStyles = (this.styles) ? `<style>${this.styles}</style>` : ''
     const endScript = '</' + 'script>'
     const contentStyles = styles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n')
     const contentScripts = scripts.map(script => `<script src="${script}">${endScript}`).join('\n')
