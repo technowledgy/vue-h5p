@@ -17,6 +17,9 @@
   "files": [
     "dist/*"
   ],
+  "resolutions": {
+    "eslint-import-resolver-webpack": "^0.13.2"
+  },
   "dependencies": {
     "toposort-class": "^1.0.1"
   },
