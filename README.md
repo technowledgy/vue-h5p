@@ -1,9 +1,9 @@
 <div align="center">
 
-[![Travis (.org)](https://img.shields.io/travis/technowledgy/vue-h5p)](https://travis-ci.org/technowledgy/vue-h5p)
-[![Coveralls github](https://img.shields.io/coveralls/github/technowledgy/vue-h5p)](https://coveralls.io/github/technowledgy/vue-h5p)
-[![Depfu](https://img.shields.io/depfu/technowledgy/vue-h5p)](https://depfu.com/repos/github/technowledgy/vue-h5p)
-[![NPM](https://img.shields.io/npm/l/vue-h5p)](https://github.com/technowledgy/vue-h5p/blob/master/LICENSE)
+[![GitHub Actions](https://img.shields.io/github/workflow/status/technowledgy/vue-h5p/Push%20to%20main)](https://github.com/technowledgy/vue-h5p/actions/workflows/push.yaml)
+[![Coveralls GitHub](https://img.shields.io/coveralls/github/technowledgy/vue-h5p)](https://coveralls.io/github/technowledgy/vue-h5p)
+[![Dependabot](https://img.shields.io/badge/dependabot-enabled-success)](https://github.com/technowledgy/vue-h5p/blob/main/package.json)
+[![License](https://img.shields.io/npm/l/vue-h5p)](https://github.com/technowledgy/vue-h5p/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/vue-h5p)](https://www.npmjs.com/package/vue-h5p)
 
 </div>
