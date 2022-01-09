@@ -5,17 +5,17 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import copy from 'rollup-plugin-copy'
 import del from 'rollup-plugin-delete'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const repoDir = dirname(fileURLToPath(import.meta.url))
 
 const frameConfig = defineConfig({
   build: {
     target: 'es2015',
     lib: {
-      entry: resolve(__dirname, 'src/frame.js'),
+      entry: resolve(repoDir, 'src/frame.js'),
       formats: ['es'],
       fileName: 'script'
     },
-    outDir: resolve(__dirname, 'frame')
+    outDir: resolve(repoDir, 'frame')
   },
   plugins: [
     copy({
@@ -29,7 +29,7 @@ const frameConfig = defineConfig({
     alias: [
       {
         find: /^h5p/,
-        replacement: resolve(__dirname, 'vendor/h5p')
+        replacement: resolve(repoDir, 'vendor/h5p')
       }
     ]
   }
@@ -39,11 +39,11 @@ const defaultConfig = defineConfig({
   build: {
     emptyOutDir: true,
     lib: {
-      entry: resolve(__dirname, 'src/index.js'),
+      entry: resolve(repoDir, 'src/index.js'),
       formats: ['es', 'cjs']
     },
     minify: false,
-    outDir: resolve(__dirname, 'dist'),
+    outDir: resolve(repoDir, 'dist'),
     rollupOptions: {
       external: ['toposort-class'],
       output: {
@@ -67,12 +67,12 @@ const defaultConfig = defineConfig({
       verbose: true
     })
   ],
-  publicDir: resolve(__dirname, 'example/public'),
+  publicDir: resolve(repoDir, 'example/public'),
   resolve: {
     alias: [
       {
         find: /^@/,
-        replacement: resolve(__dirname, 'src')
+        replacement: resolve(repoDir, 'src')
       }
     ]
   },
