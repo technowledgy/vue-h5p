@@ -125,6 +125,9 @@ export default {
       ),
       ...this.integration
     }
+    if (h5p && h5p.title) {
+      h5pIntegration.contents['cid-default'].metadata = h5p
+    }
 
     const { styles, scripts } = this.sortDependencies(libraries)
 
