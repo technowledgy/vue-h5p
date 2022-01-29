@@ -43,6 +43,10 @@ export default {
       type: String,
       default: ''
     },
+    copy: {
+      type: Boolean,
+      default: false
+    },
     copyright: {
       type: Boolean,
       default: false
@@ -114,7 +118,8 @@ export default {
             export: Boolean(this.export),
             embed: Boolean(this.embed),
             copyright: this.copyright,
-            icon: this.icon
+            icon: this.icon,
+            copy: this.copy
           }
         }
       },

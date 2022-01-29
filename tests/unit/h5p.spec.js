@@ -137,6 +137,7 @@ describe('Component', () => {
           by: 'TRANSLATED3'
         },
         export: '/export/url',
+        copy: true,
         embed: '<iframe></iframe>',
         fullscreen: true,
         copyright: true,
