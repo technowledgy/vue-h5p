@@ -101,6 +101,10 @@ exports[`Component iframe has correct attribute srcdoc 1`] = `
               "copyright": false,
               "icon": false,
               "copy": false
+            },
+            "metadata": {
+              "license": "U",
+              "title": "Greeting card"
             }
           }
         },
@@ -251,6 +255,11 @@ exports[`Component iframe has sorted dependencies 1`] = `
               "copyright": false,
               "icon": false,
               "copy": false
+            },
+            "metadata": {
+              "license": "U",
+              "defaultLanguage": "en",
+              "title": "Course Presentation"
             }
           }
         },
@@ -441,6 +450,10 @@ exports[`Component iframe passes props 1`] = `
               "copyright": true,
               "icon": true,
               "copy": true
+            },
+            "metadata": {
+              "license": "U",
+              "title": "Greeting card"
             }
           }
         },
@@ -566,6 +579,10 @@ exports[`Component iframe without version in library paths 1`] = `
               "copyright": false,
               "icon": false,
               "copy": false
+            },
+            "metadata": {
+              "license": "U",
+              "title": "Greeting card"
             }
           }
         },
