@@ -5,6 +5,7 @@
 [![Dependabot](https://img.shields.io/badge/dependabot-enabled-success)](https://github.com/technowledgy/vue-h5p/blob/main/package.json)
 [![License](https://img.shields.io/npm/l/vue-h5p)](https://github.com/technowledgy/vue-h5p/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/vue-h5p)](https://www.npmjs.com/package/vue-h5p)
+![vue](https://img.shields.io/badge/vue-2.x-brightgreen)
 
 </div>
 
