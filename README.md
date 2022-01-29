@@ -62,6 +62,7 @@ The component accepts the following props:
 
 | Prop       | Required | Type    | Default | Description                             |
 | ---------- | -------- | ------- | ------- | --------------------------------------- |
+| copy       | no       | Boolean | false   | Enable copy button                      |
 | copyright  | no       | Boolean | false   | Enable copyright button                 |
 | css        | no       | String  | ''      | Inject css into a <style> in the iframe |
 | embed      | no       | String  | ''      | Set embedCode and enable embed button   |
