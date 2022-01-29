@@ -120,6 +120,11 @@ export default {
             copyright: this.copyright,
             icon: this.icon,
             copy: this.copy
+          },
+          metadata: {
+            license: h5p.license,
+            defaultLanguage: h5p.defaultLanguage,
+            title: h5p.title
           }
         }
       },
