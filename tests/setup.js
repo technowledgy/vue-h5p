@@ -10,7 +10,8 @@ fetchMock.doMock(req => {
     })
   } catch {
     return Promise.resolve({
-      status: 404
+      status: 404,
+      body: JSON.stringify({ message: 'Not Found' })
     })
   }
 })
