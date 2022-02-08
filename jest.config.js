@@ -1,3 +1,12 @@
+import path from 'path'
+import { ResourceLoader } from 'jsdom'
+
+class LocalFileLoader extends ResourceLoader {
+  fetch (url, options) {
+    return super.fetch(url.replace('http://localhost', path.join(path.dirname(import.meta.url), 'tests', 'mocks')), options)
+  }
+}
+
 export default {
   collectCoverage: true,
   collectCoverageFrom: [
@@ -11,6 +20,7 @@ export default {
     'js'
   ],
   moduleNameMapper: {
+    '^../frame/(.*)\\?raw$': '<rootDir>/frame/$1',
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   setupFilesAfterEnv: [
@@ -20,10 +30,15 @@ export default {
     'jest-serializer-vue'
   ],
   testEnvironment: 'jsdom',
+  testEnvironmentOptions: {
+    resources: new LocalFileLoader(),
+    runScripts: 'dangerously'
+  },
   testMatch: [
     '**/tests/unit/**/*.spec.js'
   ],
   transform: {
+    '/frame/': 'jest-raw-loader',
     '^.+\\.vue$': '@vue/vue2-jest',
     '^.+\\.js$': 'babel-jest'
   },
