@@ -1,9 +1,17 @@
+import fs from 'fs'
 import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
-import h5p from '@/h5p.vue'
 
-function createComponent (props) {
+function sleep (ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
+function createComponent (props, attachTo) {
+  const h5p = require('@/h5p.vue').default
   return shallowMount(h5p, {
+    attachTo,
     propsData: props,
     scopedSlots: {
       default: () => 'hello from the DEFAULT slot',
@@ -12,16 +20,55 @@ function createComponent (props) {
   })
 }
 
+async function createComponentWithIframeSource (props) {
+  let wrapper = createComponent(props)
+  await flushPromises()
+
+  // Write the srcdoc content to a local file to work around the jsdom limitation,
+  // which does not implement srcdoc just yet.
+  fs.writeFileSync('tests/mocks/srcdoc.tmp', wrapper.element.srcdoc)
+
+  wrapper.destroy()
+
+  wrapper = createComponent(props, document.body)
+  // mock this once, because it would fail on first load
+  jest.spyOn(wrapper.vm, 'addEventHandlers').mockImplementationOnce(() => {})
+  await flushPromises()
+
+  const iframe = wrapper.get('iframe')
+
+  iframe.element.setAttribute('srcdoc', '')
+  iframe.element.setAttribute('src', 'srcdoc.tmp')
+
+  // Need to wait for some time to make JSDOM load all files
+  await sleep(1000)
+
+  return wrapper
+}
+
 describe('Component', () => {
   let wrapper
 
   beforeEach(() => {
     // just reset .mock data, but not .mockResponse
     fetch.mockClear()
+
+    jest.doMock('../frame/style?raw', () => {
+      return '/* MOCKED_FRAME_CSS */'
+    }, {
+      virtual: true
+    })
+
+    jest.doMock('../frame/script.es?raw', () => {
+      return '/* MOCKED_FRAME_JS */'
+    }, {
+      virtual: true
+    })
   })
 
   afterEach(() => {
     wrapper.destroy()
+    jest.resetModules()
   })
 
   it('renders an iframe for existing h5p-content', async () => {
@@ -100,9 +147,6 @@ describe('Component', () => {
       expect(wrapper.element.srcdoc).toMatchSnapshot()
     })
 
-    // TODO: wait for JSDOM implementing srcdoc, so that the iframe actually works
-    it.todo('emits h5p events')
-
     it('passes props', async () => {
       wrapper = createComponent({
         src: '/hello-world',
@@ -125,6 +169,22 @@ describe('Component', () => {
       })
       await flushPromises()
       expect(wrapper.element.srcdoc).toMatchSnapshot()
+    })
+
+    // TODO: This test is put last on purpose - because it leaves a dirty environment
+    it('emits h5p events', async () => {
+      jest.dontMock('../frame/script.es?raw')
+
+      wrapper = await createComponentWithIframeSource({
+        src: '/hello-world'
+      })
+
+      const iframe = wrapper.get('iframe')
+
+      iframe.element.contentWindow.H5P.externalDispatcher.trigger('Test', { mock: 'data' })
+
+      expect(wrapper.emitted('test')).toHaveLength(1)
+      expect(wrapper.emitted('test')[0]).toStrictEqual([{ mock: 'data' }])
     })
   })
 })

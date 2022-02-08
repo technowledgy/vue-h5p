@@ -15,15 +15,3 @@ fetchMock.doMock(req => {
     })
   }
 })
-
-jest.mock('../frame/style?raw', () => {
-  return '/* MOCKED_FRAME_CSS */'
-}, {
-  virtual: true
-})
-
-jest.mock('../frame/script.es?raw', () => {
-  return '/* MOCKED_FRAME_JS */'
-}, {
-  virtual: true
-})
