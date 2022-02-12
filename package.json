@@ -12,7 +12,8 @@
     "pre-version": "yarn test && yarn lint && yarn build",
     "release": "release-it",
     "serve": "yarn build:frame && vite",
-    "test": "jest"
+    "test": "jest",
+    "example": "vite"
   },
   "files": [
     "dist/*"
