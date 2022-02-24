@@ -71,8 +71,8 @@ const defaultConfig = defineConfig({
   resolve: {
     alias: [
       {
-        find: /^@/,
-        replacement: resolve(repoDir, 'src')
+        find: /^@\//,
+        replacement: resolve(repoDir, 'src') + '/'
       }
     ]
   },
