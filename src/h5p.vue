@@ -2,6 +2,7 @@
   <div :class="$style.fullSize">
     <iframe
       v-if="srcdoc"
+      v-show="!loading"
       ref="iframe"
       :class="$style.fullSize"
       :srcdoc="srcdoc"
