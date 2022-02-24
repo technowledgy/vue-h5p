@@ -26,7 +26,7 @@ async function createComponentWithIframeSource (props) {
 
   // Write the srcdoc content to a local file to work around the jsdom limitation,
   // which does not implement srcdoc just yet.
-  fs.writeFileSync('tests/mocks/srcdoc.tmp', wrapper.element.srcdoc)
+  fs.writeFileSync('tests/mocks/srcdoc.tmp', wrapper.get('iframe').element.srcdoc)
 
   wrapper.destroy()
 
@@ -76,16 +76,20 @@ describe('Component', () => {
       src: '/hello-world'
     })
     await flushPromises()
-    expect(wrapper.find('iframe').element.constructor.name).toBe('HTMLIFrameElement')
+    expect(wrapper.get('iframe').element.constructor.name).toBe('HTMLIFrameElement')
   })
 
   it('renders default slot content while loading', async () => {
     wrapper = createComponent({
       src: '/hello-world'
     })
-    expect(wrapper).toMatchSnapshot('should have default slot content')
+    // this would fail without proper iframe content
+    jest.spyOn(wrapper.vm, 'addEventHandlers').mockImplementation(() => {})
+    expect(wrapper).toMatchSnapshot('should have only default slot content')
     await flushPromises()
-    expect(wrapper).toMatchSnapshot('should have iframe content')
+    expect(wrapper).toMatchSnapshot('should have default slot content on top of iframe content')
+    wrapper.get('iframe').trigger('load')
+    expect(wrapper).toMatchSnapshot('should have only iframe content')
   })
 
   it('renders error slot on fetch-errors and provides response object', async () => {
@@ -128,7 +132,7 @@ describe('Component', () => {
         src: '/hello-world'
       })
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
     })
 
     it('has sorted dependencies', async () => {
@@ -136,7 +140,7 @@ describe('Component', () => {
         src: '/course-presentation'
       })
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
     })
 
     it('without version in library paths', async () => {
@@ -144,7 +148,7 @@ describe('Component', () => {
         src: '/hello-world-no-version'
       })
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
     })
 
     it('passes props', async () => {
@@ -168,7 +172,7 @@ describe('Component', () => {
         }
       })
       await flushPromises()
-      expect(wrapper.element.srcdoc).toMatchSnapshot()
+      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
     })
 
     // TODO: This test is put last on purpose - because it leaves a dirty environment

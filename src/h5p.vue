@@ -1,20 +1,23 @@
 <template>
-  <div v-if="loading">
-    <slot />
-  </div>
-  <div v-else-if="error">
-    <slot
-      name="error"
-      :error="error"
+  <div :class="$style.fullSize">
+    <iframe
+      v-if="srcdoc"
+      v-show="!loading"
+      ref="iframe"
+      :class="$style.fullSize"
+      :srcdoc="srcdoc"
+      @load="addEventHandlers"
     />
+    <template v-if="loading">
+      <slot />
+    </template>
+    <template v-else-if="error">
+      <slot
+        name="error"
+        :error="error"
+      />
+    </template>
   </div>
-  <iframe
-    v-else
-    ref="iframe"
-    style="width: 100%; height: 100%; border: none;"
-    :srcdoc="srcdoc"
-    @load="addEventHandlers"
-  />
 </template>
 
 <script>
@@ -157,14 +160,13 @@ export default {
     <div class="h5p-content" data-content-id="default"/>
   </body>
 </html>`
-
-    this.loading = false
   },
   methods: {
     addEventHandlers () {
       this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
         this.$emit(ev.type.toLowerCase(), ev.data)
       })
+      this.loading = false
     },
     async getJSON (...url) {
       const resp = await fetch(this.path + '/' + url.join('/'), { credentials: 'include' })
@@ -221,3 +223,11 @@ export default {
   }
 }
 </script>
+
+<style module>
+.full-size {
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
+</style>
