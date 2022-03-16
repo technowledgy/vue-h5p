@@ -1,11 +1,11 @@
 <template>
-  <div :class="$style.fullSize">
+  <div>
     <iframe
       v-if="srcdoc"
       v-show="!loading"
       ref="iframe"
-      :class="$style.fullSize"
       :srcdoc="srcdoc"
+      style="width: 100%; height: 100%; border: none;"
       @load="addEventHandlers"
     />
     <template v-if="loading">
@@ -223,11 +223,3 @@ export default {
   }
 }
 </script>
-
-<style module>
-.full-size {
-  border: 0;
-  height: 100%;
-  width: 100%;
-}
-</style>
