@@ -621,7 +621,7 @@ exports[`Component renders default slot content while loading: should have defau
   <body>
     <div class=&quot;h5p-content&quot; data-content-id=&quot;default&quot;/>
   </body>
-</html>" style="display: none;"></iframe> hello from the DEFAULT slot</div>
+</html>" style="width: 100%; height: 100%; display: none;"></iframe> hello from the DEFAULT slot</div>
 `;
 
 exports[`Component renders default slot content while loading: should have only default slot content 1`] = `
@@ -645,7 +645,7 @@ exports[`Component renders default slot content while loading: should have only 
   <body>
     <div class=&quot;h5p-content&quot; data-content-id=&quot;default&quot;/>
   </body>
-</html>" style="display: none;"></iframe> hello from the DEFAULT slot</div>
+</html>" style="width: 100%; height: 100%; display: none;"></iframe> hello from the DEFAULT slot</div>
 `;
 
 exports[`Component renders error slot on fetch-errors and provides response object: should have error slot content 1`] = `

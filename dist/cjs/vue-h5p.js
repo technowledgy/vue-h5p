@@ -5103,12 +5103,9 @@ var render = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { class: _vm.$style.fullSize }, [_vm.srcdoc ? _c("iframe", { directives: [{ name: "show", rawName: "v-show", value: !_vm.loading, expression: "!loading" }], ref: "iframe", class: _vm.$style.fullSize, attrs: { "srcdoc": _vm.srcdoc }, on: { "load": _vm.addEventHandlers } }) : _vm._e(), _vm.loading ? [_vm._t("default")] : _vm.error ? [_vm._t("error", null, { "error": _vm.error })] : _vm._e()], 2);
+  return _c("div", [_vm.srcdoc ? _c("iframe", { directives: [{ name: "show", rawName: "v-show", value: !_vm.loading, expression: "!loading" }], ref: "iframe", staticStyle: { "width": "100%", "height": "100%", "border": "none" }, attrs: { "srcdoc": _vm.srcdoc }, on: { "load": _vm.addEventHandlers } }) : _vm._e(), _vm.loading ? [_vm._t("default")] : _vm.error ? [_vm._t("error", null, { "error": _vm.error })] : _vm._e()], 2);
 };
 var staticRenderFns = [];
-var __style0 = {
-  "full-size": "_full-size_y394k_228"
-};
 function normalizeComponent(scriptExports, render2, staticRenderFns2, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
   var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
   if (render2) {
@@ -5345,7 +5342,6 @@ const __vue2_script = {
   }
 };
 const __cssModules = {};
-__cssModules["$style"] = __style0;
 var __component__ = /* @__PURE__ */ normalizeComponent(__vue2_script, render, staticRenderFns, false, __vue2_injectStyles, null, null, null);
 function __vue2_injectStyles(context) {
   for (let o in __cssModules) {
