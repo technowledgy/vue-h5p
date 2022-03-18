@@ -14,7 +14,12 @@
       :key="locale"
       src="/h5p/"
       :l10n="translations[locale]"
-      :styles="styles"
+      :css="`
+        .h5p-chart .h5p-chart-chart {
+          background-color: cadetblue;
+          padding: 15px;
+        }
+      `"
       icon
       copyright
       export="true"
@@ -45,13 +50,7 @@ export default {
           reuse: 'Wiederverwenden',
           reuseContent: 'Content Wiederverwenden'
         }
-      },
-      styles: `
-        .h5p-chart .h5p-chart-chart {
-          background-color: cadetblue;
-          padding: 15px;
-        }
-      `
+      }
     }
   },
   methods: {
