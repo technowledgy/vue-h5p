@@ -38,7 +38,7 @@ export default {
     '**/tests/unit/**/*.spec.js'
   ],
   transform: {
-    '/frame/': 'jest-raw-loader',
+    '/frame/': '<rootDir>/jest-raw-loader.js',
     '^.+\\.vue$': '@vue/vue2-jest',
     '^.+\\.js$': 'babel-jest'
   },
