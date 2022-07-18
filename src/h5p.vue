@@ -24,7 +24,7 @@
 import Toposort from 'toposort-class'
 import { FetchError } from '@/errors'
 import l10n from '@/l10n'
-import frameScript from '../frame/script.es?raw'
+import frameScript from '../frame/script.cjs?raw'
 import frameStyle from '../frame/style?raw'
 
 export default {
