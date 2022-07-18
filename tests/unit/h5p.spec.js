@@ -59,7 +59,7 @@ describe('Component', () => {
       virtual: true
     })
 
-    jest.doMock('../frame/script.es?raw', () => {
+    jest.doMock('../frame/script.cjs?raw', () => {
       return '/* MOCKED_FRAME_JS */'
     }, {
       virtual: true
@@ -177,7 +177,7 @@ describe('Component', () => {
 
     // TODO: This test is put last on purpose - because it leaves a dirty environment
     it('emits h5p events', async () => {
-      jest.dontMock('../frame/script.es?raw')
+      jest.dontMock('../frame/script.cjs?raw')
 
       wrapper = await createComponentWithIframeSource({
         src: '/hello-world'

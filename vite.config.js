@@ -12,9 +12,10 @@ const frameConfig = defineConfig({
     target: 'es2015',
     lib: {
       entry: resolve(repoDir, 'src/frame.js'),
-      formats: ['es'],
+      formats: ['cjs'],
       fileName: 'script'
     },
+    minify: false,
     outDir: resolve(repoDir, 'frame')
   },
   plugins: [
@@ -37,6 +38,7 @@ const frameConfig = defineConfig({
 
 const defaultConfig = defineConfig({
   build: {
+    commonjsOptions: { include: [] },
     emptyOutDir: true,
     lib: {
       entry: resolve(repoDir, 'src/index.js'),
@@ -52,6 +54,9 @@ const defaultConfig = defineConfig({
       }
     },
     sourcemap: true
+  },
+  optimizeDeps: {
+    disabled: false
   },
   plugins: [
     createVuePlugin(),
