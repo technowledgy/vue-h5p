@@ -105,11 +105,11 @@ You can inject custom CSS into the H5P iframe by using the `css` prop.
 
 ## Development
 
-Put your extracted h5p content into public/h5p, files are served by vue-dev-server.
+Put your extracted h5p content into example/public/h5p, files are served by vue-dev-server.
 
 Serve the example using
 
-`yarn example`
+`yarn serve`
 
 Write code, commit changes using conventional commits.
 
