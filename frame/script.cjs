@@ -2512,7 +2512,9 @@ H5P$4.init = function(target) {
     var instance = H5P$4.newRunnable(library, contentId, $container, true, { standalone: true });
     H5P$4.offlineRequestQueue = new H5P$4.OfflineRequestQueue({ instance });
     if (contentData.fullScreen == 1 && H5P$4.fullscreenSupported) {
-      H5P$4.jQuery('<div class="h5p-content-controls"><div role="button" tabindex="0" class="h5p-enable-fullscreen" aria-label="' + H5P$4.t("fullscreen") + '" title="' + H5P$4.t("fullscreen") + '"></div></div>').prependTo($container).children().click(function() {
+      H5P$4.jQuery(
+        '<div class="h5p-content-controls"><div role="button" tabindex="0" class="h5p-enable-fullscreen" aria-label="' + H5P$4.t("fullscreen") + '" title="' + H5P$4.t("fullscreen") + '"></div></div>'
+      ).prependTo($container).children().click(function() {
         H5P$4.fullScreen($container, instance);
       }).keydown(function(e) {
         if (e.which === 32 || e.which === 13) {
@@ -3178,13 +3180,17 @@ H5P$4.openReuseDialog = function($element, contentData, library, instance, conte
       H5P$4.setClipboard(item);
       instance.triggerXAPI("copied");
       dialog.close();
-      H5P$4.attachToastTo(H5P$4.jQuery(".h5p-content:first")[0], H5P$4.t("contentCopied"), {
-        position: {
-          horizontal: "centered",
-          vertical: "centered",
-          noOverflowX: true
+      H5P$4.attachToastTo(
+        H5P$4.jQuery(".h5p-content:first")[0],
+        H5P$4.t("contentCopied"),
+        {
+          position: {
+            horizontal: "centered",
+            vertical: "centered",
+            noOverflowX: true
+          }
         }
-      });
+      );
     });
     H5P$4.trigger(instance, "resize");
   }).on("dialog-closed", function() {
@@ -3700,7 +3706,9 @@ H5P$4.createTitle = function(rawTitle, maxLength) {
   if (maxLength === void 0) {
     maxLength = 60;
   }
-  var title = H5P$4.jQuery("<div></div>").text(rawTitle.replace(/(<([^>]+)>)/ig, "")).text();
+  var title = H5P$4.jQuery("<div></div>").text(
+    rawTitle.replace(/(<([^>]+)>)/ig, "")
+  ).text();
   if (title.length > maxLength) {
     title = title.substr(0, maxLength - 3) + "...";
   }
@@ -4810,12 +4818,16 @@ H5P.OfflineRequestQueue = function(RequestQueue, Dialog) {
         offlineDialog.hide();
         isShowing = false;
       }
-      requestQueue.displayToastMessage(H5P.t("offlineSuccessfulSubmit"), true, {
-        position: {
-          vertical: "top",
-          offsetVertical: "100"
+      requestQueue.displayToastMessage(
+        H5P.t("offlineSuccessfulSubmit"),
+        true,
+        {
+          position: {
+            vertical: "top",
+            offsetVertical: "100"
+          }
         }
-      });
+      );
     }.bind(this));
     offlineDialog.on("confirmed", function() {
       isShowing = false;
