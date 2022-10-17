@@ -12,6 +12,7 @@ export default {
   collectCoverageFrom: [
     '<rootDir>/src/**'
   ],
+  coverageProvider: 'v8',
   coverageReporters: [
     'lcov',
     'text-summary'
