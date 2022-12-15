@@ -73,6 +73,7 @@ The component accepts the following props:
 | l10n       | no       | Object  | {}      | UI translations                         |
 | resize     | no       | String  | ''      | Set resizeCode                          |
 | src        | yes      | String  | -       | Path to the h5p content                 |
+| actor      | no       | Object  | -       | Set actor for emitted xAPI statements   |
 
 See [Creating your own h5p plugin](https://h5p.org/creating-your-own-h5p-plugin) for translation strings.
 
@@ -101,6 +102,22 @@ You can inject custom CSS into the H5P iframe by using the `css` prop.
     }
   `"
 />
+```
+
+# Actor for xAPI statements
+
+The actor prop can be set to either a combination of name and email adress or to a combination of name and homePage, according to the xAPI specs.
+
+```javascript
+{
+  name: 'John Doe',
+  mail: 'john.doe@example.com'
+}
+
+{
+  name: 'account-id',
+  homePage: 'https://example.com'
+}
 ```
 
 ## Development

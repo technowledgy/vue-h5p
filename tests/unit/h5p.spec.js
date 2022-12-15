@@ -1,6 +1,10 @@
+import Vue from 'vue'
 import fs from 'fs'
 import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
+
+const warnHandler = jest.fn()
+Vue.config.warnHandler = (msg) => warnHandler(msg)
 
 function sleep (ms) {
   return new Promise((resolve) => {
@@ -151,6 +155,41 @@ describe('Component', () => {
       expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
     })
 
+    it('should throw on wrong actor prop', async () => {
+      wrapper = createComponent({
+        src: '/hello-world',
+        actor: { foo: 'bar' }
+      })
+      await flushPromises()
+      expect(warnHandler).toHaveBeenCalledWith('Invalid prop: custom validator check failed for prop "actor".')
+    })
+
+    it('should not set H5PUserUUID in the local storage when no actor prop is set with a mail ', async () => {
+      wrapper = createComponent({
+        src: '/hello-world',
+        actor: {
+          name: '123',
+          mail: 'mock@test.local'
+        }
+      })
+      await flushPromises()
+      expect(warnHandler).not.toHaveBeenCalled()
+      expect(localStorage.getItem('H5PUserUUID')).toBeNull()
+    })
+
+    it('should set H5PUserUUID in the local storage when actor prop is set without a mail', async () => {
+      wrapper = createComponent({
+        src: '/hello-world',
+        actor: {
+          name: '123',
+          homePage: 'http://test.local/'
+        }
+      })
+      await flushPromises()
+      expect(warnHandler).not.toHaveBeenCalled()
+      expect(localStorage.getItem('H5PUserUUID')).toBe('123')
+    })
+
     it('passes props', async () => {
       wrapper = createComponent({
         src: '/hello-world',
@@ -169,6 +208,30 @@ describe('Component', () => {
         resize: 'resize code',
         integration: {
           fullscreenDisabled: true
+        }
+      })
+      await flushPromises()
+      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+    })
+
+    it('passes actor props with mail', async () => {
+      wrapper = createComponent({
+        src: '/hello-world',
+        actor: {
+          name: '123',
+          mail: 'mock@test.local'
+        }
+      })
+      await flushPromises()
+      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+    })
+
+    it('passes actor props with homePage', async () => {
+      wrapper = createComponent({
+        src: '/hello-world',
+        actor: {
+          name: '123',
+          homePage: 'http://test.local/'
         }
       })
       await flushPromises()
