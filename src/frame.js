@@ -9,6 +9,7 @@ import 'h5p/js/h5p-content-type'
 import 'h5p/js/h5p-confirmation-dialog'
 import 'h5p/js/request-queue'
 import 'h5p/js/h5p-action-bar'
+import 'h5p/js/h5p-tooltip.js'
 
 H5P.getLibraryPath = function (library) {
   return H5PIntegration._libraryPaths[library]

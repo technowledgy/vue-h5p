@@ -5058,6 +5058,129 @@ H5P.ActionBar = function($, EventDispatcher) {
   ActionBar.prototype.constructor = ActionBar;
   return ActionBar;
 }(H5P.jQuery, H5P.EventDispatcher);
+H5P.Tooltip = function() {
+  function Tooltip(triggeringElement, options) {
+    H5P.Tooltip.uniqueId += 1;
+    const tooltipId = "h5p-tooltip-" + H5P.Tooltip.uniqueId;
+    options = options || {};
+    options.classes = options.classes || [];
+    options.ariaHidden = options.ariaHidden || true;
+    let hover = false;
+    let focus = false;
+    const escapeFunction = function(e) {
+      if (e.key === "Escape") {
+        tooltip.classList.remove("h5p-tooltip-visible");
+      }
+    };
+    const tooltip = document.createElement("div");
+    tooltip.classList.add("h5p-tooltip");
+    tooltip.id = tooltipId;
+    tooltip.role = "tooltip";
+    tooltip.innerHTML = options.text || triggeringElement.getAttribute("aria-label") || "";
+    tooltip.setAttribute("aria-hidden", options.ariaHidden);
+    tooltip.classList.add(...options.classes);
+    triggeringElement.appendChild(tooltip);
+    switch (options.position) {
+      case "left":
+        tooltip.classList.add("h5p-tooltip-left");
+        break;
+      case "right":
+        tooltip.classList.add("h5p-tooltip-right");
+        break;
+      case "bottom":
+        tooltip.classList.add("h5p-tooltip-bottom");
+        break;
+      default:
+        options.position = "top";
+    }
+    if (!options.ariaHidden) {
+      triggeringElement.setAttribute("aria-describedby", tooltipId);
+    }
+    triggeringElement.addEventListener("mouseenter", function() {
+      showTooltip(true);
+    });
+    triggeringElement.addEventListener("mouseleave", function() {
+      hideTooltip(true);
+    });
+    triggeringElement.addEventListener("focusin", function() {
+      showTooltip(false);
+    });
+    triggeringElement.addEventListener("focusout", function() {
+      hideTooltip(false);
+    });
+    tooltip.addEventListener("click", function(event) {
+      event.stopPropagation();
+    });
+    new MutationObserver(function(mutations) {
+      const ariaLabel = mutations[0].target.getAttribute("aria-label");
+      if (ariaLabel) {
+        tooltip.innerHTML = options.text || ariaLabel;
+      }
+    }).observe(triggeringElement, {
+      attributes: true,
+      attributeFilter: ["aria-label"]
+    });
+    new IntersectionObserver(function(entries) {
+      entries.forEach((entry) => {
+        const target = entry.target;
+        const positionClass = "h5p-tooltip-" + options.position;
+        if (entry.intersectionRatio === 0) {
+          ["h5p-tooltip-down", "h5p-tooltip-left", "h5p-tooltip-right"].forEach(function(adjustmentClass) {
+            if (adjustmentClass !== positionClass) {
+              target.classList.remove(adjustmentClass);
+            }
+          });
+        } else if (entry.intersectionRatio < 1 && (hover || focus)) {
+          const targetRect = entry.boundingClientRect;
+          const intersectionRect = entry.intersectionRect;
+          if (intersectionRect.left > targetRect.left) {
+            target.classList.add("h5p-tooltip-right");
+            target.classList.remove(positionClass);
+          } else if (intersectionRect.right < targetRect.right) {
+            target.classList.add("h5p-tooltip-left");
+            target.classList.remove(positionClass);
+          }
+          if (intersectionRect.top > targetRect.top) {
+            target.classList.add("h5p-tooltip-down");
+            target.classList.remove(positionClass);
+          } else if (intersectionRect.bottom < targetRect.bottom) {
+            target.classList.add("h5p-tooltip-up");
+            target.classList.remove(positionClass);
+          }
+        }
+      });
+    }).observe(tooltip);
+    const showTooltip = function(triggeredByHover) {
+      if (triggeredByHover) {
+        hover = true;
+      } else {
+        focus = true;
+      }
+      tooltip.classList.add("h5p-tooltip-visible");
+      document.body.addEventListener("keydown", escapeFunction, true);
+    };
+    const hideTooltip = function(triggeredByHover) {
+      if (triggeredByHover) {
+        hover = false;
+      } else {
+        focus = false;
+      }
+      if (!hover && !focus) {
+        tooltip.classList.remove("h5p-tooltip-visible");
+        document.body.removeEventListener("keydown", escapeFunction, true);
+      }
+    };
+    this.setText = function(text) {
+      options.text = text;
+      tooltip.innerHTML = options.text || triggeringElement.getAttribute("aria-label") || "";
+    };
+    this.getElement = function() {
+      return tooltip;
+    };
+  }
+  return Tooltip;
+}();
+H5P.Tooltip.uniqueId = -1;
 H5P.getLibraryPath = function(library) {
   return H5PIntegration._libraryPaths[library];
 };
