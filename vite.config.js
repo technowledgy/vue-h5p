@@ -19,6 +19,11 @@ const frameConfig = defineConfig({
     outDir: resolve(repoDir, 'frame')
   },
   plugins: [
+    {
+      generateBundle (opts, bundle) {
+        bundle['script.cjs'].code = bundle['script.cjs'].code.replaceAll('</script>', '<\\/script>')
+      }
+    },
     copy({
       targets: [
         { src: 'frame/style.css', dest: 'frame', rename: 'style' }

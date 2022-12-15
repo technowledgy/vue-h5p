@@ -2687,11 +2687,11 @@ H5P$4.getHeadTags = function(contentId) {
   var createScriptTags = function(scripts) {
     var tags = "";
     for (var i = 0; i < scripts.length; i++) {
-      tags += '<script src="' + scripts[i] + '"></script>';
+      tags += '<script src="' + scripts[i] + '"><\/script>';
     }
     return tags;
   };
-  return '<base target="_parent">' + createStyleTags(H5PIntegration.core.styles) + createStyleTags(H5PIntegration.contents["cid-" + contentId].styles) + createScriptTags(H5PIntegration.core.scripts) + createScriptTags(H5PIntegration.contents["cid-" + contentId].scripts) + "<script>H5PIntegration = window.parent.H5PIntegration; var H5P = H5P || {}; H5P.externalEmbed = false;</script>";
+  return '<base target="_parent">' + createStyleTags(H5PIntegration.core.styles) + createStyleTags(H5PIntegration.contents["cid-" + contentId].styles) + createScriptTags(H5PIntegration.core.scripts) + createScriptTags(H5PIntegration.contents["cid-" + contentId].scripts) + "<script>H5PIntegration = window.parent.H5PIntegration; var H5P = H5P || {}; H5P.externalEmbed = false;<\/script>";
 };
 H5P$4.communicator = function() {
   function Communicator() {
