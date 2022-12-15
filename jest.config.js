@@ -8,6 +8,7 @@ class LocalFileLoader extends ResourceLoader {
 }
 
 export default {
+  clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/src/**'

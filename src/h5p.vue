@@ -73,6 +73,11 @@ export default {
     integration: {
       type: Object,
       default: () => ({})
+    },
+    actor: {
+      type: Object,
+      default: null,
+      validator: (val) => val ? ['mail,name', 'homePage,name'].includes(Object.keys(val).sort().join(',')) : true
     }
   },
   data () {
@@ -91,6 +96,11 @@ export default {
     let h5p
     let content
     let libraries
+
+    if (this.actor?.homePage) {
+      localStorage.H5PUserUUID = this.actor.name
+    }
+
     try {
       h5p = await this.getJSON('h5p.json')
       content = await this.getJSON('content', 'content.json')
@@ -136,6 +146,8 @@ export default {
           ([id, lib]) => [id, lib.path]
         )
       ),
+      siteUrl: this.actor?.homePage,
+      user: this.actor?.mail ? this.actor : undefined,
       ...this.integration
     }
 
