@@ -81,7 +81,6 @@ const l10n = {
 };
 const frameScript = `"use strict";
 const h5p = "";
-/*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
 !function(e, t) {
   "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, true) : function(e2) {
     if (!e2.document)
@@ -215,7 +214,7 @@ const h5p = "";
       var n3 = "0x" + e3.slice(1) - 65536;
       return t3 || (n3 < 0 ? String.fromCharCode(n3 + 65536) : String.fromCharCode(n3 >> 10 | 55296, 1023 & n3 | 56320));
     }, re2 = /([\\0-\\x1f\\x7f]|^-?\\d)|^-$|[^\\0-\\x1f\\x7f-\\uFFFF\\w-]/g, ie2 = function(e3, t3) {
-      return t3 ? "\\0" === e3 ? "\\uFFFD" : e3.slice(0, -1) + "\\\\" + e3.charCodeAt(e3.length - 1).toString(16) + " " : "\\\\" + e3;
+      return t3 ? "\\0" === e3 ? "�" : e3.slice(0, -1) + "\\\\" + e3.charCodeAt(e3.length - 1).toString(16) + " " : "\\\\" + e3;
     }, oe2 = function() {
       T2();
     }, ae2 = be2(function(e3) {
@@ -2620,7 +2619,7 @@ H5P$4.init = function(target) {
         instance.triggerXAPI("accessed-reuse");
       });
       actionBar.on("copyrights", function() {
-        var dialog = new H5P$4.Dialog("copyrights", H5P$4.t("copyrightInformation"), copyrights, $container);
+        var dialog = new H5P$4.Dialog("copyrights", H5P$4.t("copyrightInformation"), copyrights, $container, $actions.find(".h5p-copyrights")[0]);
         dialog.open(true);
         instance.triggerXAPI("accessed-copyright");
       });
@@ -2769,11 +2768,11 @@ H5P$4.getHeadTags = function(contentId) {
   var createScriptTags = function(scripts) {
     var tags = "";
     for (var i = 0; i < scripts.length; i++) {
-      tags += '<script src="' + scripts[i] + '"><\\/script>';
+      tags += '<script src="' + scripts[i] + '"></script>';
     }
     return tags;
   };
-  return '<base target="_parent">' + createStyleTags(H5PIntegration.core.styles) + createStyleTags(H5PIntegration.contents["cid-" + contentId].styles) + createScriptTags(H5PIntegration.core.scripts) + createScriptTags(H5PIntegration.contents["cid-" + contentId].scripts) + "<script>H5PIntegration = window.parent.H5PIntegration; var H5P = H5P || {}; H5P.externalEmbed = false;<\\/script>";
+  return '<base target="_parent">' + createStyleTags(H5PIntegration.core.styles) + createStyleTags(H5PIntegration.contents["cid-" + contentId].styles) + createScriptTags(H5PIntegration.core.scripts) + createScriptTags(H5PIntegration.contents["cid-" + contentId].scripts) + "<script>H5PIntegration = window.parent.H5PIntegration; var H5P = H5P || {}; H5P.externalEmbed = false;</script>";
 };
 H5P$4.communicator = function() {
   function Communicator() {
@@ -3103,9 +3102,9 @@ H5P$4.t = function(key, vars, ns) {
   }
   return translation;
 };
-H5P$4.Dialog = function(name, title, content, $element) {
+H5P$4.Dialog = function(name, title, content, $element, $returnElement) {
   var self = this;
-  var $dialog = H5P$4.jQuery('<div class="h5p-popup-dialog h5p-' + name + '-dialog" role="dialog" tabindex="-1">                              <div class="h5p-inner">                                <h2>' + title + '</h2>                                <div class="h5p-scroll-content">' + content + '</div>                                <div class="h5p-close" role="button" tabindex="0" aria-label="' + H5P$4.t("close") + '" title="' + H5P$4.t("close") + '"></div>                              </div>                            </div>').insertAfter($element).click(function(e) {
+  var $dialog = H5P$4.jQuery('<div class="h5p-popup-dialog h5p-' + name + '-dialog" aria-labelledby="' + name + '-dialog-header" aria-modal="true" role="dialog" tabindex="-1">                              <div class="h5p-inner">                                <h2 id="' + name + '-dialog-header">' + title + '</h2>                                <div class="h5p-scroll-content">' + content + '</div>                                <div class="h5p-close" role="button" tabindex="0" aria-label="' + H5P$4.t("close") + '" title="' + H5P$4.t("close") + '"></div>                              </div>                            </div>').insertAfter($element).click(function(e) {
     if (e && e.originalEvent && e.originalEvent.preventClosing) {
       return;
     }
@@ -3138,7 +3137,11 @@ H5P$4.Dialog = function(name, title, content, $element) {
       $dialog.remove();
       H5P$4.jQuery(self).trigger("dialog-closed", [$dialog]);
       $element.attr("tabindex", "-1");
-      $element.focus();
+      if ($returnElement) {
+        $returnElement.focus();
+      } else {
+        $element.focus();
+      }
     }, 200);
   };
 };
@@ -3207,7 +3210,7 @@ H5P$4.findCopyrights = function(info, parameters, contentId, extras) {
           const path = data.params.file.path;
           const width = data.params.file.width;
           const height = data.params.file.height;
-          metadataCopyrights.setThumbnail(new H5P$4.Thumbnail(H5P$4.getPath(path, contentId2), width, height));
+          metadataCopyrights.setThumbnail(new H5P$4.Thumbnail(H5P$4.getPath(path, contentId2), width, height, data.params.alt));
         }
         info.addMedia(metadataCopyrights);
       }
@@ -3281,7 +3284,7 @@ H5P$4.openReuseDialog = function($element, contentData, library, instance, conte
 };
 H5P$4.openEmbedDialog = function($element, embedCode, resizeCode, size, instance) {
   var fullEmbedCode = embedCode + resizeCode;
-  var dialog = new H5P$4.Dialog("embed", H5P$4.t("embed"), '<textarea class="h5p-embed-code-container" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>' + H5P$4.t("size") + ': <input aria-label="' + H5P$4.t("width") + '" type="text" value="' + Math.ceil(size.width) + '" class="h5p-embed-size"/> \\xD7 <input aria-label="' + H5P$4.t("width") + '" type="text" value="' + Math.ceil(size.height) + '" class="h5p-embed-size"/> px<br/><div role="button" tabindex="0" class="h5p-expander">' + H5P$4.t("showAdvanced") + '</div><div class="h5p-expander-content"><p>' + H5P$4.t("advancedHelp") + '</p><textarea class="h5p-embed-code-container" autocorrect="off" autocapitalize="off" spellcheck="false">' + resizeCode + "</textarea></div>", $element);
+  var dialog = new H5P$4.Dialog("embed", H5P$4.t("embed"), '<textarea class="h5p-embed-code-container" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>' + H5P$4.t("size") + ': <input aria-label="' + H5P$4.t("width") + '" type="text" value="' + Math.ceil(size.width) + '" class="h5p-embed-size"/> × <input aria-label="' + H5P$4.t("width") + '" type="text" value="' + Math.ceil(size.height) + '" class="h5p-embed-size"/> px<br/><div role="button" tabindex="0" class="h5p-expander">' + H5P$4.t("showAdvanced") + '</div><div class="h5p-expander-content"><p>' + H5P$4.t("advancedHelp") + '</p><textarea class="h5p-embed-code-container" autocorrect="off" autocapitalize="off" spellcheck="false">' + resizeCode + "</textarea></div>", $element);
   H5P$4.jQuery(dialog).on("dialog-opened", function(event, $dialog) {
     var $inner = $dialog.find(".h5p-inner");
     var $scroll = $inner.find(".h5p-scroll-content");
@@ -3601,13 +3604,13 @@ H5P$4.MediaCopyright = function(copyright, labels, order, extraFields) {
     return html;
   };
 };
-H5P$4.Thumbnail = function(source, width, height) {
+H5P$4.Thumbnail = function(source, width, height, alt) {
   var thumbWidth, thumbHeight = 100;
   if (width !== void 0) {
     thumbWidth = Math.round(thumbHeight * (width / height));
   }
   this.toString = function() {
-    return '<img src="' + source + '" alt="' + H5P$4.t("thumbnail") + '" class="h5p-thumbnail" height="' + thumbHeight + '"' + (thumbWidth === void 0 ? "" : ' width="' + thumbWidth + '"') + "/>";
+    return '<img src="' + source + '" alt="' + (alt ? alt : "") + '" class="h5p-thumbnail" height="' + thumbHeight + '"' + (thumbWidth === void 0 ? "" : ' width="' + thumbWidth + '"') + "/>";
   };
 };
 H5P$4.Field = function(label, value) {
@@ -4551,7 +4554,7 @@ H5P.ConfirmationDialog = function(EventDispatcher) {
     popup.setAttribute("aria-labelledby", "h5p-confirmation-dialog-dialog-text-" + uniqueId);
     popupBackground.appendChild(popup);
     popup.addEventListener("keydown", function(e) {
-      if (e.which === 27) {
+      if (e.key === "Escape") {
         dialogCanceled(e);
       }
     });
@@ -4582,15 +4585,15 @@ H5P.ConfirmationDialog = function(EventDispatcher) {
     confirmButton.textContent = options.confirmText;
     var exitButton = document.createElement("button");
     exitButton.classList.add("h5p-confirmation-dialog-exit");
-    exitButton.setAttribute("aria-hidden", "true");
     exitButton.tabIndex = -1;
-    exitButton.title = options.cancelText;
+    exitButton.setAttribute("aria-label", options.cancelText);
     cancelButton.addEventListener("click", dialogCanceled);
     cancelButton.addEventListener("keydown", function(e) {
-      if (e.which === 32) {
+      if (e.key === " ") {
         dialogCanceled(e);
-      } else if (e.which === 9 && e.shiftKey) {
-        flowTo(confirmButton, e);
+      } else if (e.key === "Tab" && e.shiftKey) {
+        const nextbutton = options.hideExit ? confirmButton : exitButton;
+        flowTo(nextbutton, e);
       }
     });
     if (!options.hideCancel) {
@@ -4600,18 +4603,26 @@ H5P.ConfirmationDialog = function(EventDispatcher) {
     }
     confirmButton.addEventListener("click", dialogConfirmed);
     confirmButton.addEventListener("keydown", function(e) {
-      if (e.which === 32) {
+      if (e.key === " ") {
         dialogConfirmed(e);
-      } else if (e.which === 9 && !e.shiftKey) {
-        const nextButton = !options.hideCancel ? cancelButton : confirmButton;
+      } else if (e.key === "Tab" && !e.shiftKey) {
+        let nextButton = confirmButton;
+        if (!options.hideExit) {
+          nextButton = exitButton;
+        } else if (!options.hideCancel) {
+          nextButton = cancelButton;
+        }
         flowTo(nextButton, e);
       }
     });
     buttons.appendChild(confirmButton);
     exitButton.addEventListener("click", dialogCanceled);
     exitButton.addEventListener("keydown", function(e) {
-      if (e.which === 32) {
+      if (e.key === " ") {
         dialogCanceled(e);
+      } else if (e.key === "Tab" && !e.shiftKey) {
+        const nextButton = options.hideCancel ? confirmButton : cancelButton;
+        flowTo(nextButton, e);
       }
     });
     if (!options.hideExit) {
@@ -5000,11 +5011,13 @@ H5P.ActionBar = function($, EventDispatcher) {
       var handler = function() {
         self.trigger(type);
       };
-      H5P.jQuery("<li/>", {
+      const $actionList = H5P.jQuery("<li/>", {
         "class": "h5p-button h5p-noselect h5p-" + (customClass ? customClass : type),
-        role: "button",
+        appendTo: $actions
+      });
+      const $actionButton = H5P.jQuery("<button/>", {
         tabindex: 0,
-        title: H5P.t(type + "Description"),
+        "aria-label": H5P.t(type + "Description"),
         html: H5P.t(type),
         on: {
           click: handler,
@@ -5015,8 +5028,9 @@ H5P.ActionBar = function($, EventDispatcher) {
             }
           }
         },
-        appendTo: $actions
+        appendTo: $actionList
       });
+      H5P.Tooltip($actionButton.get(0));
       hasActions = true;
     };
     if (displayOptions.export || displayOptions.copy) {
@@ -5029,7 +5043,8 @@ H5P.ActionBar = function($, EventDispatcher) {
       addActionButton("embed");
     }
     if (displayOptions.icon) {
-      H5P.jQuery('<li><a class="h5p-link" href="http://h5p.org" target="_blank" title="' + H5P.t("h5pDescription") + '"></a></li>').appendTo($actions);
+      const $h5pLogo = H5P.jQuery('<li><a class="h5p-link" href="http://h5p.org" target="_blank" aria-label="' + H5P.t("h5pDescription") + '"></a></li>').appendTo($actions);
+      H5P.Tooltip($h5pLogo.find(".h5p-link").get(0));
       hasActions = true;
     }
     self.getDOMElement = function() {
@@ -5739,7 +5754,6 @@ div.h5p-fullscreen {
 .h5p-content ul.h5p-actions {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  overflow: hidden;
   list-style: none;
   padding: 0px 10px;
   margin: 0;
@@ -5766,36 +5780,51 @@ div.h5p-fullscreen {
   outline: none;
   line-height: 22px;
 }
-.h5p-actions > .h5p-button:hover {
+.h5p-actions button:hover {
   color: #333;
 }
-.h5p-actions > .h5p-button:active,
-.h5p-actions > .h5p-button:focus,
+.h5p-actions button:active,
+.h5p-actions button:focus,
 .h5p-actions .h5p-link:active,
 .h5p-actions .h5p-link:focus {
   color: #666;
 }
-.h5p-actions > .h5p-button:focus,
+.h5p-actions button {
+  display: inline-flex;
+  padding: 0;
+  margin: 0;
+  color: #6A6A6A;
+  position: relative;
+
+  /* Disable default button style */
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+
+  line-height: 2;
+}
+.h5p-actions button:focus,
 .h5p-actions .h5p-link:focus {
   outline-style: solid;
   outline-width: thin;
   outline-offset: -2px;
-  outline-color: #9ecaed;
+  outline-color: #5981A1;
 }
-.h5p-actions > .h5p-button:before {
+.h5p-actions button:before {
   font-family: 'H5P';
   font-size: 20px;
   line-height: 23px;
   vertical-align: bottom;
   padding-right: 0;
 }
-.h5p-actions > .h5p-button.h5p-export:before {
+.h5p-actions > .h5p-button.h5p-export > button:before {
   content: "\\e90b";
 }
-.h5p-actions > .h5p-button.h5p-copyrights:before {
+.h5p-actions > .h5p-button.h5p-copyrights > button:before {
   content: "\\e88f";
 }
-.h5p-actions > .h5p-button.h5p-embed:before {
+.h5p-actions > .h5p-button.h5p-embed > button:before {
   content: "\\e892";
 }
 .h5p-actions .h5p-link {
@@ -5803,8 +5832,8 @@ div.h5p-fullscreen {
   margin-right: 0;
   font-size: 2.0em;
   line-height: 23px;
-  overflow: hidden;
-  color: #999;
+  position: relative;
+  color: #6a6a6a;
   text-decoration: none;
   outline: none;
 }
@@ -6292,6 +6321,11 @@ const __vue2_script = {
     integration: {
       type: Object,
       default: () => ({})
+    },
+    actor: {
+      type: Object,
+      default: null,
+      validator: (val) => val ? ["mail,name", "homePage,name"].includes(Object.keys(val).sort().join(",")) : true
     }
   },
   data() {
@@ -6307,9 +6341,13 @@ const __vue2_script = {
     }
   },
   async mounted() {
+    var _a, _b, _c;
     let h5p2;
     let content;
     let libraries;
+    if ((_a = this.actor) == null ? void 0 : _a.homePage) {
+      localStorage.H5PUserUUID = this.actor.name;
+    }
     try {
       h5p2 = await this.getJSON("h5p.json");
       content = await this.getJSON("content", "content.json");
@@ -6354,10 +6392,12 @@ const __vue2_script = {
           ([id, lib]) => [id, lib.path]
         )
       ),
+      siteUrl: (_b = this.actor) == null ? void 0 : _b.homePage,
+      user: ((_c = this.actor) == null ? void 0 : _c.mail) ? this.actor : void 0,
       ...this.integration
     };
     const { styles, scripts } = this.sortDependencies(libraries);
-    const endScript = "<\/script>";
+    const endScript = "</script>";
     const contentStyles = styles.map((style) => `<link rel="stylesheet" href="${style}">`).join("\n");
     const contentScripts = scripts.map((script) => `<script src="${script}">${endScript}`).join("\n");
     this.srcdoc = `<!doctype html>
