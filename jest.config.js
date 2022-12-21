@@ -1,9 +1,15 @@
+import { existsSync } from 'fs'
 import path from 'path'
 import { ResourceLoader } from 'jsdom'
 
 class LocalFileLoader extends ResourceLoader {
   fetch (url, options) {
-    return super.fetch(url.replace('http://localhost', path.join(path.dirname(import.meta.url), 'tests', 'mocks')), options)
+    const localPath = url.replace('http://localhost', path.join(path.dirname(import.meta.url), 'tests', 'mocks'))
+    if (existsSync(localPath)) {
+      return super.fetch(localPath, options)
+    } else {
+      return super.fetch(path.join(path.dirname(import.meta.url), 'tests', 'mocks', 'empty'), options)
+    }
   }
 }
 
