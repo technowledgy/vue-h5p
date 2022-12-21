@@ -1,7 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Component iframe has correct attribute srcdoc 1`] = `
-<!doctype html>
 <html class="h5p-iframe">
 
   <head>
@@ -116,20 +115,30 @@ exports[`Component iframe has correct attribute srcdoc 1`] = `
       H5P.externalEmbed = true;
     </script>
     <script>
-      /* MOCKED_FRAME_JS */
+      var callback;
+      H5P.externalDispatcher = {
+        on: (_, cb) => {
+          callback = cb
+        },
+        trigger: (type, data) => callback({
+          type,
+          data
+        })
+      }
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
 
   <body>
-    <div class="h5p-content" data-content-id="default" />
+    <div class="h5p-content" data-content-id="default">
+
+    </div>
   </body>
 
 </html>
 `;
 
 exports[`Component iframe has sorted dependencies 1`] = `
-<!doctype html>
 <html class="h5p-iframe">
 
   <head>
@@ -291,7 +300,16 @@ exports[`Component iframe has sorted dependencies 1`] = `
       H5P.externalEmbed = true;
     </script>
     <script>
-      /* MOCKED_FRAME_JS */
+      var callback;
+      H5P.externalDispatcher = {
+        on: (_, cb) => {
+          callback = cb
+        },
+        trigger: (type, data) => callback({
+          type,
+          data
+        })
+      }
     </script>
     <script src="/course-presentation/H5P.AdvancedText-1.1/text.js"></script>
     <script src="/course-presentation/H5P.Image-1.1/image.js"></script>
@@ -341,14 +359,15 @@ exports[`Component iframe has sorted dependencies 1`] = `
   </head>
 
   <body>
-    <div class="h5p-content" data-content-id="default" />
+    <div class="h5p-content" data-content-id="default">
+
+    </div>
   </body>
 
 </html>
 `;
 
 exports[`Component iframe passes actor props with homePage 1`] = `
-<!doctype html>
 <html class="h5p-iframe">
 
   <head>
@@ -464,20 +483,30 @@ exports[`Component iframe passes actor props with homePage 1`] = `
       H5P.externalEmbed = true;
     </script>
     <script>
-      /* MOCKED_FRAME_JS */
+      var callback;
+      H5P.externalDispatcher = {
+        on: (_, cb) => {
+          callback = cb
+        },
+        trigger: (type, data) => callback({
+          type,
+          data
+        })
+      }
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
 
   <body>
-    <div class="h5p-content" data-content-id="default" />
+    <div class="h5p-content" data-content-id="default">
+
+    </div>
   </body>
 
 </html>
 `;
 
 exports[`Component iframe passes actor props with mail 1`] = `
-<!doctype html>
 <html class="h5p-iframe">
 
   <head>
@@ -596,20 +625,30 @@ exports[`Component iframe passes actor props with mail 1`] = `
       H5P.externalEmbed = true;
     </script>
     <script>
-      /* MOCKED_FRAME_JS */
+      var callback;
+      H5P.externalDispatcher = {
+        on: (_, cb) => {
+          callback = cb
+        },
+        trigger: (type, data) => callback({
+          type,
+          data
+        })
+      }
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
 
   <body>
-    <div class="h5p-content" data-content-id="default" />
+    <div class="h5p-content" data-content-id="default">
+
+    </div>
   </body>
 
 </html>
 `;
 
 exports[`Component iframe passes props 1`] = `
-<!doctype html>
 <html class="h5p-iframe">
 
   <head>
@@ -727,20 +766,30 @@ exports[`Component iframe passes props 1`] = `
       H5P.externalEmbed = true;
     </script>
     <script>
-      /* MOCKED_FRAME_JS */
+      var callback;
+      H5P.externalDispatcher = {
+        on: (_, cb) => {
+          callback = cb
+        },
+        trigger: (type, data) => callback({
+          type,
+          data
+        })
+      }
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
 
   <body>
-    <div class="h5p-content" data-content-id="default" />
+    <div class="h5p-content" data-content-id="default">
+
+    </div>
   </body>
 
 </html>
 `;
 
 exports[`Component iframe without version in library paths 1`] = `
-<!doctype html>
 <html class="h5p-iframe">
 
   <head>
@@ -855,34 +904,33 @@ exports[`Component iframe without version in library paths 1`] = `
       H5P.externalEmbed = true;
     </script>
     <script>
-      /* MOCKED_FRAME_JS */
+      var callback;
+      H5P.externalDispatcher = {
+        on: (_, cb) => {
+          callback = cb
+        },
+        trigger: (type, data) => callback({
+          type,
+          data
+        })
+      }
     </script>
     <script src="/hello-world-no-version/H5P.GreetingCard/greetingcard.js"></script>
   </head>
 
   <body>
-    <div class="h5p-content" data-content-id="default" />
+    <div class="h5p-content" data-content-id="default">
+
+    </div>
   </body>
 
 </html>
 `;
 
 exports[`Component renders default slot content while loading: should have default slot content on top of iframe content 1`] = `
-<div><iframe srcdoc="<!doctype html>
-<html class=&quot;h5p-iframe&quot;>
-  <head>
-    <base target=&quot;_parent&quot;>
-    <style>/* MOCKED_FRAME_CSS */</style>
-    <link rel=&quot;stylesheet&quot; href=&quot;/hello-world/H5P.GreetingCard-1.0/greetingcard.css&quot;>
-    <style></style>
-    <script>H5PIntegration = {&quot;l10n&quot;:{&quot;H5P&quot;:{&quot;advancedHelp&quot;:&quot;Include this script on your website if you want dynamic sizing of the embedded content:&quot;,&quot;author&quot;:&quot;Author&quot;,&quot;by&quot;:&quot;by&quot;,&quot;cancelLabel&quot;:&quot;Cancel&quot;,&quot;changes&quot;:&quot;Changelog&quot;,&quot;close&quot;:&quot;Close&quot;,&quot;confirmDialogBody&quot;:&quot;Please confirm that you wish to proceed. This action is not reversible.&quot;,&quot;confirmDialogHeader&quot;:&quot;Confirm action&quot;,&quot;confirmLabel&quot;:&quot;Confirm&quot;,&quot;connectionLost&quot;:&quot;Connection lost. Results will be stored and sent when you regain connection.&quot;,&quot;connectionReestablished&quot;:&quot;Connection reestablished.&quot;,&quot;contentChanged&quot;:&quot;This content has changed since you last used it.&quot;,&quot;contentCopied&quot;:&quot;Content is copied to the clipboard&quot;,&quot;contentType&quot;:&quot;Content Type&quot;,&quot;copyrightInformation&quot;:&quot;Rights of use&quot;,&quot;copyrights&quot;:&quot;Rights of use&quot;,&quot;copyrightsDescription&quot;:&quot;View copyright information for this content.&quot;,&quot;disableFullscreen&quot;:&quot;Disable fullscreen&quot;,&quot;download&quot;:&quot;Download&quot;,&quot;downloadDescription&quot;:&quot;Download this content as a H5P file.&quot;,&quot;embed&quot;:&quot;Embed&quot;,&quot;embedDescription&quot;:&quot;View the embed code for this content.&quot;,&quot;fullscreen&quot;:&quot;Fullscreen&quot;,&quot;h5pDescription&quot;:&quot;Visit H5P.org to check out more cool content.&quot;,&quot;hideAdvanced&quot;:&quot;Hide advanced&quot;,&quot;license&quot;:&quot;License&quot;,&quot;licenseC&quot;:&quot;Copyright&quot;,&quot;licenseCC010&quot;:&quot;CC0 1.0 Universal (CC0 1.0) Public Domain Dedication&quot;,&quot;licenseCC10&quot;:&quot;1.0 Generic&quot;,&quot;licenseCC20&quot;:&quot;2.0 Generic&quot;,&quot;licenseCC25&quot;:&quot;2.5 Generic&quot;,&quot;licenseCC30&quot;:&quot;3.0 Unported&quot;,&quot;licenseCC40&quot;:&quot;4.0 International&quot;,&quot;licenseCCBY&quot;:&quot;Attribution&quot;,&quot;licenseCCBYNC&quot;:&quot;Attribution-NonCommercial&quot;,&quot;licenseCCBYNCND&quot;:&quot;Attribution-NonCommercial-NoDerivs&quot;,&quot;licenseCCBYNCSA&quot;:&quot;Attribution-NonCommercial-ShareAlike&quot;,&quot;licenseCCBYND&quot;:&quot;Attribution-NoDerivs&quot;,&quot;licenseCCBYSA&quot;:&quot;Attribution-ShareAlike&quot;,&quot;licenseExtras&quot;:&quot;License Extras&quot;,&quot;licenseGPL&quot;:&quot;General Public License&quot;,&quot;licensePD&quot;:&quot;Public Domain&quot;,&quot;licensePDM&quot;:&quot;Public Domain Mark&quot;,&quot;licenseU&quot;:&quot;Undisclosed&quot;,&quot;licenseV1&quot;:&quot;Version 1&quot;,&quot;licenseV2&quot;:&quot;Version 2&quot;,&quot;licenseV3&quot;:&quot;Version 3&quot;,&quot;noCopyrights&quot;:&quot;No copyright information available for this content.&quot;,&quot;offlineDialogBody&quot;:&quot;We were unable to send information about your completion of this task. Please check your internet connection.&quot;,&quot;offlineDialogHeader&quot;:&quot;Your connection to the server was lost&quot;,&quot;offlineDialogRetryButtonLabel&quot;:&quot;Retry now&quot;,&quot;offlineDialogRetryMessage&quot;:&quot;Retrying in :num....&quot;,&quot;offlineSuccessfulSubmit&quot;:&quot;Successfully submitted results.&quot;,&quot;resubmitScores&quot;:&quot;Attempting to submit stored results.&quot;,&quot;reuse&quot;:&quot;Reuse&quot;,&quot;reuseContent&quot;:&quot;Reuse Content&quot;,&quot;reuseDescription&quot;:&quot;Reuse this content.&quot;,&quot;showAdvanced&quot;:&quot;Show advanced&quot;,&quot;showLess&quot;:&quot;Show less&quot;,&quot;showMore&quot;:&quot;Show more&quot;,&quot;size&quot;:&quot;Size&quot;,&quot;source&quot;:&quot;Source&quot;,&quot;startingOver&quot;:&quot;You'll be starting over.&quot;,&quot;subLevel&quot;:&quot;Sublevel&quot;,&quot;thumbnail&quot;:&quot;Thumbnail&quot;,&quot;title&quot;:&quot;Title&quot;,&quot;year&quot;:&quot;Year&quot;}},&quot;url&quot;:&quot;/hello-world&quot;,&quot;contents&quot;:{&quot;cid-default&quot;:{&quot;embedCode&quot;:&quot;&quot;,&quot;resizeCode&quot;:&quot;&quot;,&quot;exportUrl&quot;:&quot;&quot;,&quot;fullScreen&quot;:false,&quot;library&quot;:&quot;H5P.GreetingCard 1.0&quot;,&quot;jsonContent&quot;:&quot;{\\&quot;greeting\\&quot;:\\&quot;Hello world!\\&quot;,\\&quot;image\\&quot;:{\\&quot;path\\&quot;:\\&quot;earth.jpg\\&quot;,\\&quot;width\\&quot;:300,\\&quot;height\\&quot;:300,\\&quot;copyright\\&quot;:{\\&quot;license\\&quot;:\\&quot;U\\&quot;}}}&quot;,&quot;url&quot;:&quot;/hello-world&quot;,&quot;displayOptions&quot;:{&quot;frame&quot;:false,&quot;export&quot;:false,&quot;embed&quot;:false,&quot;copyright&quot;:false,&quot;icon&quot;:false,&quot;copy&quot;:false},&quot;metadata&quot;:{&quot;license&quot;:&quot;U&quot;,&quot;title&quot;:&quot;Greeting card&quot;}}},&quot;_libraryPaths&quot;:{&quot;H5P.GreetingCard-1.0&quot;:&quot;H5P.GreetingCard-1.0&quot;}};var H5P = H5P || {};H5P.externalEmbed = true;</script>
-    <script>/* MOCKED_FRAME_JS */</script>
-    <script src=&quot;/hello-world/H5P.GreetingCard-1.0/greetingcard.js&quot;></script>
-  </head>
-  <body>
-    <div class=&quot;h5p-content&quot; data-content-id=&quot;default&quot;/>
-  </body>
-</html>" style="width: 100%; height: 100%; display: none;"></iframe> hello from the DEFAULT slot</div>
+<div><iframe style="width: 100%; height: 100%;"></iframe>
+  <!---->
+</div>
 `;
 
 exports[`Component renders default slot content while loading: should have only default slot content 1`] = `
@@ -892,21 +940,9 @@ exports[`Component renders default slot content while loading: should have only 
 `;
 
 exports[`Component renders default slot content while loading: should have only iframe content 1`] = `
-<div><iframe srcdoc="<!doctype html>
-<html class=&quot;h5p-iframe&quot;>
-  <head>
-    <base target=&quot;_parent&quot;>
-    <style>/* MOCKED_FRAME_CSS */</style>
-    <link rel=&quot;stylesheet&quot; href=&quot;/hello-world/H5P.GreetingCard-1.0/greetingcard.css&quot;>
-    <style></style>
-    <script>H5PIntegration = {&quot;l10n&quot;:{&quot;H5P&quot;:{&quot;advancedHelp&quot;:&quot;Include this script on your website if you want dynamic sizing of the embedded content:&quot;,&quot;author&quot;:&quot;Author&quot;,&quot;by&quot;:&quot;by&quot;,&quot;cancelLabel&quot;:&quot;Cancel&quot;,&quot;changes&quot;:&quot;Changelog&quot;,&quot;close&quot;:&quot;Close&quot;,&quot;confirmDialogBody&quot;:&quot;Please confirm that you wish to proceed. This action is not reversible.&quot;,&quot;confirmDialogHeader&quot;:&quot;Confirm action&quot;,&quot;confirmLabel&quot;:&quot;Confirm&quot;,&quot;connectionLost&quot;:&quot;Connection lost. Results will be stored and sent when you regain connection.&quot;,&quot;connectionReestablished&quot;:&quot;Connection reestablished.&quot;,&quot;contentChanged&quot;:&quot;This content has changed since you last used it.&quot;,&quot;contentCopied&quot;:&quot;Content is copied to the clipboard&quot;,&quot;contentType&quot;:&quot;Content Type&quot;,&quot;copyrightInformation&quot;:&quot;Rights of use&quot;,&quot;copyrights&quot;:&quot;Rights of use&quot;,&quot;copyrightsDescription&quot;:&quot;View copyright information for this content.&quot;,&quot;disableFullscreen&quot;:&quot;Disable fullscreen&quot;,&quot;download&quot;:&quot;Download&quot;,&quot;downloadDescription&quot;:&quot;Download this content as a H5P file.&quot;,&quot;embed&quot;:&quot;Embed&quot;,&quot;embedDescription&quot;:&quot;View the embed code for this content.&quot;,&quot;fullscreen&quot;:&quot;Fullscreen&quot;,&quot;h5pDescription&quot;:&quot;Visit H5P.org to check out more cool content.&quot;,&quot;hideAdvanced&quot;:&quot;Hide advanced&quot;,&quot;license&quot;:&quot;License&quot;,&quot;licenseC&quot;:&quot;Copyright&quot;,&quot;licenseCC010&quot;:&quot;CC0 1.0 Universal (CC0 1.0) Public Domain Dedication&quot;,&quot;licenseCC10&quot;:&quot;1.0 Generic&quot;,&quot;licenseCC20&quot;:&quot;2.0 Generic&quot;,&quot;licenseCC25&quot;:&quot;2.5 Generic&quot;,&quot;licenseCC30&quot;:&quot;3.0 Unported&quot;,&quot;licenseCC40&quot;:&quot;4.0 International&quot;,&quot;licenseCCBY&quot;:&quot;Attribution&quot;,&quot;licenseCCBYNC&quot;:&quot;Attribution-NonCommercial&quot;,&quot;licenseCCBYNCND&quot;:&quot;Attribution-NonCommercial-NoDerivs&quot;,&quot;licenseCCBYNCSA&quot;:&quot;Attribution-NonCommercial-ShareAlike&quot;,&quot;licenseCCBYND&quot;:&quot;Attribution-NoDerivs&quot;,&quot;licenseCCBYSA&quot;:&quot;Attribution-ShareAlike&quot;,&quot;licenseExtras&quot;:&quot;License Extras&quot;,&quot;licenseGPL&quot;:&quot;General Public License&quot;,&quot;licensePD&quot;:&quot;Public Domain&quot;,&quot;licensePDM&quot;:&quot;Public Domain Mark&quot;,&quot;licenseU&quot;:&quot;Undisclosed&quot;,&quot;licenseV1&quot;:&quot;Version 1&quot;,&quot;licenseV2&quot;:&quot;Version 2&quot;,&quot;licenseV3&quot;:&quot;Version 3&quot;,&quot;noCopyrights&quot;:&quot;No copyright information available for this content.&quot;,&quot;offlineDialogBody&quot;:&quot;We were unable to send information about your completion of this task. Please check your internet connection.&quot;,&quot;offlineDialogHeader&quot;:&quot;Your connection to the server was lost&quot;,&quot;offlineDialogRetryButtonLabel&quot;:&quot;Retry now&quot;,&quot;offlineDialogRetryMessage&quot;:&quot;Retrying in :num....&quot;,&quot;offlineSuccessfulSubmit&quot;:&quot;Successfully submitted results.&quot;,&quot;resubmitScores&quot;:&quot;Attempting to submit stored results.&quot;,&quot;reuse&quot;:&quot;Reuse&quot;,&quot;reuseContent&quot;:&quot;Reuse Content&quot;,&quot;reuseDescription&quot;:&quot;Reuse this content.&quot;,&quot;showAdvanced&quot;:&quot;Show advanced&quot;,&quot;showLess&quot;:&quot;Show less&quot;,&quot;showMore&quot;:&quot;Show more&quot;,&quot;size&quot;:&quot;Size&quot;,&quot;source&quot;:&quot;Source&quot;,&quot;startingOver&quot;:&quot;You'll be starting over.&quot;,&quot;subLevel&quot;:&quot;Sublevel&quot;,&quot;thumbnail&quot;:&quot;Thumbnail&quot;,&quot;title&quot;:&quot;Title&quot;,&quot;year&quot;:&quot;Year&quot;}},&quot;url&quot;:&quot;/hello-world&quot;,&quot;contents&quot;:{&quot;cid-default&quot;:{&quot;embedCode&quot;:&quot;&quot;,&quot;resizeCode&quot;:&quot;&quot;,&quot;exportUrl&quot;:&quot;&quot;,&quot;fullScreen&quot;:false,&quot;library&quot;:&quot;H5P.GreetingCard 1.0&quot;,&quot;jsonContent&quot;:&quot;{\\&quot;greeting\\&quot;:\\&quot;Hello world!\\&quot;,\\&quot;image\\&quot;:{\\&quot;path\\&quot;:\\&quot;earth.jpg\\&quot;,\\&quot;width\\&quot;:300,\\&quot;height\\&quot;:300,\\&quot;copyright\\&quot;:{\\&quot;license\\&quot;:\\&quot;U\\&quot;}}}&quot;,&quot;url&quot;:&quot;/hello-world&quot;,&quot;displayOptions&quot;:{&quot;frame&quot;:false,&quot;export&quot;:false,&quot;embed&quot;:false,&quot;copyright&quot;:false,&quot;icon&quot;:false,&quot;copy&quot;:false},&quot;metadata&quot;:{&quot;license&quot;:&quot;U&quot;,&quot;title&quot;:&quot;Greeting card&quot;}}},&quot;_libraryPaths&quot;:{&quot;H5P.GreetingCard-1.0&quot;:&quot;H5P.GreetingCard-1.0&quot;}};var H5P = H5P || {};H5P.externalEmbed = true;</script>
-    <script>/* MOCKED_FRAME_JS */</script>
-    <script src=&quot;/hello-world/H5P.GreetingCard-1.0/greetingcard.js&quot;></script>
-  </head>
-  <body>
-    <div class=&quot;h5p-content&quot; data-content-id=&quot;default&quot;/>
-  </body>
-</html>" style="width: 100%; height: 100%; display: none;"></iframe> hello from the DEFAULT slot</div>
+<div><iframe style="width: 100%; height: 100%;"></iframe>
+  <!---->
+</div>
 `;
 
 exports[`Component renders error slot on fetch-errors and provides response object: should have error slot content 1`] = `

@@ -6333,11 +6333,8 @@ var render = function __render__() {
       "height": "100%",
       "border": "none"
     },
-    attrs: {
-      "srcdoc": _vm.srcdoc
-    },
     on: {
-      "load": _vm.addEventHandlers
+      "load": _vm.iFrameLoaded
     }
   }) : _vm._e(), _vm.loading ? [_vm._t("default")] : _vm.error ? [_vm._t("error", null, {
     "error": _vm.error
@@ -6454,6 +6451,7 @@ const __vue2_script = {
   data() {
     return {
       loading: true,
+      listeners: false,
       error: void 0,
       srcdoc: ""
     };
@@ -6540,11 +6538,18 @@ const __vue2_script = {
 </html>`;
   },
   methods: {
-    addEventHandlers() {
-      this.$refs.iframe.contentWindow.H5P.externalDispatcher.on("*", (ev) => {
-        this.$emit(ev.type.toLowerCase(), ev.data);
-      });
-      this.loading = false;
+    iFrameLoaded() {
+      if (this.loading) {
+        this.$refs.iframe.contentDocument.open();
+        this.$refs.iframe.contentDocument.write(this.srcdoc);
+        this.$refs.iframe.contentDocument.close();
+        this.loading = false;
+      } else if (!this.listeners) {
+        this.listeners = true;
+        this.$refs.iframe.contentWindow.H5P.externalDispatcher.on("*", (ev) => {
+          this.$emit(ev.type.toLowerCase(), ev.data);
+        });
+      }
     },
     async getJSON(...url) {
       const resp = await fetch(this.path + "/" + url.join("/"), { credentials: "include" });

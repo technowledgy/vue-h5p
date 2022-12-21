@@ -1,53 +1,26 @@
 import Vue from 'vue'
-import fs from 'fs'
 import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 
 const warnHandler = jest.fn()
 Vue.config.warnHandler = (msg) => warnHandler(msg)
 
-function sleep (ms) {
+function sleep (ms = 1000) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
   })
 }
 
-function createComponent (props, attachTo) {
+function createComponent (props) {
   const h5p = require('@/h5p.vue').default
   return shallowMount(h5p, {
-    attachTo,
+    attachTo: document.body,
     propsData: props,
     scopedSlots: {
       default: () => 'hello from the DEFAULT slot',
       error: ({ error }) => `hello from the ERROR slot: ${error}`
     }
   })
-}
-
-async function createComponentWithIframeSource (props) {
-  let wrapper = createComponent(props)
-  await flushPromises()
-
-  // Write the srcdoc content to a local file to work around the jsdom limitation,
-  // which does not implement srcdoc just yet.
-  fs.writeFileSync('tests/mocks/srcdoc.tmp', wrapper.get('iframe').element.srcdoc)
-
-  wrapper.destroy()
-
-  wrapper = createComponent(props, document.body)
-  // mock this once, because it would fail on first load
-  jest.spyOn(wrapper.vm, 'addEventHandlers').mockImplementationOnce(() => {})
-  await flushPromises()
-
-  const iframe = wrapper.get('iframe')
-
-  iframe.element.setAttribute('srcdoc', '')
-  iframe.element.setAttribute('src', 'srcdoc.tmp')
-
-  // Need to wait for some time to make JSDOM load all files
-  await sleep(1000)
-
-  return wrapper
 }
 
 describe('Component', () => {
@@ -64,7 +37,7 @@ describe('Component', () => {
     })
 
     jest.doMock('../frame/script.cjs?raw', () => {
-      return '/* MOCKED_FRAME_JS */'
+      return 'var callback; H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) }'
     }, {
       virtual: true
     })
@@ -80,6 +53,7 @@ describe('Component', () => {
       src: '/hello-world'
     })
     await flushPromises()
+    await sleep()
     expect(wrapper.get('iframe').element.constructor.name).toBe('HTMLIFrameElement')
   })
 
@@ -87,12 +61,10 @@ describe('Component', () => {
     wrapper = createComponent({
       src: '/hello-world'
     })
-    // this would fail without proper iframe content
-    jest.spyOn(wrapper.vm, 'addEventHandlers').mockImplementation(() => {})
     expect(wrapper).toMatchSnapshot('should have only default slot content')
     await flushPromises()
     expect(wrapper).toMatchSnapshot('should have default slot content on top of iframe content')
-    wrapper.get('iframe').trigger('load')
+    await sleep()
     expect(wrapper).toMatchSnapshot('should have only iframe content')
   })
 
@@ -101,6 +73,7 @@ describe('Component', () => {
       src: '/404'
     })
     await flushPromises()
+    await sleep()
     expect(wrapper).toMatchSnapshot('should have error slot content')
   })
 
@@ -109,6 +82,7 @@ describe('Component', () => {
       src: '/hello-world'
     })
     await flushPromises()
+    await sleep()
     expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
     wrapper.destroy()
     fetch.mockClear()
@@ -117,6 +91,7 @@ describe('Component', () => {
       src: '/hello-world/'
     })
     await flushPromises()
+    await sleep()
     expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
   })
 
@@ -125,6 +100,7 @@ describe('Component', () => {
       src: '/hello-world'
     })
     await flushPromises()
+    await sleep()
     expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
     expect(fetch).toHaveBeenCalledWith('/hello-world/content/content.json', expect.anything())
     expect(fetch).toHaveBeenCalledWith('/hello-world/H5P.GreetingCard-1.0/library.json', expect.anything())
@@ -136,7 +112,8 @@ describe('Component', () => {
         src: '/hello-world'
       })
       await flushPromises()
-      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+      await sleep()
+      expect(wrapper.get('iframe').element.contentDocument.documentElement.outerHTML).toMatchSnapshot()
     })
 
     it('has sorted dependencies', async () => {
@@ -144,7 +121,8 @@ describe('Component', () => {
         src: '/course-presentation'
       })
       await flushPromises()
-      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+      await sleep()
+      expect(wrapper.get('iframe').element.contentDocument.documentElement.outerHTML).toMatchSnapshot()
     })
 
     it('without version in library paths', async () => {
@@ -152,7 +130,8 @@ describe('Component', () => {
         src: '/hello-world-no-version'
       })
       await flushPromises()
-      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+      await sleep()
+      expect(wrapper.get('iframe').element.contentDocument.documentElement.outerHTML).toMatchSnapshot()
     })
 
     it('should throw on wrong actor prop', async () => {
@@ -161,6 +140,7 @@ describe('Component', () => {
         actor: { foo: 'bar' }
       })
       await flushPromises()
+      await sleep()
       expect(warnHandler).toHaveBeenCalledWith('Invalid prop: custom validator check failed for prop "actor".')
     })
 
@@ -173,6 +153,7 @@ describe('Component', () => {
         }
       })
       await flushPromises()
+      await sleep()
       expect(warnHandler).not.toHaveBeenCalled()
       expect(localStorage.getItem('H5PUserUUID')).toBeNull()
     })
@@ -186,6 +167,7 @@ describe('Component', () => {
         }
       })
       await flushPromises()
+      await sleep()
       expect(warnHandler).not.toHaveBeenCalled()
       expect(localStorage.getItem('H5PUserUUID')).toBe('123')
     })
@@ -211,7 +193,8 @@ describe('Component', () => {
         }
       })
       await flushPromises()
-      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+      await sleep()
+      expect(wrapper.get('iframe').element.contentDocument.documentElement.outerHTML).toMatchSnapshot()
     })
 
     it('passes actor props with mail', async () => {
@@ -223,7 +206,8 @@ describe('Component', () => {
         }
       })
       await flushPromises()
-      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+      await sleep()
+      expect(wrapper.get('iframe').element.contentDocument.documentElement.outerHTML).toMatchSnapshot()
     })
 
     it('passes actor props with homePage', async () => {
@@ -235,16 +219,16 @@ describe('Component', () => {
         }
       })
       await flushPromises()
-      expect(wrapper.get('iframe').element.srcdoc).toMatchSnapshot()
+      await sleep()
+      expect(wrapper.get('iframe').element.contentDocument.documentElement.outerHTML).toMatchSnapshot()
     })
 
-    // TODO: This test is put last on purpose - because it leaves a dirty environment
     it('emits h5p events', async () => {
-      jest.dontMock('../frame/script.cjs?raw')
-
-      wrapper = await createComponentWithIframeSource({
+      wrapper = await createComponent({
         src: '/hello-world'
       })
+      await flushPromises()
+      await sleep()
 
       const iframe = wrapper.get('iframe')
 
