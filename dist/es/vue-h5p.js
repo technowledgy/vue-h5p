@@ -6518,7 +6518,7 @@ const __vue2_script = {
       ...this.integration
     };
     const { styles, scripts } = this.sortDependencies(libraries);
-    const endScript = "</script>";
+    const endScript = "<\/script>";
     const contentStyles = styles.map((style) => `<link rel="stylesheet" href="${style}">`).join("\n");
     const contentScripts = scripts.map((script) => `<script src="${script}">${endScript}`).join("\n");
     this.srcdoc = `<!doctype html>
