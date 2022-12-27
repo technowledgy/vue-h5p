@@ -6543,12 +6543,10 @@ const __vue2_script = {
         this.$refs.iframe.contentDocument.open();
         this.$refs.iframe.contentDocument.write(this.srcdoc);
         this.$refs.iframe.contentDocument.close();
-        this.loading = false;
-      } else if (!this.listeners) {
-        this.listeners = true;
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on("*", (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data);
         });
+        this.loading = false;
       }
     },
     async getJSON(...url) {

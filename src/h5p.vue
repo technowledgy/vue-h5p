@@ -179,17 +179,14 @@ export default {
         // Instead of setting the srcdoc prop on the iframe, we use document.write.
         // This is because of https://bugzilla.mozilla.org/show_bug.cgi?id=1741489,
         // which prevents passing authentication cookies into the iframe, if srcdoc
-        // is used. On the first pass, the document is written. Once the document is
-        // closed
+        // is used.
         this.$refs.iframe.contentDocument.open()
         this.$refs.iframe.contentDocument.write(this.srcdoc)
         this.$refs.iframe.contentDocument.close()
-        this.loading = false
-      } else if (!this.listeners) {
-        this.listeners = true
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data)
         })
+        this.loading = false
       }
     },
     async getJSON (...url) {
