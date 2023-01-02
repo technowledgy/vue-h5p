@@ -183,10 +183,19 @@ export default {
         this.$refs.iframe.contentDocument.open()
         this.$refs.iframe.contentDocument.write(this.srcdoc)
         this.$refs.iframe.contentDocument.close()
-        this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
-          this.$emit(ev.type.toLowerCase(), ev.data)
-        })
-        this.loading = false
+
+        // We need to wait for the iframe to load before we can access the H5P
+        // instance. We do this by waiting for the H5P instance to be added to
+        // the window object.
+        const interval = setInterval(() => {
+          if (this.$refs.iframe.contentWindow.H5P) {
+            clearInterval(interval)
+            this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
+              this.$emit(ev.type.toLowerCase(), ev.data)
+            })
+            this.loading = false
+          }
+        }, 100)
       }
     },
     async getJSON (...url) {
