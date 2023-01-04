@@ -124,7 +124,11 @@ exports[`Component iframe has correct attribute srcdoc 1`] = `
           type,
           data
         })
-      }
+      };
+      window.top.postMessage({
+        context: "h5p",
+        action: "hello"
+      }, "*");
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
@@ -309,7 +313,11 @@ exports[`Component iframe has sorted dependencies 1`] = `
           type,
           data
         })
-      }
+      };
+      window.top.postMessage({
+        context: "h5p",
+        action: "hello"
+      }, "*");
     </script>
     <script src="/course-presentation/H5P.AdvancedText-1.1/text.js"></script>
     <script src="/course-presentation/H5P.Image-1.1/image.js"></script>
@@ -492,7 +500,11 @@ exports[`Component iframe passes actor props with homePage 1`] = `
           type,
           data
         })
-      }
+      };
+      window.top.postMessage({
+        context: "h5p",
+        action: "hello"
+      }, "*");
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
@@ -634,7 +646,11 @@ exports[`Component iframe passes actor props with mail 1`] = `
           type,
           data
         })
-      }
+      };
+      window.top.postMessage({
+        context: "h5p",
+        action: "hello"
+      }, "*");
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
@@ -775,7 +791,11 @@ exports[`Component iframe passes props 1`] = `
           type,
           data
         })
-      }
+      };
+      window.top.postMessage({
+        context: "h5p",
+        action: "hello"
+      }, "*");
     </script>
     <script src="/hello-world/H5P.GreetingCard-1.0/greetingcard.js"></script>
   </head>
@@ -913,7 +933,11 @@ exports[`Component iframe without version in library paths 1`] = `
           type,
           data
         })
-      }
+      };
+      window.top.postMessage({
+        context: "h5p",
+        action: "hello"
+      }, "*");
     </script>
     <script src="/hello-world-no-version/H5P.GreetingCard/greetingcard.js"></script>
   </head>

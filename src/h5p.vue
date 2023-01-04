@@ -92,7 +92,19 @@ export default {
       return this.src.endsWith('/') ? this.src.slice(0, -1) : this.src
     }
   },
+  beforeDestroy () {
+    window.removeEventListener('message', this.onMessage)
+  },
   async mounted () {
+    this.onMessage = evt => {
+      if (evt.data.context === 'h5p' && evt.data.action === 'hello') {
+        this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
+          this.$emit(ev.type.toLowerCase(), ev.data)
+        })
+      }
+    }
+    window.addEventListener('message', this.onMessage, { once: true })
+
     let h5p
     let content
     let libraries
@@ -183,9 +195,6 @@ export default {
         this.$refs.iframe.contentDocument.open()
         this.$refs.iframe.contentDocument.write(this.srcdoc)
         this.$refs.iframe.contentDocument.close()
-        this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
-          this.$emit(ev.type.toLowerCase(), ev.data)
-        })
         this.loading = false
       }
     },
