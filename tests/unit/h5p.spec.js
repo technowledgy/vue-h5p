@@ -37,7 +37,7 @@ describe('Component', () => {
     })
 
     jest.doMock('../frame/script.cjs?raw', () => {
-      return 'var callback; H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) }'
+      return 'var callback; H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) }; window.top.postMessage({ context: "h5p", action: "hello" }, "*");'
     }, {
       virtual: true
     })

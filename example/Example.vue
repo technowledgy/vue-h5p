@@ -12,6 +12,7 @@
     >DE
     <h5p
       :key="locale"
+      class="h5p"
       src="/h5p/"
       :l10n="translations[locale]"
       :css="`
@@ -64,5 +65,9 @@ export default {
 <style>
 .wrapper {
   height: 98vh;
+}
+
+.h5p {
+  height: 100%;
 }
 </style>
