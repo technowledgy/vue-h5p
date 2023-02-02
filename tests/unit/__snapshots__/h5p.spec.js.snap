@@ -12,6 +12,7 @@ exports[`Component iframe has correct attribute srcdoc 1`] = `
     <style></style>
     <script>
       H5PIntegration = {
+        "fullscreenDisabled": true,
         "l10n": {
           "H5P": {
             "advancedHelp": "Include this script on your website if you want dynamic sizing of the embedded content:",
@@ -180,6 +181,7 @@ exports[`Component iframe has sorted dependencies 1`] = `
     <style></style>
     <script>
       H5PIntegration = {
+        "fullscreenDisabled": true,
         "l10n": {
           "H5P": {
             "advancedHelp": "Include this script on your website if you want dynamic sizing of the embedded content:",
@@ -387,6 +389,7 @@ exports[`Component iframe passes actor props with homePage 1`] = `
     <style></style>
     <script>
       H5PIntegration = {
+        "fullscreenDisabled": true,
         "l10n": {
           "H5P": {
             "advancedHelp": "Include this script on your website if you want dynamic sizing of the embedded content:",
@@ -530,6 +533,7 @@ exports[`Component iframe passes actor props with mail 1`] = `
     <style></style>
     <script>
       H5PIntegration = {
+        "fullscreenDisabled": true,
         "l10n": {
           "H5P": {
             "advancedHelp": "Include this script on your website if you want dynamic sizing of the embedded content:",
@@ -678,6 +682,7 @@ exports[`Component iframe passes props 1`] = `
     </style>
     <script>
       H5PIntegration = {
+        "fullscreenDisabled": false,
         "l10n": {
           "H5P": {
             "advancedHelp": "TRANSLATED1",
@@ -775,8 +780,7 @@ exports[`Component iframe passes props 1`] = `
         },
         "_libraryPaths": {
           "H5P.GreetingCard-1.0": "H5P.GreetingCard-1.0"
-        },
-        "fullscreenDisabled": true
+        }
       };
       var H5P = H5P || {};
       H5P.externalEmbed = true;
@@ -821,6 +825,7 @@ exports[`Component iframe without version in library paths 1`] = `
     <style></style>
     <script>
       H5PIntegration = {
+        "fullscreenDisabled": true,
         "l10n": {
           "H5P": {
             "advancedHelp": "Include this script on your website if you want dynamic sizing of the embedded content:",

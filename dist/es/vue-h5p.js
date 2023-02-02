@@ -6492,6 +6492,7 @@ const __vue2_script = {
     }
     const { machineName, majorVersion, minorVersion } = h5p2.preloadedDependencies.find((dep) => dep.machineName === h5p2.mainLibrary);
     const h5pIntegration = {
+      fullscreenDisabled: !this.fullscreen,
       l10n: {
         H5P: Object.assign({}, l10n.H5P, this.l10n)
       },

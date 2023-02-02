@@ -187,10 +187,7 @@ describe('Component', () => {
         copyright: true,
         css: '/* MOCKED_USER_STYLE_CSS */',
         icon: true,
-        resize: 'resize code',
-        integration: {
-          fullscreenDisabled: true
-        }
+        resize: 'resize code'
       })
       await flushPromises()
       await sleep()

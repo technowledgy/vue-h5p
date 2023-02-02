@@ -125,6 +125,7 @@ export default {
 
     const { machineName, majorVersion, minorVersion } = h5p.preloadedDependencies.find(dep => dep.machineName === h5p.mainLibrary)
     const h5pIntegration = {
+      fullscreenDisabled: !this.fullscreen,
       l10n: {
         H5P: Object.assign({}, l10n.H5P, this.l10n)
       },
