@@ -81,6 +81,9 @@ const l10n = {
 };
 const frameScript = `"use strict";
 const h5p = "";
+const h5pConfirmationDialog = "";
+const h5pCoreButton = "";
+const h5pTooltip = "";
 /*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
 !function(e, t) {
   "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, true) : function(e2) {
@@ -6315,6 +6318,316 @@ iframe.h5peditor-semi-fullscreen {
   to {
     transform: rotate(360deg);
   }
+}
+.h5p-confirmation-dialog-background {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+
+  background: rgba(44, 44, 44, 0.9);
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.1s, linear 0s, visibility 0s linear 0s;
+  transition: opacity 0.1s linear 0s, visibility 0s linear 0s;
+
+  z-index: 201;
+}
+
+.h5p-confirmation-dialog-background.hidden {
+  display: none;
+}
+
+.h5p-confirmation-dialog-background.hiding {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 0.1s, linear 0s, visibility 0s linear 0.1s;
+  transition: opacity 0.1s linear 0s, visibility 0s linear 0.1s;
+}
+
+.h5p-confirmation-dialog-popup:focus {
+  outline: none;
+}
+
+.h5p-confirmation-dialog-popup {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-sizing: border-box;
+  max-width: 35em;
+  min-width: 25em;
+
+  top: 2em;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0%);
+  -ms-transform: translate(-50%, 0%);
+  transform: translate(-50%, 0%);
+
+  color: #555;
+  box-shadow: 0 0 6px 6px rgba(10,10,10,0.3);
+
+  -webkit-transition: transform 0.1s ease-in;
+  transition: transform 0.1s ease-in;
+}
+
+.h5p-confirmation-dialog-popup.hidden {
+  -webkit-transform: translate(-50%, 50%);
+  -ms-transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%);
+}
+
+.h5p-confirmation-dialog-header {
+  padding: 1.5em;
+  background: #fff;
+  color: #356593;
+}
+
+.h5p-confirmation-dialog-header-text {
+  font-size: 1.25em;
+}
+
+.h5p-confirmation-dialog-body {
+  background: #fafbfc;
+  border-top: solid 1px #dde0e9;
+  padding: 1.25em 1.5em;
+}
+
+.h5p-confirmation-dialog-text {
+  margin-bottom: 1.5em;
+}
+
+.h5p-confirmation-dialog-buttons {
+  float: right;
+}
+
+button.h5p-confirmation-dialog-exit:visited,
+button.h5p-confirmation-dialog-exit:link,
+button.h5p-confirmation-dialog-exit {
+  position: absolute;
+  background: none;
+  border: none;
+  font-size: 2.5em;
+  top: -0.9em;
+  right: -1.15em;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button.h5p-confirmation-dialog-exit:focus,
+button.h5p-confirmation-dialog-exit:hover {
+  color: #E4ECF5;
+}
+
+.h5p-confirmation-dialog-exit:before {
+  font-family: "H5P";
+  content: "\\e890";
+}
+
+.h5p-core-button.h5p-confirmation-dialog-confirm-button {
+  padding-left: 0.75em;
+  margin-bottom: 0;
+}
+
+.h5p-core-button.h5p-confirmation-dialog-confirm-button:before {
+  content: "\\e601";
+  margin-top: -6px;
+  display: inline-block;
+}
+
+.h5p-confirmation-dialog-popup.offline .h5p-confirmation-dialog-buttons {
+  float: none;
+  text-align: center;
+}
+
+.h5p-confirmation-dialog-popup.offline .count-down {
+  font-family: Arial;
+  margin-top: 0.15em;
+  color: #000;
+}
+
+.h5p-confirmation-dialog-popup.offline .h5p-confirmation-dialog-confirm-button:before {
+  content: "\\e90b";
+  font-weight: normal;
+  vertical-align: text-bottom;
+}
+
+.throbber-wrapper {
+  display: none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background: rgba(44, 44, 44, 0.9);
+}
+
+.throbber-wrapper.show {
+  display: block;
+}
+
+.throbber-wrapper .throbber-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.throbber-wrapper .sending-requests-throbber{
+  position: absolute;
+  top: 7em;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.throbber-wrapper .sending-requests-throbber:before {
+  display: block;
+  font-family: 'H5P';
+  content: "\\e90b";
+  color: white;
+  font-size: 10em;
+  animation: request-throbber 1.5s infinite linear;
+}
+
+@keyframes request-throbber {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+button.h5p-core-button:visited,
+button.h5p-core-button:link,
+button.h5p-core-button {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 1.2;
+  padding: 0.5em 1.25em;
+  border-radius: 2em;
+
+  background: #2579c6;
+  color: #fff;
+
+  cursor: pointer;
+  border: none;
+  box-shadow: none;
+  outline: none;
+
+  display: inline-block;
+  text-align: center;
+  text-shadow: none;
+  vertical-align: baseline;
+  text-decoration: none;
+
+  -webkit-transition: initial;
+  transition: initial;
+}
+button.h5p-core-button:focus {
+  background: #1f67a8;
+}
+button.h5p-core-button:hover {
+  background: rgba(31, 103, 168, 0.83);
+}
+button.h5p-core-button:active {
+  background: #104888;
+}
+button.h5p-core-button:before {
+  font-family: 'H5P';
+  padding-right: 0.15em;
+  font-size: 1.5em;
+  vertical-align: middle;
+  line-height: 0.7;
+}
+button.h5p-core-cancel-button:visited,
+button.h5p-core-cancel-button:link,
+button.h5p-core-cancel-button {
+  border: none;
+  background: none;
+  color: #a00;
+  margin-right: 1em;
+  font-size: 1em;
+  text-decoration: none;
+  cursor: pointer;
+}
+button.h5p-core-cancel-button:hover,
+button.h5p-core-cancel-button:focus {
+  background: none;
+  border: none;
+  color: #e40000;
+}
+.h5p-tooltip {
+  --translateX: -50%;
+  --translateY: 0;
+
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(var(--translateX)) translateY(var(--translateY));
+
+  z-index: 4;
+
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+
+  padding: 0 0.5rem;
+  white-space: nowrap;
+
+  background: #000;
+  color: #FFF;
+
+  cursor: default;
+
+  /* To hide the position adjustments and to get a bit more 
+     pleasent popup effect */
+  -webkit-animation: 800ms ease 0s normal forwards 1 fadein;
+  animation: 800ms ease 0s normal forwards 1 fadein;
+}
+
+@keyframes fadein{
+  0% { opacity: 0; }
+  80% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadein{
+  0% { opacity: 0; }
+  80% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.h5p-tooltip-bottom {
+  top: 100%;
+  bottom: auto;
+}
+
+.h5p-tooltip-left {
+  --translateY: -50%;
+  --translateX: 0;
+  top: 50%;
+  bottom: auto;
+  left: auto;
+  right: 100%;
+}
+
+.h5p-tooltip-right {
+  --translateY: -50%;
+  --translateX: 0;
+  top: 50%;
+  bottom: auto;
+  left: 100%;
+  right: auto;
+}
+
+.h5p-tooltip-visible {
+  display: block;
 }
 `;
 var render = function __render__() {

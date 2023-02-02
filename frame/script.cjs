@@ -1,5 +1,8 @@
 "use strict";
 const h5p = "";
+const h5pConfirmationDialog = "";
+const h5pCoreButton = "";
+const h5pTooltip = "";
 /*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
 !function(e, t) {
   "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, true) : function(e2) {

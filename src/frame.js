@@ -1,5 +1,9 @@
 /* eslint-disable no-undef */
 import 'h5p/styles/h5p.css'
+import 'h5p/styles/h5p-confirmation-dialog.css'
+import 'h5p/styles/h5p-core-button.css'
+import 'h5p/styles/h5p-tooltip.css'
+
 import 'h5p/js/jquery'
 import 'h5p/js/h5p'
 import 'h5p/js/h5p-event-dispatcher'
