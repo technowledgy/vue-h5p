@@ -84,7 +84,8 @@ export default {
       loading: true,
       listeners: false,
       error: undefined,
-      srcdoc: ''
+      srcdoc: '',
+      resizeObserver: undefined
     }
   },
   computed: {
@@ -94,6 +95,7 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('message', this.onMessage)
+    if (this.resizeObserver) this.resizeObserver.disconnect()
   },
   async mounted () {
     this.onMessage = evt => {
@@ -187,6 +189,10 @@ export default {
     <div class="h5p-content" data-content-id="default"/>
   </body>
 </html>`
+
+    // Workaround to trigger H5P resizing when iframe size changes
+    this.resizeObserver = new ResizeObserver(this.handleResize)
+    this.resizeObserver.observe(this.$el)
   },
   methods: {
     iFrameLoaded () {
@@ -252,6 +258,10 @@ export default {
         .filter(Boolean)
 
       return { styles, scripts }
+    },
+    handleResize () {
+      const H5P = this.$refs.iframe.contentWindow.H5P
+      H5P.trigger(H5P.instances[0], 'resize')
     }
   }
 }

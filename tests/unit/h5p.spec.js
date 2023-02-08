@@ -5,6 +5,15 @@ import flushPromises from 'flush-promises'
 const warnHandler = jest.fn()
 Vue.config.warnHandler = (msg) => warnHandler(msg)
 
+const resizeObserver = jest.fn()
+const observe = jest.fn()
+const disconnect = jest.fn()
+
+global.ResizeObserver = resizeObserver.mockImplementation(() => ({
+    observe,
+    disconnect
+}))
+
 function sleep (ms = 1000) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
@@ -104,6 +113,34 @@ describe('Component', () => {
     expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
     expect(fetch).toHaveBeenCalledWith('/hello-world/content/content.json', expect.anything())
     expect(fetch).toHaveBeenCalledWith('/hello-world/H5P.GreetingCard-1.0/library.json', expect.anything())
+  })
+
+  it('should link the ResizeObserver to the correct function', async () => {
+    wrapper = createComponent({
+      src: '/hello-world'
+    })
+    await flushPromises()
+    await sleep()
+    expect(resizeObserver).toHaveBeenCalledWith(wrapper.vm.handleResize)
+  })
+
+  it('should call the ResizeObserver.observe on the correct element', async () => {
+    wrapper = createComponent({
+      src: '/hello-world'
+    })
+    await flushPromises()
+    await sleep()
+    expect(observe).toHaveBeenCalledWith(wrapper.vm.$el)
+  })
+
+  it('should call ResizeObserver.disconnect before destroy', async () => {
+    wrapper = createComponent({
+      src: '/hello-world'
+    })
+    await flushPromises()
+    await sleep()
+    wrapper.destroy()
+    expect(disconnect).toHaveBeenCalledTimes(1)
   })
 
   describe('iframe', () => {
