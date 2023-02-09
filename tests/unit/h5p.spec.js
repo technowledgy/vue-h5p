@@ -10,8 +10,8 @@ const observe = jest.fn()
 const disconnect = jest.fn()
 
 global.ResizeObserver = resizeObserver.mockImplementation(() => ({
-    observe,
-    disconnect
+  observe,
+  disconnect
 }))
 
 function sleep (ms = 1000) {
@@ -46,7 +46,7 @@ describe('Component', () => {
     })
 
     jest.doMock('../frame/script.cjs?raw', () => {
-      return 'var callback; H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) }; window.top.postMessage({ context: "h5p", action: "hello" }, "*");'
+      return 'var callback; H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) }; window.top.postMessage({ context: "h5p", action: "hello" }, "*"); H5P.instances = [Symbol("instance")]; var lastTrigger; H5P.trigger = (instance, action) => { lastTrigger = { instance, action }};'
     }, {
       virtual: true
     })
@@ -115,16 +115,7 @@ describe('Component', () => {
     expect(fetch).toHaveBeenCalledWith('/hello-world/H5P.GreetingCard-1.0/library.json', expect.anything())
   })
 
-  it('should link the ResizeObserver to the correct function', async () => {
-    wrapper = createComponent({
-      src: '/hello-world'
-    })
-    await flushPromises()
-    await sleep()
-    expect(resizeObserver).toHaveBeenCalledWith(wrapper.vm.handleResize)
-  })
-
-  it('should call the ResizeObserver.observe on the correct element', async () => {
+  it('should observe resizes of the wrapper', async () => {
     wrapper = createComponent({
       src: '/hello-world'
     })
@@ -133,7 +124,7 @@ describe('Component', () => {
     expect(observe).toHaveBeenCalledWith(wrapper.vm.$el)
   })
 
-  it('should call ResizeObserver.disconnect before destroy', async () => {
+  it('should disconnect ResizeObserver before destroy', async () => {
     wrapper = createComponent({
       src: '/hello-world'
     })
@@ -141,6 +132,26 @@ describe('Component', () => {
     await sleep()
     wrapper.destroy()
     expect(disconnect).toHaveBeenCalledTimes(1)
+  })
+
+  it('should trigger H5P resize when wrapper is resized', async () => {
+    wrapper = createComponent({
+      src: '/hello-world'
+    })
+    await flushPromises()
+    await sleep()
+    const iframeWindow = wrapper.get('iframe').element.contentWindow
+
+    expect(iframeWindow.lastTrigger).toBeUndefined()
+
+    resizeObserver.mock.calls[0][0]()
+
+    expect(iframeWindow.lastTrigger).toMatchInlineSnapshot(`
+      {
+        "action": "resize",
+        "instance": Symbol(instance),
+      }
+    `)
   })
 
   describe('iframe', () => {

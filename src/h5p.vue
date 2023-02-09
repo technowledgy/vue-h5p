@@ -84,8 +84,7 @@ export default {
       loading: true,
       listeners: false,
       error: undefined,
-      srcdoc: '',
-      resizeObserver: undefined
+      srcdoc: ''
     }
   },
   computed: {
@@ -95,9 +94,12 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('message', this.onMessage)
-    if (this.resizeObserver) this.resizeObserver.disconnect()
+    this.resizeObserver.disconnect()
   },
   async mounted () {
+    this.resizeObserver = new ResizeObserver(this.triggerResize)
+    this.resizeObserver.observe(this.$el)
+
     this.onMessage = evt => {
       if (evt.data.context === 'h5p' && evt.data.action === 'hello') {
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
@@ -189,10 +191,6 @@ export default {
     <div class="h5p-content" data-content-id="default"/>
   </body>
 </html>`
-
-    // Workaround to trigger H5P resizing when iframe size changes
-    this.resizeObserver = new ResizeObserver(this.handleResize)
-    this.resizeObserver.observe(this.$el)
   },
   methods: {
     iFrameLoaded () {
@@ -259,9 +257,9 @@ export default {
 
       return { styles, scripts }
     },
-    handleResize () {
+    triggerResize () {
       const H5P = this.$refs.iframe.contentWindow.H5P
-      H5P.trigger(H5P.instances[0], 'resize')
+      if (H5P) H5P.trigger(H5P.instances[0], 'resize')
     }
   }
 }
