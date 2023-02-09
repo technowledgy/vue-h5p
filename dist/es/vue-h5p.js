@@ -6776,18 +6776,19 @@ const __vue2_script = {
     }
   },
   beforeDestroy() {
+    var _a;
     window.removeEventListener("message", this.onMessage);
-    this.resizeObserver.disconnect();
+    (_a = this.resizeObserver) == null ? void 0 : _a.disconnect();
   },
   async mounted() {
     var _a, _b, _c;
-    this.resizeObserver = new ResizeObserver(this.triggerResize);
-    this.resizeObserver.observe(this.$el);
     this.onMessage = (evt) => {
       if (evt.data.context === "h5p" && evt.data.action === "hello") {
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on("*", (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data);
         });
+        this.resizeObserver = new ResizeObserver(this.triggerResize);
+        this.resizeObserver.observe(this.$el);
         window.removeEventListener("message", this.onMessage);
       }
     };
@@ -6928,8 +6929,7 @@ const __vue2_script = {
     },
     triggerResize() {
       const H5P = this.$refs.iframe.contentWindow.H5P;
-      if (H5P)
-        H5P.trigger(H5P.instances[0], "resize");
+      H5P.trigger(H5P.instances[0], "resize");
     }
   }
 };

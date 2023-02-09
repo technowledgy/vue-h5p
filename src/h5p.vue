@@ -94,17 +94,17 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('message', this.onMessage)
-    this.resizeObserver.disconnect()
+    this.resizeObserver?.disconnect()
   },
   async mounted () {
-    this.resizeObserver = new ResizeObserver(this.triggerResize)
-    this.resizeObserver.observe(this.$el)
-
     this.onMessage = evt => {
       if (evt.data.context === 'h5p' && evt.data.action === 'hello') {
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data)
         })
+
+        this.resizeObserver = new ResizeObserver(this.triggerResize)
+        this.resizeObserver.observe(this.$el)
 
         window.removeEventListener('message', this.onMessage)
       }
@@ -259,7 +259,7 @@ export default {
     },
     triggerResize () {
       const H5P = this.$refs.iframe.contentWindow.H5P
-      if (H5P) H5P.trigger(H5P.instances[0], 'resize')
+      H5P.trigger(H5P.instances[0], 'resize')
     }
   }
 }
