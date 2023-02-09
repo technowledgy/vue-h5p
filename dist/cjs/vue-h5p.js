@@ -6787,9 +6787,10 @@ const __vue2_script = {
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on("*", (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data);
         });
+        window.removeEventListener("message", this.onMessage);
       }
     };
-    window.addEventListener("message", this.onMessage, { once: true });
+    window.addEventListener("message", this.onMessage);
     let h5p2;
     let content;
     let libraries;
