@@ -94,6 +94,7 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('message', this.onMessage)
+    this.resizeObserver?.disconnect()
   },
   async mounted () {
     this.onMessage = evt => {
@@ -101,6 +102,9 @@ export default {
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data)
         })
+
+        this.resizeObserver = new ResizeObserver(this.triggerResize)
+        this.resizeObserver.observe(this.$el)
 
         window.removeEventListener('message', this.onMessage)
       }
@@ -252,6 +256,10 @@ export default {
         .filter(Boolean)
 
       return { styles, scripts }
+    },
+    triggerResize () {
+      const H5P = this.$refs.iframe.contentWindow.H5P
+      H5P.trigger(H5P.instances[0], 'resize')
     }
   }
 }

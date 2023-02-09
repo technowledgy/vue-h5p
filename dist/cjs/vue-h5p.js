@@ -6778,7 +6778,9 @@ const __vue2_script = {
     }
   },
   beforeDestroy() {
+    var _a;
     window.removeEventListener("message", this.onMessage);
+    (_a = this.resizeObserver) == null ? void 0 : _a.disconnect();
   },
   async mounted() {
     var _a, _b, _c;
@@ -6787,6 +6789,8 @@ const __vue2_script = {
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on("*", (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data);
         });
+        this.resizeObserver = new ResizeObserver(this.triggerResize);
+        this.resizeObserver.observe(this.$el);
         window.removeEventListener("message", this.onMessage);
       }
     };
@@ -6924,6 +6928,10 @@ const __vue2_script = {
         return (_a = library.preloadedJs) == null ? void 0 : _a.map((file) => `${this.path}/${path}/${file.path}`);
       }).flat(1).filter(Boolean);
       return { styles, scripts };
+    },
+    triggerResize() {
+      const H5P = this.$refs.iframe.contentWindow.H5P;
+      H5P.trigger(H5P.instances[0], "resize");
     }
   }
 };
