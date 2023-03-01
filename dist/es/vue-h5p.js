@@ -84,7 +84,6 @@ const h5p = "";
 const h5pConfirmationDialog = "";
 const h5pCoreButton = "";
 const h5pTooltip = "";
-/*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
 !function(e, t) {
   "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, true) : function(e2) {
     if (!e2.document)
@@ -6790,6 +6789,7 @@ const __vue2_script = {
         this.resizeObserver = new ResizeObserver(this.triggerResize);
         this.resizeObserver.observe(this.$el);
         window.removeEventListener("message", this.onMessage);
+        this.$emit("ready");
       }
     };
     window.addEventListener("message", this.onMessage);
