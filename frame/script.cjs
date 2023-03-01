@@ -3,6 +3,7 @@ const h5p = "";
 const h5pConfirmationDialog = "";
 const h5pCoreButton = "";
 const h5pTooltip = "";
+/*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
 !function(e, t) {
   "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, true) : function(e2) {
     if (!e2.document)
@@ -3713,7 +3714,9 @@ H5P$4.createTitle = function(rawTitle, maxLength) {
     maxLength = 60;
   }
   var title = H5P$4.jQuery("<div></div>").text(
+    // Strip tags
     rawTitle.replace(/(<([^>]+)>)/ig, "")
+    // Escape
   ).text();
   if (title.length > maxLength) {
     title = title.substr(0, maxLength - 3) + "...";
@@ -4417,6 +4420,7 @@ H5P$1.XAPIEvent.allowedXAPIVerbs = [
   "suspended",
   "terminated",
   "voided",
+  // Custom verbs used for action toolbar below content
   "downloaded",
   "copied",
   "accessed-reuse",
