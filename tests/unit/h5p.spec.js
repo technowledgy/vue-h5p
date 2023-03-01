@@ -282,5 +282,15 @@ describe('Component', () => {
       expect(wrapper.emitted('test')).toHaveLength(1)
       expect(wrapper.emitted('test')[0]).toStrictEqual([{ mock: 'data' }])
     })
+
+    it('emits when H5P is ready', async () => {
+      wrapper = await createComponent({
+        src: '/hello-world'
+      })
+      await flushPromises()
+      await sleep()
+
+      expect(wrapper.emitted('ready')).toHaveLength(1)
+    })
   })
 })

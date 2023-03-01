@@ -107,6 +107,7 @@ export default {
         this.resizeObserver.observe(this.$el)
 
         window.removeEventListener('message', this.onMessage)
+        this.$emit('ready')
       }
     }
     window.addEventListener('message', this.onMessage)
