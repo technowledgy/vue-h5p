@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div>
     <input
       v-model="locale"
       type="radio"
@@ -12,7 +12,7 @@
     >DE
     <h5p
       :key="locale"
-      class="h5p"
+      :style="style"
       src="/h5p/"
       :l10n="translations[locale]"
       :css="`
@@ -24,6 +24,7 @@
       icon
       copyright
       export="true"
+      @height-changed="setHeight"
       @xapi="log"
     >
       Loading...
@@ -51,23 +52,25 @@ export default {
           reuse: 'Wiederverwenden',
           reuseContent: 'Content Wiederverwenden'
         }
+      },
+      height: null
+    }
+  },
+  computed: {
+    style () {
+      return {
+        height: this.height + 'px'
       }
     }
   },
   methods: {
     log (ev) {
       console.log('received xapi statement', ev)
+    },
+    setHeight (newHeight) {
+      this.height = newHeight
+      console.log(newHeight)
     }
   }
 }
 </script>
-
-<style>
-.wrapper {
-  height: 98vh;
-}
-
-.h5p {
-  height: 100%;
-}
-</style>

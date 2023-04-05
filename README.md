@@ -83,7 +83,7 @@ NOTE: UI translations are not reactive. You have to manually trigger a rerender 
 
 All events emitted by H5P are emitted by vue-h5p, event names are the H5P [event type](https://h5p.org/events), payload is the event data.
 
-Besides that we emit an "ready" event when H5P signals that its loaded.
+Besides that we emit an "ready" event when H5P signals that its loaded, and "height-changed" events (with the new height as integer argument), whenever H5P resize the iframe.
 
 ### Slots
 

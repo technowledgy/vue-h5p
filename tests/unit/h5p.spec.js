@@ -46,7 +46,14 @@ describe('Component', () => {
     })
 
     jest.doMock('../frame/script.cjs?raw', () => {
-      return 'var callback; H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) }; window.top.postMessage({ context: "h5p", action: "hello" }, "*"); H5P.instances = [Symbol("instance")]; var lastTrigger; H5P.trigger = (instance, action) => { lastTrigger = { instance, action }};'
+      return `
+        var callback;
+        H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) };
+        window.top.postMessage({ context: "h5p", action: "hello" }, "*");
+        H5P.instances = [Symbol("instance")];
+        var lastTrigger;
+        H5P.trigger = (instance, action) => { lastTrigger = { instance, action }};
+      `
     }, {
       virtual: true
     })
@@ -291,6 +298,35 @@ describe('Component', () => {
       await sleep()
 
       expect(wrapper.emitted('ready')).toHaveLength(1)
+    })
+
+    it('emits when H5P sends prepareResize', async () => {
+      wrapper = await createComponent({
+        src: '/hello-world'
+      })
+      await flushPromises()
+      await sleep()
+
+      const iframe = wrapper.get('iframe')
+
+      expect(wrapper.emitted('height-changed')).toBeUndefined()
+
+      iframe.element.contentWindow.top.postMessage({ context: 'h5p', action: 'prepareResize', clientHeight: 100 }, '*')
+      await flushPromises()
+
+      expect(wrapper.emitted('height-changed')).toHaveLength(1)
+      expect(wrapper.emitted('height-changed')).toStrictEqual([[100]])
+
+      iframe.element.contentWindow.top.postMessage({ context: 'h5p', action: 'prepareResize', clientHeight: 100 }, '*')
+      await flushPromises()
+
+      expect(wrapper.emitted('height-changed')).toHaveLength(1)
+
+      iframe.element.contentWindow.top.postMessage({ context: 'h5p', action: 'prepareResize', clientHeight: 200 }, '*')
+      await flushPromises()
+
+      expect(wrapper.emitted('height-changed')).toHaveLength(2)
+      expect(wrapper.emitted('height-changed')).toStrictEqual([[100], [200]])
     })
   })
 })

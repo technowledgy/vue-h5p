@@ -85,12 +85,18 @@ export default {
       loading: true,
       listeners: false,
       error: undefined,
-      srcdoc: ''
+      srcdoc: '',
+      height: null
     }
   },
   computed: {
     path () {
       return this.src.endsWith('/') ? this.src.slice(0, -1) : this.src
+    }
+  },
+  watch: {
+    height (newHeight) {
+      this.$emit('height-changed', newHeight)
     }
   },
   beforeDestroy () {
@@ -99,7 +105,9 @@ export default {
   },
   async mounted () {
     this.onMessage = evt => {
-      if (evt.data.context === 'h5p' && evt.data.action === 'hello') {
+      if (evt.data.context !== 'h5p') return
+
+      if (evt.data.action === 'hello') {
         this.$refs.iframe.contentWindow.H5P.externalDispatcher.on('*', (ev) => {
           this.$emit(ev.type.toLowerCase(), ev.data)
         })
@@ -107,8 +115,11 @@ export default {
         this.resizeObserver = new ResizeObserver(this.triggerResize)
         this.resizeObserver.observe(this.$el)
 
-        window.removeEventListener('message', this.onMessage)
+        this.$refs.iframe.contentWindow.postMessage({ action: 'hello', context: 'h5p' }, '*')
+
         this.$emit('ready')
+      } else if (evt.data.action === 'prepareResize') {
+        this.height = evt.data.clientHeight
       }
     }
     window.addEventListener('message', this.onMessage)
