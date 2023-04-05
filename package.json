@@ -1,6 +1,6 @@
 {
   "name": "vue-h5p",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Vue.js Component for displaying h5p content, based on h5p-standalone",
   "bugs": {
     "url": "https://github.com/technowledgy/vue-h5p/issues"
