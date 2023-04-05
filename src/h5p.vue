@@ -5,6 +5,7 @@
       v-show="!loading"
       ref="iframe"
       style="width: 100%; height: 100%; border: none;"
+      :allow="fullscreen ? 'fullscreen' : 'fullscreen none'"
       @load="iFrameLoaded"
     />
     <template v-if="loading">
