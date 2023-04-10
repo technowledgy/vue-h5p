@@ -44,7 +44,7 @@ jobs:
     - run: yarn
     - run: yarn build:frame
     - run: yarn test
-    - uses: coverallsapp/github-action@v2.0.0
+    - uses: coverallsapp/github-action@v2.1.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
