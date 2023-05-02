@@ -21,7 +21,7 @@
     "toposort-class": "1.0.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.21.3",
+    "@babel/eslint-parser": "7.21.8",
     "@babel/preset-env": "7.21.5",
     "@vue/eslint-config-standard": "8.0.1",
     "@vue/test-utils": "1.3.5",
@@ -42,7 +42,7 @@
     "jest-serializer-vue": "3.1.0",
     "jest-watch-typeahead": "2.2.2",
     "regenerator-runtime": "0.13.11",
-    "release-it": "15.10.2",
+    "release-it": "15.10.3",
     "rollup-plugin-copy": "3.4.0",
     "rollup-plugin-delete": "2.0.0",
     "rollup-plugin-string": "3.0.0",
