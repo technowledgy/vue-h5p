@@ -10,7 +10,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.6.0
+    - uses: actions/checkout@v4.1.1
     - uses: actions/setup-node@v3.8.2
       with:
         cache: yarn
@@ -22,7 +22,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.6.0
+    - uses: actions/checkout@v4.1.1
       with:
         submodules: true
     - uses: actions/setup-node@v3.8.2
@@ -36,7 +36,7 @@ jobs:
     name: Test Coverage
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.6.0
+    - uses: actions/checkout@v4.1.1
       with:
         submodules: true
     - uses: actions/setup-node@v3.8.2
@@ -60,7 +60,7 @@ jobs:
         - 16
         - 18
     steps:
-    - uses: actions/checkout@v3.6.0
+    - uses: actions/checkout@v4.1.1
       with:
         submodules: true
     - uses: actions/setup-node@v3.8.2
