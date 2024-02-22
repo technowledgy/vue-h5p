@@ -1,8 +1,4 @@
 "use strict";
-const h5p = "";
-const h5pConfirmationDialog = "";
-const h5pCoreButton = "";
-const h5pTooltip = "";
 /*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
 !function(e, t) {
   "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, true) : function(e2) {
@@ -10,7 +6,7 @@ const h5pTooltip = "";
       throw new Error("jQuery requires a window with a document");
     return t(e2);
   } : t(e);
-}("undefined" != typeof window ? window : globalThis, function(C, e) {
+}("undefined" != typeof window ? window : void 0, function(C, e) {
   var t = [], r = Object.getPrototypeOf, s = t.slice, g = t.flat ? function(e2) {
     return t.flat.call(e2);
   } : function(e2) {
@@ -3628,6 +3624,26 @@ H5P$4.cloneObject = function(object, recursive) {
 H5P$4.trim = function(value) {
   return value.replace(/^\s+|\s+$/g, "");
 };
+H5P$4.isEmpty = (value) => {
+  if (!value && value !== 0 && value !== false) {
+    return true;
+  } else if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      if (!H5P$4.isEmpty(value[i])) {
+        return false;
+      }
+    }
+    return true;
+  } else if (typeof value === "object") {
+    for (let prop in value) {
+      if (value.hasOwnProperty(prop) && !H5P$4.isEmpty(value[prop])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+};
 H5P$4.jsLoaded = function(path) {
   H5PIntegration.loadedJs = H5PIntegration.loadedJs || [];
   return H5P$4.jQuery.inArray(path, H5PIntegration.loadedJs) !== -1;
@@ -4093,7 +4109,7 @@ H5P$3.Event = function(type, data, extras) {
     return false;
   };
 };
-H5P$3.EventDispatcher = function() {
+H5P$3.EventDispatcher = /* @__PURE__ */ function() {
   function EventDispatcher() {
     var self = this;
     var triggers = {};
@@ -4776,7 +4792,7 @@ H5P.RequestQueue = function($, EventDispatcher) {
   };
   return RequestQueue;
 }(H5P.jQuery, H5P.EventDispatcher);
-H5P.OfflineRequestQueue = function(RequestQueue, Dialog) {
+H5P.OfflineRequestQueue = /* @__PURE__ */ function(RequestQueue, Dialog) {
   const offlineRequestQueue = function(options) {
     const requestQueue = new RequestQueue();
     requestQueue.clearQueue();
@@ -4984,7 +5000,7 @@ H5P.ActionBar = function($, EventDispatcher) {
   ActionBar.prototype.constructor = ActionBar;
   return ActionBar;
 }(H5P.jQuery, H5P.EventDispatcher);
-H5P.Tooltip = function() {
+H5P.Tooltip = /* @__PURE__ */ function() {
   function Tooltip(triggeringElement, options) {
     H5P.Tooltip.uniqueId += 1;
     const tooltipId = "h5p-tooltip-" + H5P.Tooltip.uniqueId;
