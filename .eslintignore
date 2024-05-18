@@ -1,5 +1,0 @@
-# ignore vendor files
-vendor/
-frame/
-dist/
-public/
