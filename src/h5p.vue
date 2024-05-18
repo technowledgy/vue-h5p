@@ -224,7 +224,7 @@ export default {
         let body = {}
         try {
           body = await resp.json()
-        } catch { /* eslint-disable-line no-empty */ }
+        } catch {}
         throw new FetchError(resp, body)
       }
       return resp.json()
