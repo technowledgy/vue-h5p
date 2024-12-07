@@ -26,7 +26,7 @@ const frameConfig = defineConfig({
     },
     copy({
       targets: [
-        { src: 'frame/style.css', dest: 'frame', rename: 'style' }
+        { src: 'frame/script.css', dest: 'frame', rename: 'style' }
       ],
       hook: 'writeBundle'
     })
