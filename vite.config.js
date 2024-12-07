@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
 import { defineConfig } from 'vite'
-import { createVuePlugin } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
 import del from 'rollup-plugin-delete'
 
@@ -61,7 +61,7 @@ const defaultConfig = defineConfig({
     sourcemap: true
   },
   plugins: [
-    createVuePlugin(),
+    vue(),
     copy({
       targets: [
         { src: 'package.json.cjs', dest: 'dist/cjs', rename: 'package.json' }

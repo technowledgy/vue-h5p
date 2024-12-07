@@ -1005,25 +1005,25 @@ exports[`Component iframe without version in library paths 1`] = `
 `;
 
 exports[`Component renders default slot content while loading: should have default slot content on top of iframe content 1`] = `
-<div><iframe allow="fullscreen none" style="width: 100%; height: 100%;"></iframe>
-  <!---->
+<div><iframe style="width: 100%; height: 100%;" allow="fullscreen none"></iframe>
+  <!--v-if-->
 </div>
 `;
 
 exports[`Component renders default slot content while loading: should have only default slot content 1`] = `
 <div>
-  <!----> hello from the DEFAULT slot
+  <!--v-if-->hello from the DEFAULT slot
 </div>
 `;
 
 exports[`Component renders default slot content while loading: should have only iframe content 1`] = `
-<div><iframe allow="fullscreen none" style="width: 100%; height: 100%;"></iframe>
-  <!---->
+<div><iframe style="width: 100%; height: 100%;" allow="fullscreen none"></iframe>
+  <!--v-if-->
 </div>
 `;
 
 exports[`Component renders error slot on fetch-errors and provides response object: should have error slot content 1`] = `
 <div>
-  <!----> hello from the ERROR slot: FetchError: Not Found
+  <!--v-if-->hello from the ERROR slot: FetchError: Not Found
 </div>
 `;

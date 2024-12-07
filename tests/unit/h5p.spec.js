@@ -1,10 +1,7 @@
-import Vue from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 
 const warnHandler = jest.fn()
-Vue.config.warnHandler = (msg) => warnHandler(msg)
-
 const resizeObserver = jest.fn()
 const observe = jest.fn()
 const disconnect = jest.fn()
@@ -14,53 +11,58 @@ global.ResizeObserver = resizeObserver.mockImplementation(() => ({
   disconnect
 }))
 
+jest.doMock('../frame/style?raw', () => {
+  return '/* MOCKED_FRAME_CSS */'
+}, {
+  virtual: true
+})
+
+jest.doMock('../frame/script.cjs?raw', () => {
+  return `
+    var callback;
+    H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) };
+    window.top.postMessage({ context: "h5p", action: "hello" }, "*");
+    H5P.instances = [Symbol("instance")];
+    var lastTrigger;
+    H5P.trigger = (instance, action) => { lastTrigger = { instance, action }};
+  `
+}, {
+  virtual: true
+})
+
 function sleep (ms = 1000) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
   })
 }
 
-function createComponent (props) {
-  const h5p = require('@/h5p.vue').default
-  return shallowMount(h5p, {
-    attachTo: document.body,
-    propsData: props,
-    scopedSlots: {
-      default: () => 'hello from the DEFAULT slot',
-      error: ({ error }) => `hello from the ERROR slot: ${error}`
-    }
-  })
-}
-
 describe('Component', () => {
+  const h5p = require('@/h5p.vue').default
   let wrapper
+
+  function createComponent (props) {
+    return shallowMount(h5p, {
+      attachTo: document.body,
+      props,
+      slots: {
+        default: () => 'hello from the DEFAULT slot',
+        error: ({ error }) => `hello from the ERROR slot: ${error}`
+      },
+      global: {
+        config: {
+          warnHandler: (msg) => warnHandler(msg)
+        }
+      }
+    })
+  }
 
   beforeEach(() => {
     // just reset .mock data, but not .mockResponse
     fetch.mockClear()
-
-    jest.doMock('../frame/style?raw', () => {
-      return '/* MOCKED_FRAME_CSS */'
-    }, {
-      virtual: true
-    })
-
-    jest.doMock('../frame/script.cjs?raw', () => {
-      return `
-        var callback;
-        H5P.externalDispatcher = { on: (_, cb) => { callback = cb }, trigger: (type, data) => callback({ type, data }) };
-        window.top.postMessage({ context: "h5p", action: "hello" }, "*");
-        H5P.instances = [Symbol("instance")];
-        var lastTrigger;
-        H5P.trigger = (instance, action) => { lastTrigger = { instance, action }};
-      `
-    }, {
-      virtual: true
-    })
   })
 
   afterEach(() => {
-    wrapper.destroy()
+    wrapper.unmount()
     jest.resetModules()
   })
 
@@ -100,7 +102,7 @@ describe('Component', () => {
     await flushPromises()
     await sleep()
     expect(fetch).toHaveBeenCalledWith('/hello-world/h5p.json', expect.anything())
-    wrapper.destroy()
+    wrapper.unmount()
     fetch.mockClear()
 
     wrapper = createComponent({
@@ -137,7 +139,7 @@ describe('Component', () => {
     })
     await flushPromises()
     await sleep()
-    wrapper.destroy()
+    wrapper.unmount()
     expect(disconnect).toHaveBeenCalledTimes(1)
   })
 
