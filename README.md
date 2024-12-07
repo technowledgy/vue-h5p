@@ -131,7 +131,3 @@ Serve the example using
 `yarn serve`
 
 Write code, commit changes using conventional commits.
-
-Prepare release with
-
-`yarn pre-version`
