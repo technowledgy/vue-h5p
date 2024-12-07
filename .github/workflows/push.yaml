@@ -15,6 +15,7 @@ jobs:
       with:
         cache: yarn
         check-latest: true
+        node-version: 22
     - run: yarn
     - run: yarn lint --no-fix
 
@@ -29,6 +30,7 @@ jobs:
       with:
         cache: yarn
         check-latest: true
+        node-version: 22
     - run: yarn
     - run: yarn build
 
@@ -43,6 +45,7 @@ jobs:
       with:
         cache: yarn
         check-latest: true
+        node-version: 22
     - run: yarn
     - run: yarn build:frame
     - run: yarn test
