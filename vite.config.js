@@ -60,9 +60,6 @@ const defaultConfig = defineConfig({
     },
     sourcemap: true
   },
-  optimizeDeps: {
-    disabled: false
-  },
   plugins: [
     createVuePlugin(),
     copy({

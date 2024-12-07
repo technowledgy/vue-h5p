@@ -10,7 +10,7 @@
     "build:frame": "vite build --mode frame",
     "lint": "eslint --max-warnings=0 .",
     "serve": "yarn build:frame && vite",
-    "test": "jest"
+    "test": "NODE_OPTIONS=--no-experimental-require-module jest"
   },
   "files": [
     "dist/*"
@@ -31,7 +31,6 @@
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-n": "17.14.0",
     "eslint-plugin-promise": "7.2.1",
-    "eslint-plugin-standard": "5.0.0",
     "eslint-plugin-vue": "9.32.0",
     "flush-promises": "1.0.2",
     "globals": "15.13.0",
@@ -48,6 +47,9 @@
     "vite-plugin-vue2": "2.0.3",
     "vue": "2.7.16",
     "vue-template-compiler": "2.7.16"
+  },
+  "resolutions": {
+    "whatwg-url": "14.0.0"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",
   "keywords": [

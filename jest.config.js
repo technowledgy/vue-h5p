@@ -31,8 +31,11 @@ export default {
     '^../frame/(.*)\\?raw$': '<rootDir>/frame/$1',
     '^@/(.*)$': '<rootDir>/src/$1'
   },
-  setupFilesAfterEnv: [
+  setupFiles: [
     '<rootDir>/tests/setup.js'
+  ],
+  setupFilesAfterEnv: [
+    '<rootDir>/tests/setupAfterEnv.js'
   ],
   snapshotSerializers: [
     'jest-serializer-vue'
