@@ -42,6 +42,7 @@ export default {
   ],
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
+    customExportConditions: ['node', 'node-addons'],
     resources: new LocalFileLoader(),
     runScripts: 'dangerously'
   },
@@ -50,7 +51,7 @@ export default {
   ],
   transform: {
     '/frame/': '<rootDir>/jest-raw-loader.js',
-    '^.+\\.vue$': '@vue/vue2-jest',
+    '^.+\\.vue$': '@vue/vue3-jest',
     '^.+\\.js$': 'babel-jest'
   },
   watchPlugins: [

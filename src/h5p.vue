@@ -80,6 +80,17 @@ export default {
       validator: (val) => val ? ['mail,name', 'homePage,name'].includes(Object.keys(val).sort().join(',')) : true
     }
   },
+  emits: [
+    'height-changed',
+    'ready',
+    // h5p events from https://h5p.org/events
+    'xapi',
+    'resize',
+    'enterfullscreen',
+    'exitfullscreen',
+    'focus',
+    'domchanged'
+  ],
   data () {
     return {
       loading: true,
@@ -98,7 +109,7 @@ export default {
       this.$emit('height-changed', newHeight)
     }
   },
-  beforeDestroy () {
+  beforeUnmount () {
     window.removeEventListener('message', this.onMessage)
     this.resizeObserver?.disconnect()
   },
