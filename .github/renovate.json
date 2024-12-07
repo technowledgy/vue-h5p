@@ -4,25 +4,43 @@
   ],
   "packageRules": [
     {
-      "matchFiles": ["package.json"],
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchFileNames": [
+        "package.json"
+      ],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
       "groupName": "devDependencies"
     },
     {
-      "matchPackageNames": ["@vue/test-utils"],
+      "matchPackageNames": [
+        "@vue/test-utils"
+      ],
       "allowedVersions": "<2.0.0"
     },
     {
-      "matchPackageNames": ["vue"],
+      "matchPackageNames": [
+        "vue"
+      ],
       "allowedVersions": "<3.0.0"
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "automerge": true
     }
   ],
-  "postUpdateOptions": ["yarnDedupeHighest"],
+  "postUpdateOptions": [
+    "yarnDedupeHighest"
+  ],
   "lockFileMaintenance": {
     "enabled": true
   },
