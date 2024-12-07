@@ -83,7 +83,6 @@ export default {
   data () {
     return {
       loading: true,
-      listeners: false,
       error: undefined,
       srcdoc: '',
       height: null
