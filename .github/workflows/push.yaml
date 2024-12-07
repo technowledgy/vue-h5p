@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - beta
 
 jobs:
   lint:
@@ -60,7 +61,7 @@ jobs:
       fail-fast: false
       matrix:
         node:
-        - 18
+        - 20
     steps:
     - uses: actions/checkout@v4.2.2
       with:
@@ -72,3 +73,32 @@ jobs:
     - run: yarn
     - run: yarn build:frame
     - run: yarn test
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs:
+    - lint
+    - build
+    - coverage
+    - test
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@v4.2.2
+      with:
+        submodules: true
+    - uses: actions/setup-node@v4.1.0
+      with:
+        cache: yarn
+        check-latest: true
+        node-version: 22
+    - run: yarn
+      # TODO: Possibly download as artifact
+    - run: yarn build
+    - env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: yarn semantic-release
