@@ -50,7 +50,7 @@
     "vue-template-compiler": "2.7.16"
   },
   "resolutions": {
-    "whatwg-url": "14.1.0"
+    "whatwg-url": "14.1.1"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",
   "keywords": [
