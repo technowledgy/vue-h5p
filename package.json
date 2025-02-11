@@ -49,7 +49,7 @@
     "vue": "3.5.13"
   },
   "resolutions": {
-    "whatwg-url": "14.1.0"
+    "whatwg-url": "14.1.1"
   },
   "homepage": "https://github.com/technowledgy/vue-h5p#readme",
   "keywords": [
