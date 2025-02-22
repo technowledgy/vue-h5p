@@ -216,8 +216,11 @@ export default {
 </html>`
   },
   methods: {
-    iFrameLoaded () {
+    async iFrameLoaded () {
       if (this.loading) {
+        // We'll wait for the next tick, because in Chrome the iframe $ref is
+        // not available, yet. Unsure why.
+        await this.$nextTick()
         // Instead of setting the srcdoc prop on the iframe, we use document.write.
         // This is because of https://bugzilla.mozilla.org/show_bug.cgi?id=1741489,
         // which prevents passing authentication cookies into the iframe, if srcdoc
