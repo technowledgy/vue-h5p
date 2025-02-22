@@ -286,10 +286,10 @@ describe('Component', () => {
 
       const iframe = wrapper.get('iframe')
 
-      iframe.element.contentWindow.H5P.externalDispatcher.trigger('Test', { mock: 'data' })
+      iframe.element.contentWindow.H5P.externalDispatcher.trigger('xAPI', { mock: 'data' })
 
-      expect(wrapper.emitted('test')).toHaveLength(1)
-      expect(wrapper.emitted('test')[0]).toStrictEqual([{ mock: 'data' }])
+      expect(wrapper.emitted('xapi')).toHaveLength(1)
+      expect(wrapper.emitted('xapi')[0]).toStrictEqual([{ mock: 'data' }])
     })
 
     it('emits when H5P is ready', async () => {
