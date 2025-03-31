@@ -44,7 +44,7 @@
     "rollup-plugin-delete": "2.2.0",
     "rollup-plugin-string": "3.0.0",
     "semantic-release": "24.2.3",
-    "vite": "6.2.3",
+    "vite": "6.2.4",
     "vite-plugin-vue2": "2.0.3",
     "vue": "2.7.16",
     "vue-template-compiler": "2.7.16"
