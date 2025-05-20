@@ -22,6 +22,7 @@
 
 <script>
 import Toposort from 'toposort-class'
+import { useTemplateRef } from 'vue'
 import { FetchError } from '@/errors'
 import l10n from '@/l10n'
 import frameScript from '../frame/script.cjs?raw'
@@ -91,6 +92,9 @@ export default {
     'focus',
     'domchanged'
   ],
+  setup () {
+    useTemplateRef('iframe')
+  },
   data () {
     return {
       loading: true,

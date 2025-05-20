@@ -52,7 +52,7 @@ const defaultConfig = defineConfig({
     minify: false,
     outDir: resolve(repoDir, 'dist'),
     rollupOptions: {
-      external: ['toposort-class'],
+      external: ['toposort-class', 'vue'],
       output: {
         entryFileNames: '[format]/vue-h5p.js',
         exports: 'named'
