@@ -3,7 +3,7 @@
   "version": "0.0.0-development",
   "description": "Vue.js Component for displaying h5p content, based on h5p-standalone",
   "bugs": {
-    "url": "https://github.com/technowledgy/vue-h5p/issues"
+    "url": "https://github.com/apm-wb/vue-h5p/issues"
   },
   "scripts": {
     "build": "yarn build:frame && vite build",
@@ -51,7 +51,7 @@
   "resolutions": {
     "whatwg-url": "14.1.1"
   },
-  "homepage": "https://github.com/technowledgy/vue-h5p#readme",
+  "homepage": "https://github.com/apm-wb/vue-h5p#readme",
   "keywords": [
     "component",
     "vue",
@@ -60,7 +60,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/technowledgy/vue-h5p.git"
+    "url": "git+https://github.com/apm-wb/vue-h5p.git"
   },
   "type": "module",
   "main": "dist/cjs/vue-h5p.js",
