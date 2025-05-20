@@ -1,9 +1,9 @@
 <div align="center">
 
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/technowledgy/vue-h5p/push.yaml?branch=main)](https://github.com/technowledgy/vue-h5p/actions/workflows/push.yaml)
-[![Coveralls GitHub](https://img.shields.io/coveralls/github/technowledgy/vue-h5p)](https://coveralls.io/github/technowledgy/vue-h5p)
-[![Dependabot](https://img.shields.io/badge/dependabot-enabled-success)](https://github.com/technowledgy/vue-h5p/blob/main/package.json)
-[![License](https://img.shields.io/npm/l/vue-h5p)](https://github.com/technowledgy/vue-h5p/blob/main/LICENSE)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/apm-wb/vue-h5p/push.yaml?branch=main)](https://github.com/apm-wb/vue-h5p/actions/workflows/push.yaml)
+[![Coveralls GitHub](https://img.shields.io/coveralls/github/apm-wb/vue-h5p)](https://coveralls.io/github/apm-wb/vue-h5p)
+[![Dependabot](https://img.shields.io/badge/dependabot-enabled-success)](https://github.com/apm-wb/vue-h5p/blob/main/package.json)
+[![License](https://img.shields.io/npm/l/vue-h5p)](https://github.com/apm-wb/vue-h5p/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/vue-h5p)](https://www.npmjs.com/package/vue-h5p)
 ![vue](https://img.shields.io/badge/vue-2.x-brightgreen)
 
